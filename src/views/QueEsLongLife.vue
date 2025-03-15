@@ -2,19 +2,26 @@
     <div class="w-full">
       <!-- HERO -->
       <section class="relative w-full h-screen">
-        <img src="/hero.webp" alt="Fondo" class="w-full h-full object-cover absolute inset-0 -z-10">
-        <div class="flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <img src="/longlife.png" alt="LongLife" class="w-32 sm:w-48 mb-4">
-          <h1 class="text-2xl sm:text-4xl font-bold drop-shadow-lg">
-            ES MUCHO MÁS
-          </h1>   
-          <button class="bg-green-500 text-white font-semibold rounded-xl px-6 py-3 mt-4 
-                         hover:bg-green-600 transition duration-300 shadow-lg">
-            COMIENZA HOY TU CAMBIO
-          </button>
-          <Flechaabajo class="w-10 mt-20"></Flechaabajo>
-        </div>
-      </section>
+  <img src="/hero.webp" alt="Fondo" class="w-full h-full object-cover absolute inset-0 -z-10">
+  <div class="flex flex-col items-center justify-center h-full text-white text-center px-6 sm:px-8">
+    <!-- Logo -->
+    <img src="/longlife.png" alt="LongLife" class="w-32 sm:w-48 mb-6 sm:mb-8 transition-transform transform hover:scale-110">
+    
+    <!-- Título -->
+    <h1 class="text-3xl sm:text-5xl font-extrabold drop-shadow-xl mb-6 sm:mb-8 leading-tight">
+      ES MUCHO MÁS
+    </h1>   
+    
+    <!-- Botón -->
+    <RouterLink to="/" class="mt-8 sm:mt-12 inline-block px-8 py-3 ">
+      <BotonComienzaTuCambio />
+    </RouterLink>
+
+    <!-- Flecha abajo -->
+    <Flechaabajo class="w-10 mt-16 sm:mt-20 animate-bounce" />
+  </div>
+</section>
+
   
       <!-- SECCIÓN BENEFICIOS -->
       <section class="py-16 bg-gray-100 text-center">
@@ -67,6 +74,8 @@
   </template>
   
   <script setup>
-  import Flechaabajo from '../components/icons/flechaabajo.vue';
+  import { RouterLink } from 'vue-router';
+import BotonComienzaTuCambio from '../components/icons/BotonComienzaTuCambio.vue';
+import Flechaabajo from '../components/icons/flechaabajo.vue';
   </script>
   
