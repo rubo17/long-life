@@ -2,11 +2,12 @@
   <section class="relative h-128 bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/banner.webp');">
     <div class="text-center bg-opacity-50 p-4 rounded-lg">
     </div>
-  </section>
-  <a class="" href="#suscripciones">
+    <a class="" href="#suscripciones">
     <BotonComienzaTuCambio/>
 
   </a>
+  </section>
+
   <section id="diferencias" class="py-12 bg-gray-100 text-center">
   <h1 class="text-3xl sm:text-5xl font-bold mb-6 text-gray-800">Descubre la diferencia entre <span class="text-green-500">LongLife</span> y hacerlo por tu cuenta</h1>
 

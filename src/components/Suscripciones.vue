@@ -16,10 +16,11 @@
         PRUEBA 7 DÍAS GRATIS
       </button>
 
-      <p v-for="info in suscripcionInfo" class="text-left mt-2 flex items-center">
-        <TickAzulSuscripcion class="w-6 text-blue-600 mr-2" />
+      <p v-for="info in suscripcionInfo" class="text-left mt-4 flex gap-2  items-center">
+        <img src="../assets/TickAzul.svg" alt="" />
         {{ info.descripcion }}
-      </p>
+    </p>
+
     </div>
 
     <!-- Suscripción Mensual -->
@@ -38,8 +39,8 @@
         ME APUNTO
       </button>
 
-      <p v-for="info in suscripcionInfo" class="text-gray-800 text-left mt-2 flex items-center">
-        <TickAzulSuscripcion class="w-6 text-blue-600 mr-2" />
+      <p v-for="info in suscripcionInfo" class="text-gray-800 text-left mt-4 flex gap-2 items-center">
+        <img src="../assets/TickAzul.svg" alt="" />
         {{ info.descripcion }}
       </p>
     </div>
@@ -47,8 +48,6 @@
 </template>
 
 <script setup>
-import TickAzulSuscripcion from '../components/icons/tickAzulSuscripcion.vue';
-
     const suscripcionInfo = [
         {
           descripcion: "Acceso ilimitado a la platadorma TODO EL AÑO. Los primeros 7 DIAS son GRATIS.",

@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Contacto from '../views/Contacto.vue'
 import Inicio from '../views/Inicio.vue'
+import Planes from '../views/Planes.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
+import Suscripciones from '../views/VistaSuscripciones.vue'
 
 
 const routes = [
@@ -9,6 +11,8 @@ const routes = [
   { path: '/', component: Inicio },
   { path: '/Contacto', component: Contacto },
   { path: '/longlife', component: QueEsLongLife },
+  { path: '/planes', component: Planes },
+  { path: '/suscripciones', component: Suscripciones },
 ]
 
 const router = createRouter({

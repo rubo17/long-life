@@ -8,7 +8,7 @@ import Header from './components/Header.vue';
     <Header></Header>
     <div  class="mt-30 min-h-screen">
       <RouterView />
-  </div>  
+    </div>  
   <Footer></Footer>
 </template>
 

@@ -16,16 +16,16 @@
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
           <router-link
-      v-for="item in navigation"
-        :key="item.name"
-        :to="item.href"
-        :class="{
-          'text-blue-600': activeItem === item.name,
-          'text-gray-900': activeItem !== item.name
-        }"
-        @click="activeItem = item.name"
-        class="text-sm/6 font-semibold"
-      >
+            v-for="item in navigation"
+              :key="item.name"
+              :to="item.href"
+              :class="{
+                'text-blue-600': activeItem === item.name,
+                'text-gray-900': activeItem !== item.name
+              }"
+              @click="activeItem = item.name"
+              class="text-sm/6 font-semibold"
+          >
         {{ item.name }}
     </router-link>
         </div>
@@ -52,15 +52,15 @@
                 <a
                   v-for="item in navigation"
                   :key="item.name"
-                  :href="item.href"
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  :href="item.href" 
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 transition hover:text-green-500"
                   @click="activeItem = item.name"
                 >
                   {{ item.name }}
                 </a>
               </div>
               <div class="py-6">
-                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 ">Log in</a>
               </div>
             </div>
           </div>
@@ -79,7 +79,8 @@ const navigation = [
   { name: 'Inicio', href: 'Inicio' },
   { name: 'Que es longLife', href: 'longlife' },
   { name: 'Casos de exito', href: '#' },
-  { name: 'Planes', href: '#' },
+  { name: 'Planes', href: 'planes' },
+  { name: 'Suscripciones', href: 'suscripciones' },
   { name: 'Tienda', href: '#' },
   { name: 'Blog', href: '#' },
   { name: 'Contacto', href: 'Contacto' },

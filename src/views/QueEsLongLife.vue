@@ -21,7 +21,6 @@
     <Flechaabajo class="w-10 mt-16 sm:mt-20 animate-bounce" />
   </div>
 </section>
-
   
       <!-- SECCIÓN BENEFICIOS -->
       <section class="py-16 bg-gray-100 text-center">
@@ -67,7 +66,7 @@
         <p class="text-lg mt-4">Únete a LongLife hoy mismo y transforma tu cuerpo y tu mente.</p>
         <button class="bg-white text-green-600 font-bold px-6 py-3 rounded-lg mt-6 
                        hover:bg-gray-100 transition duration-300 shadow-lg">
-          SUSCRÍBETE AHORA
+          HAZTE PREMIUM
         </button>
       </section>
     </div>
