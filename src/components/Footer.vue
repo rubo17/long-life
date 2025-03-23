@@ -48,7 +48,7 @@
       </div>
       <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
       <div class="sm:flex sm:items-center sm:justify-between">
-          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ añoActual }} <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ añoActual }} <a href="/inicio" class="hover:underline">Longlife</a>. All Rights Reserved.
           </span>
           <div class="flex mt-4 sm:justify-center sm:mt-0">
               <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -88,12 +88,7 @@
 
 </template>
 
-<script>
-export default {
-  computed: {
-    añoActual() {
-      return new Date().getFullYear();
-    }
-  }
-};
+<script setup>
+    const añoActual = new Date().getFullYear();
+    
 </script>
