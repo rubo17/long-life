@@ -24,13 +24,13 @@
                 'text-gray-900': activeItem !== item.name
               }"
               @click="activeItem = item.name"
-              class="text-sm/6 font-semibold"
+              class="text-sm/6 font-semibold transition hover:text-green-500"
           >
         {{ item.name }}
     </router-link>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="/login" class="text-sm/6 font-semibold text-gray-900">Log in <span class="text-green-500" aria-hidden="true">&rarr;</span></a>
+          <a href="/login" class="text-sm/6 font-semibold text-gray-900 transition hover:text-green-500">Log in <span class="text-green-500" aria-hidden="true">&rarr;</span></a>
         </div>
       </nav>
       <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -60,7 +60,7 @@
                 </a>
               </div>
               <div class="py-6">
-                <a href="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 ">Log in <span class="text-green-500" aria-hidden="true">&rarr;</span></a>
+                <a href="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 transition hover:text-green-500 ">Log in <span class="text-green-500" aria-hidden="true">&rarr;</span></a>
               </div>
             </div>
           </div>
@@ -78,7 +78,6 @@ import { ref } from 'vue'
 const navigation = [
   { name: 'Inicio', href: 'Inicio' },
   { name: 'Que es longLife', href: 'longlife' },
-  { name: 'Casos de exito', href: '#' },
   { name: 'Planes', href: 'planes' },
   { name: 'Suscripciones', href: 'suscripciones' },
   { name: 'Tienda', href: '#' },
@@ -90,11 +89,3 @@ const mobileMenuOpen = ref(false)
 const activeItem = ref(null) // Añadir esta variable para manejar el ítem activo
 </script>
 
-<style>
-  div a {
-    transition: all 0.2s linear;
-  }
-  div a:hover {
-    color: #22c55e;
-  }
-</style>

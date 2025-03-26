@@ -1,5 +1,5 @@
 <template>
-  <section class="relative h-128 bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/banner.webp');">
+  <section class="relative h-128 bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/bannerInicio.webp');">
     <div class="text-center bg-opacity-50 p-4 rounded-lg">
     </div>
     <a class="" href="#suscripciones">
@@ -11,29 +11,44 @@
   <section id="diferencias" class="py-12 bg-gray-100 text-center">
   <h1 class="text-3xl sm:text-5xl font-bold mb-6 text-gray-800">Descubre la diferencia entre <span class="text-green-500">LongLife</span> y hacerlo por tu cuenta</h1>
 
-  <div class="flex flex-col sm:flex-row justify-center gap-8 max-w-6xl mx-auto">
-    <!-- Contenedor de Beneficios -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-full sm:w-1/2">
-      <p class="text-lg font-semibold flex items-center justify-center gap-2">
-        Metodo LongLife <Beneficios class="w-6 h-6 text-green-500" />
-      </p>
-      <p class="text-gray-600 flex mt-2 text-left gap-2" v-for="(ventaja, index) in ventajas" :key="index">
-        <Positivo class="w-20 h-20 text-green-500" />
-        {{ ventaja }}
-      </p>
-    </div>
-
-    <!-- Contenedor de Desventajas -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-full sm:w-1/2">
-      <p class="text-lg font-semibold flex items-center justify-center gap-2">
-        Por tu cuenta <Desventajas class="w-6 h-6 text-red-500" />
-      </p>
-      <p class="text-gray-600 mt-2 flex text-left gap-2" v-for="desventaja in desventajas">
-        <Negativo class="w-20" />
-        {{ desventaja }}
+  <div class="flex flex-col lg:flex-row justify-center gap-6 max-w-6xl mx-auto px-4">
+  <!-- Contenedor de Beneficios -->
+  <div class="bg-white p-6 rounded-lg shadow-md w-full lg:w-1/2">
+    <p class="text-base sm:text-lg font-semibold flex items-center justify-center gap-2">
+      Método LongLife 
+      <Beneficios class="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+    </p>
+    <div class="mt-3 space-y-2">
+      <p 
+        class="text-gray-600 flex items-start text-left gap-2" 
+        v-for="(ventaja, index) in ventajas" 
+        :key="index"
+      >
+        <Positivo class="w-5 h-5 text-green-500 flex-shrink-0" />
+        <span class="flex-1">{{ ventaja }}</span> 
       </p>
     </div>
   </div>
+
+  <!-- Contenedor de Desventajas -->
+  <div class="bg-white p-6 rounded-lg shadow-md w-full lg:w-1/2">
+    <p class="text-base sm:text-lg font-semibold flex items-center justify-center gap-2">
+      Por tu cuenta 
+      <Desventajas class="w-5 h-5 sm:w-6 sm:h-6 text-red-500" />
+    </p>
+    <div class="mt-3 space-y-2">
+      <p 
+        class="text-gray-600 flex items-start text-left gap-2" 
+        v-for="(desventaja, index) in desventajas" 
+        :key="index"
+      >
+        <Negativo class="w-5 h-5 text-red-500 flex-shrink-0" />
+        <span class="flex-1">{{ desventaja }}</span>
+      </p>
+    </div>
+  </div>
+</div>
+
 </section>
 
 

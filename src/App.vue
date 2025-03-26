@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import Header from './components/Header.vue';
 
 const route = useRoute();
 </script>
@@ -10,7 +10,7 @@ const route = useRoute();
   <!-- Solo muestra Header si NO estamos en /login -->
   <Header v-if="!['/login', '/register'].includes(route.path)" />
 
-  <div class="mt-30 min-h-screen">
+  <div class="mt-30 min-h-screen leading-relaxed">
     <RouterView />
   </div>
 

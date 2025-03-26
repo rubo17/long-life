@@ -10,7 +10,7 @@
         <!-- Logo -->
 
         <!-- Título -->
-         <h1 class="text-5xl text-green-500 sm:text-7xl font-extrabold drop-shadow-xl leading-tight">LONG LIFE</h1>
+        <h1 class="text-5xl text-green-500 sm:text-7xl font-extrabold drop-shadow-xl leading-tight">LONG LIFE</h1>
         <h1 class="text-3xl sm:text-4xl font-extrabold drop-shadow-xl leading-tight">
           ES MUCHO MÁS
         </h1>
@@ -21,16 +21,16 @@
         </RouterLink>
 
         <!-- Flecha abajo -->
-         <a href="#ir">
+        <a href="#ir">
           <Flechaabajo class="w-8 mt-10 sm:mt-12 animate-bounce" />
-         </a>
+        </a>
       </div>
       <div id="ir"></div>
     </section>
 
 
     <!-- SECCIÓN BENEFICIOS -->
-    <section  class="py-16 bg-gray-100 text-center">
+    <section class="py-16 bg-gray-100 text-center">
       <h2 class="text-3xl font-bold text-gray-800">¿Por qué elegir LongLife?</h2>
       <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
         Con nuestro programa de fitness y nutrición, transformarás tu vida con resultados reales y duraderos.
@@ -72,8 +72,8 @@
     <section class="py-16 bg-green-500 text-center text-white">
       <h2 class="text-3xl font-bold">¿Listo para empezar?</h2>
       <p class="text-lg mt-4">Únete a LongLife hoy mismo y transforma tu cuerpo y tu mente.</p>
-      <button class="bg-white text-green-600 font-bold px-6 py-3 rounded-lg mt-6 
-                       hover:bg-gray-100 transition duration-300 shadow-lg">
+      <button @click="goToSuscripciones" class="bg-white cursor-pointer text-green-600 font-bold px-6 py-3 rounded-lg mt-6 
+           hover:bg-gray-100 transition duration-300 shadow-lg">
         HAZTE PREMIUM
       </button>
     </section>
@@ -81,7 +81,15 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+
+import { RouterLink, useRouter } from 'vue-router';
 import BotonComienzaTuCambio from '../components/icons/BotonComienzaTuCambio.vue';
 import Flechaabajo from '../components/icons/flechaabajo.vue';
+
+const router = useRouter();
+
+const goToSuscripciones = () => {
+  router.push('/suscripciones');
+};
+
 </script>
