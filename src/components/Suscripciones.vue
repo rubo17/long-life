@@ -70,8 +70,6 @@ const suscripcionInfo = [
     descripcion: "Ofertas exclusivas en productos de la tienda.",
   }, {
     descripcion: "Comunidad privada para motivarte y no abandonar.",
-  }, {
-    descripcion: "Seguimiento personalizado en los planes que contrates.",
-  },
+  }
 ]
 </script>

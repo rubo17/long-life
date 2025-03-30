@@ -1,32 +1,77 @@
 <template>
-    <div class="mt-40 w-full max-w-5xl mx-auto p-5">
-      <div class="text-center space-y-5 font-extrabold">
-        <h1 class="text-xl text-gray-800">
-          Empieza ya tu nuevo 
-          <span class="text-green-500">Plan de nutrición 100% personalizado</span> 
-          y acelera tu proceso de cambio físico, de manera saludable
-        </h1>
-        <p class="text-blue-600 font-semibold">PLAN CREADO POR PROFESIONALES DE LA SALUD</p>
+  <div class="mt-20 w-full max-w-5xl mx-auto px-5 space-y-12 text-black">
+    <!-- Encabezado -->
+    <div class="text-center space-y-5">
+      <h1 class="text-2xl md:text-3xl font-extrabold leading-relaxed">
+        Empieza ya tu nuevo 
+        <span class="text-green-500">Plan de nutrición 100% personalizado</span> 
+        y acelera tu proceso de cambio físico de manera saludable
+      </h1>
+      <p class="text-blue-600 font-semibold text-lg">PLAN CREADO POR PROFESIONALES DE LA SALUD</p>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+      <!-- Sección de texto -->
+      <div class="space-y-4 text-gray-700 text-lg">
+        <p>Personalizamos tu plan en función del objetivo que quieres conseguir.</p>
+        <p>Elige entre el <b>Plan BÁSICO</b> (seguimiento con formulario) o el <b>Plan PREMIUM</b> (te acompañamos cada mes con una videollamada).</p>
+        <p>Menús cerrados, cantidades exactas, lista de la compra... Todo lo que necesitas para alcanzar tu objetivo físico de manera saludable.</p>
+        <p>Con nuestras pautas personalizadas, ya no tendrás que preocuparte por qué comer cada día.</p>
+        <p>Además, aprenderás cómo adaptar tus comidas en vacaciones, salidas con amigos o eventos especiales.</p>
+        <a class="block bg-green-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition" href="#">
+          Conseguir Plan →
+        </a>
       </div>
-  
-      <!-- Contenedor con Flexbox -->
-      <div class="flex flex-col md:flex-row items-center md:items-start mt-10 space-y-5 md:space-y-0 md:space-x-10">
-        
-        <!-- Sección de texto -->
-        <div class="w-full md:w-1/2 text-left space-y-4 text-gray-700">
-          <p class="">Personalizamos tu plan en función del objetivo que quieres conseguir.</p>
-          <p>Elige entre Plan BÁSICO (seguimiento con formulario) o Plan PREMIUM (te acompañamos cada mes para empujarte a tope hasta tu objetivo a través de una videollamada).</p>
-          <p>Menús cerrados, cantidades que debes comer, lista de la compra... Todo lo que necesitas para conseguir antes tu objetivo físico, de manera saludable.</p>
-          <p>Gracias a estas pautas concretas PENSADAS SÓLO PARA TI, tú puedes dejar de romperte la cabeza para ver qué comes cada día... </p>
-          <p> Y además, aprendes cómo adaptar tus comidas ante imprevistos, vacaciones, salidas con amigos o familia...</p>
-          <a class="p-5 text-white text-center inline-block bg-green-500 rounded-lg w-full" href="">Conseguir Plan -></a>
-        </div>
-  
-        <div class="w-full md:w-1/2">
-          <img src="/plan-nutricion.webp" alt="Plan de Nutrición" class="w-full rounded-lg shadow-lg">
-        </div>
-        
+
+      <!-- Imagen -->
+      <div>
+        <img src="/plan-nutricion.webp" alt="Plan de Nutrición" class="w-full rounded-xl shadow-xl">
       </div>
     </div>
-  </template>
-  
+
+    <!-- Pasos para arrancar -->
+    <div class="text-center space-y-6 mb-10">
+      <h2 class="text-2xl text-blue-500 font-bold flex items-center justify-center gap-3">
+        Sigue estos pasos y arrancamos 
+        <Fitness class="w-8 h-8 text-yellow-600"/>
+      </h2>
+      
+      <div class="w-full mx-auto space-y-5 text-left">
+        <!-- Paso 1 -->
+        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-green-500 shadow-lg rounded-lg bg-gray-50">
+          <span class="text-xl font-bold text-green-600">1.</span>
+          <p class="text-lg">Elige en esta página tu Plan de Nutrición (<b>Básico</b> o <b>Premium</b>).</p>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-green-500 shadow-lg rounded-lg bg-gray-50">
+          <span class="text-xl font-bold text-green-600">2.</span>
+          <p class="text-lg">Rellena lo antes posible el formulario que te vamos a pasar.</p>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-green-500 shadow-lg rounded-lg bg-gray-50">
+          <span class="text-xl font-bold text-green-600">3.</span>
+          <p class="text-lg">Te mandamos tu Plan Personalizado por correo y tú te lo miras con calma para entender todo y plantearnos dudas 😎.</p>
+        </div>
+
+        <!-- Paso 4 (Solo Premium) -->
+        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
+          <span class="text-xl font-bold text-blue-600">4.</span>
+          <p class="text-lg"><b>Sólo Plan Premium:</b> Agendas cita con nosotras y tenemos nuestra primera Videollamada, para explicarte tu plan y que preguntes lo que necesites.</p>
+        </div>
+
+        <!-- Paso 5 (Solo Premium) -->
+        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
+          <span class="text-xl font-bold text-blue-600">5.</span>
+          <p class="text-lg"><b>Sólo Plan Premium:</b> Después, tendremos una Videollamada por mes para hacerte seguimiento y empujarte a tope hasta tu objetivo físico, apoyándote con tu alimentación.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import Fitness from '../components/icons/Fitness.vue';
+</script>
