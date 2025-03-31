@@ -4,13 +4,13 @@
       class="fixed inset-x-0 top-0 z-50 bg-white bg-opacity-60 backdrop-blur-lg backdrop-brightness-75 transition-all duration-300 shadow-md">
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
-          <a href="/inicio" class="-m-1.5 p-1.5">
+          <a href="/" class="-m-1.5 p-1.5">
             <span class="sr-only">Your Company</span>
-            <img class="h-20 w-auto" src="/longlife.png" alt="" />
+            <img class="h-20 w-auto" src="/images/longlife.png" alt="" />
           </a>
         </div>
         <div class="flex lg:hidden">
-          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 cursor-pointer"
             @click="mobileMenuOpen = true">
             <span class="sr-only">Open main menu</span>
             <Bars3Icon class="size-6" aria-hidden="true" />
@@ -25,7 +25,7 @@
           </router-link>
 
           <!-- Ícono de perfil -->
-          <a href="#" @click="activeItem = 'profile'" :class="{
+          <a href="/admin" @click="activeItem = 'profile'" :class="{
             'text-blue-600': activeItem === 'profile',
             'text-gray-900': activeItem !== 'profile'
           }">
@@ -43,9 +43,9 @@
         <DialogPanel
           class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div class="flex items-center justify-between">
-            <a href="/inicio" class="-m-1.5 p-1.5">
+            <a href="/" class="-m-1.5 p-1.5">
               <span class="sr-only">Your Company</span>
-              <img class="h-20 w-auto sm:hidden" src="/longlife.png" alt="" />
+              <img class="h-20 w-auto sm:hidden" src="/images/longlife.png" alt="" />
             </a>
             <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
               <span class="sr-only">Close menu</span>
@@ -60,7 +60,7 @@
                   @click="activeItem = item.name">
                   {{ item.name }}
                 </a>
-                <a href="#">
+                <a href="/admin">
                   <Profile class="w-6 h-6 transition hover:text-green-500" />
                 </a>
               </div>
@@ -83,11 +83,11 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import Profile from './icons/Profile.vue'
 const navigation = [
-  { name: 'Inicio', href: 'Inicio' },
+  { name: 'Inicio', href: '/' },
   { name: 'Que es longLife', href: 'longlife' },
   { name: 'Planes', href: 'planes' },
   { name: 'Suscripciones', href: 'suscripciones' },
-  { name: 'Tienda', href: '#' },
+  { name: 'Tienda', href: 'tienda' },
   { name: 'Blog', href: '#' },
   { name: 'Contacto', href: 'Contacto' },
 ]

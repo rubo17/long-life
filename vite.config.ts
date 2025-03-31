@@ -7,6 +7,9 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [vue(),
     tailwindcss(),
-    svgLoader()
+    svgLoader(),
   ],
+  resolve: {
+    extensions: ['.js', '.ts', '.vue'] // Asegúrate de incluir .ts
+  }
 })

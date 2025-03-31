@@ -3,7 +3,7 @@
     <!-- HERO -->
     <section class="relative w-full h-screen flex items-center justify-center">
       <!-- Imagen de fondo -->
-      <img src="/hero.webp" alt="Fondo" class="w-full h-full object-cover absolute inset-0 -z-10">
+      <img src="/images/hero.webp" alt="Fondo" class="w-full h-full object-cover absolute inset-0 -z-10">
 
       <!-- Contenido centrado -->
       <div class="flex flex-col items-center justify-center text-white text-center px-6 sm:px-8 gap-y-2 sm:gap-y-4">

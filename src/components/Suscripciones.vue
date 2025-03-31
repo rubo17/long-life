@@ -13,7 +13,7 @@
       </h2>
 
       <button
-        class="bg-green-500 text-white font-bold rounded-2xl px-6 py-3 mt-4 hover:bg-blue-600 transition duration-300 w-full">
+        class="bg-green-500 text-white font-bold rounded-2xl px-6 py-3 mt-4 hover:bg-blue-600 transition duration-300 w-full cursor-pointer">
         PRUEBA 7 DÍAS GRATIS
       </button>
 
@@ -37,7 +37,7 @@
       </h2>
 
       <button
-        class="bg-[#1D1D1D] text-white font-bold rounded-2xl px-6 py-3 mt-4 hover:bg-blue-600 transition duration-300 w-full">
+        class="bg-[#1D1D1D] text-white font-bold rounded-2xl px-6 py-3 mt-4 hover:bg-blue-600 transition duration-300 w-full cursor-pointer">
         ME APUNTO
       </button>
 

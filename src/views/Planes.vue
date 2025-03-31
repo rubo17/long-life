@@ -8,7 +8,7 @@
       <!-- Plan Nutrición Personalizada -->
       <div class="w-full bg-white border border-gray-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
         <div class="flex flex-col lg:flex-row items-center gap-4">
-          <img src="/nutricion.webp" class="w-full lg:w-1/2 rounded-lg" alt="Nutrición Personalizada">
+          <img src="/images/nutricion.webp" class="w-full lg:w-1/2 rounded-lg" alt="Nutrición Personalizada">
           <div class="text-left">
             <h2 class="text-2xl font-bold mb-3">Nutrición Personalizada</h2>
             <p class="font-bold">
@@ -28,7 +28,7 @@
       <!-- Plan Entrenamiento Personalizado -->
       <div class="w-full bg-white border border-gray-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
         <div class="flex flex-col lg:flex-row items-center gap-4">
-          <img src="/entrenamiento.webp" class="w-full lg:w-1/2 rounded-lg" alt="Entrenamiento Personalizado">
+          <img src="/images/entrenamiento.webp" class="w-full lg:w-1/2 rounded-lg" alt="Entrenamiento Personalizado">
           <div class="text-left">
             <h2 class="text-2xl font-bold mb-3">Entrenamiento Personalizado</h2>
             <p class="font-bold">

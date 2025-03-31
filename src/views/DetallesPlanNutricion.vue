@@ -26,7 +26,7 @@
 
       <!-- Imagen -->
       <div>
-        <img src="/plan-nutricion.webp" alt="Plan de Nutrición" class="w-full rounded-xl shadow-xl">
+        <img src="/images/plan-nutricion.webp" alt="Plan de Nutrición" class="w-full rounded-xl shadow-xl">
       </div>
     </div>
 

@@ -1,3 +1,9 @@
 <template>
-    <h1 class="mt-40">este sera un dashboard</h1>
+    <div class="container mx-auto border">
+        <h1>dashboard</h1>
+    </div>
+
+
 </template>
+
+<script setup lang="ts"></script>

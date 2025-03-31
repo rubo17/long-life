@@ -1,10 +1,7 @@
 <template>
-    <div class="bg-gray-800 text-white flex items-center justify-between px-6 py-4">
+    <div class="bg-gray-800 text-white flex items-center justify-end px-8 py-6">
       <!-- Logo o Título -->
-      <div class="text-2xl font-semibold">
-        <span>Admin Panel</span>
-      </div>
-  
+
       <!-- Barra de navegación del administrador -->
       <div class="flex items-center space-x-6">
         <!-- Buscar (opcional) -->
