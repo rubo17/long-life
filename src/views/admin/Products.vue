@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody class="text-gray-700 text-sm font-light">
-          <tr v-for="product in products" :key="product.id_product" class="border-b border-gray-200 hover:bg-gray-100">
+          <tr v-for="product in products" :key="product.id_producto" class="border-b border-gray-200 hover:bg-gray-100">
             <td class="py-3 px-6">{{ product.nombre }}</td>
             <td class="py-3 px-6">{{ product.meta_descripcion }}</td>
             <td class="py-3 px-6">{{ product.ingredientes }}</td>
@@ -34,35 +34,8 @@
   </template>
   
   <script setup lang="ts">
-  import axios from 'axios';
-import { onMounted, ref } from 'vue';
-  
-  interface Product {
-    id_product: string;
-    nombre: string;
-    meta_descripcion: string;
-    descripcion: string;
-    ingredientes: string;
-    precio: string;
-    id_categoria_producto: string;
-    imagen: string;
-    stock: string;
-  }
-  
-  const products = ref<Product[]>([]);
-  const loading = ref<boolean>(true);
-  const error = ref<boolean>(false);
-  
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get<Product[]>('http://localhost/longLifeBack/public/products');
-      products.value = response.data;
-    } catch (err) {
-      error.value = true;
-    } finally {
-      loading.value = false;
-    }
-  };
-  
-  onMounted(fetchProducts);
-  </script>
+import { UseProducts } from '../../composables/UseProducts.ts';
+
+const { products, loading, error } = UseProducts();
+
+</script>
