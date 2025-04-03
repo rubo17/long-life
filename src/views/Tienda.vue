@@ -29,7 +29,7 @@
             <div class="lg:hidden">
                 <select class="w-full p-2 border rounded-md text-gray-700">
                     <option>Todos los productos</option>
-                    <option v-for="category in categoryProducts" :key="category.id_category">
+                    <option v-for="category in categoryProducts" :key="category.id_categoria">
                         {{ category.nombre }}
                     </option>
                 </select>
@@ -43,6 +43,7 @@
                 :key="product.id_producto"
                 :id_producto="product.id_producto"
                 :title="product.nombre"
+                :descripcion="product.meta_descripcion"
                 :imageUrl="product.imagen"
                 :price="product.precio"
                 :estado="product.estado"
@@ -51,7 +52,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CategoryProductCard from '../components/tienda/CategoryProductCard.vue';
 import ProductCard from '../components/tienda/ProductCard.vue';
 import { UseCategoryProducts } from '../composables/UseCategoryProducts';

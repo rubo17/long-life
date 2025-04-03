@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 
 export interface Product {
   id_producto: string;
@@ -7,24 +7,35 @@ export interface Product {
   meta_descripcion: string;
   descripcion: string;
   ingredientes: string;
-  precio: Number;
+  precio: number;
   id_categoria_producto: string;
   imagen: string;
   stock: string;
-  estado:string;
+  estado: string;
 }
 
-export function UseProducts() {
-  const products = ref<Product[]>([]);
-  const loading = ref<boolean>(true);
-  const error = ref<boolean>(false);
+export function UseProducts(id?: string): {
+  
+  products: Ref<Product | null>;
+  loading: Ref<boolean>;
+  error: Ref<boolean>;
+  fetchProducts: () => Promise<void>;
+} {
+  const products = ref<Product | null>(null);
+  const loading = ref(true);
+  const error = ref(false);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get<Product[]>('http://localhost/longLifeBack/public/products');
-      products.value = response.data;
-      console.log(products.value)
+      const url = id
+        ? `http://localhost/longLifeBack/public/products/${id}`
+        : `http://localhost/longLifeBack/public/products`;
+
+      const response = await axios.get(url);
+      // ✅ CORRECTO: Si es por ID, extrae el primer elemento
+      products.value = id ? response.data[0] : response.data;
     } catch (err) {
+      console.error("Error cargando productos:", err);
       error.value = true;
     } finally {
       loading.value = false;

@@ -9,7 +9,7 @@
         </div>
         
         <!-- Contenedor de imagen -->
-        <div class="mb-4 overflow-hidden rounded-lg w-full cursor-pointer">
+        <div @click="goToDetails" class="mb-4 overflow-hidden rounded-lg w-full cursor-pointer">
             <img class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105" 
                  :src="imageUrl" 
                  :alt="title">
@@ -20,7 +20,7 @@
             <h3 class="text-xl font-bold text-gray-800 group-hover:text-green-600 transition-colors">
                 {{ title }}
             </h3>
-            <p class="text-gray-600 mt-1">Descripción breve del producto</p>
+            <p class="text-gray-600 mt-1">{{ descripcion }}</p>
             <div class="mt-3 text-lg font-semibold text-green-600">${{ price }}</div>
         </div>
         
@@ -31,17 +31,24 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from "vue";
+import { useRouter } from "vue-router";
+
 
 const props = defineProps({
     id_producto: Number,
     title: String,
+    descripcion: String,
     imageUrl: String,
     price: Number,
     estado: String
 });
+const router = useRouter();
 
+const goToDetails = () => {
+    router.push({ name: 'productDetail', params: { id: props.id_producto } });
+};
 const addToCart = () => {
     console.log(`Producto agregado al carrito: ${props.title} (ID: ${props.id_producto}) (PRICE: ${props.price})`);
 };

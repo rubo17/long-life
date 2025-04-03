@@ -9,11 +9,11 @@ import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Planes from '../views/Planes.vue'
+import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/Register.vue'
 import Tienda from '../views/Tienda.vue'
 import Suscripciones from '../views/VistaSuscripciones.vue'
-
 
 const routes = [
   // Rutas del Cliente
@@ -26,6 +26,7 @@ const routes = [
       { path: '/longlife', name: 'longlife', component: QueEsLongLife },
       { path: '/planes', name: 'planes', component: Planes },
       { path: '/tienda', name: 'tienda', component: Tienda },
+      { path: '/tienda/product/:id', name: 'productDetail', component: ProductDetail },
       { path: '/suscripciones', name: 'suscripciones', component: Suscripciones },
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
       { path: '/login', name: 'login', component: Login },

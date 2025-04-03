@@ -87,7 +87,7 @@ const navigation = [
   { name: 'Que es longLife', href: 'longlife' },
   { name: 'Planes', href: 'planes' },
   { name: 'Suscripciones', href: 'suscripciones' },
-  { name: 'Tienda', href: 'tienda' },
+  { name: 'Tienda', href: '/tienda' },
   { name: 'Blog', href: '#' },
   { name: 'Contacto', href: 'Contacto' },
 ]
