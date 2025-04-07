@@ -34,8 +34,8 @@
   </template>
   
   <script setup lang="ts">
-import { UseProducts } from '../../composables/UseProducts.ts';
+import { useProducts } from '../../composables/UseProducts.ts';
 
-const { products, loading, error } = UseProducts();
+const { products, loading, error } = useProducts();
 
 </script>

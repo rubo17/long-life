@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 import { Product } from '../types/Product';
 
@@ -20,7 +20,5 @@ export function useProductById(id: string) {
     }
   };
 
-  onMounted(fetchProduct);
-
-  return { product, loading, error };
+  return { product, loading, error,fetchProduct };
 }

@@ -1,23 +1,25 @@
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Product } from '../types/Product';
 
-// Para obtener TODOS los productos
-export function useProducts() {
+export function useProductsByCategory(id: string) {
   const products = ref<Product[]>([]);
   const loading = ref(true);
   const error = ref(false);
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get<Product[]>('http://localhost/longLifeBack/public/products');
+      const res = await axios.get<Product[]>(`http://localhost/longLifeBack/public/productsByCategory/${id}`);
       products.value = res.data;
     } catch (err) {
+      console.error(err);
       error.value = true;
     } finally {
       loading.value = false;
     }
   };
 
-  return { products, loading, error, fetchProducts};
+  onMounted(fetchProducts);
+
+  return { products, loading, error,fetchProducts };
 }

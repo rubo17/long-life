@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue';
 export interface CategoryProducts {
   id_categoria: string;
   nombre: string;
+  descripcion: string;
 }
 
 export function UseCategoryProducts() {

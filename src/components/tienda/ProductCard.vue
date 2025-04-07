@@ -37,7 +37,7 @@ import { useRouter } from "vue-router";
 
 
 const props = defineProps({
-    id_producto: Number,
+    id_producto: String,
     title: String,
     descripcion: String,
     imageUrl: String,
