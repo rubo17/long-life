@@ -17,7 +17,7 @@
               type="text"
               id="nombre"
               required
-              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
             />
           </div>
         </div>
@@ -30,7 +30,7 @@
               type="email"
               id="email"
               required
-              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
             />
             <p v-if="emailError" class="text-sm text-red-500 mt-1">{{ emailError }}</p>
           </div>
@@ -44,8 +44,21 @@
               type="password"
               id="password"
               required
-              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
             />
+          </div>
+        </div>
+        <div>
+          <label for="repeat_password" class="block text-sm font-medium text-gray-900">Repeat password</label>
+          <div class="mt-2">
+            <input
+              v-model="repeat_password"
+              type="password"
+              id="repeat_password"
+              required
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500 sm:text-sm"
+            />
+            
             <p v-if="passwordError" class="text-sm text-red-500 mt-1">{{ passwordError }}</p>
           </div>
         </div>
@@ -55,11 +68,12 @@
         <div>
           <button
             type="submit"
-            class="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            class="cursor-pointer flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
-            Registrarse
+          {{ loading ? 'Registrando...' : 'Registrarse' }}
           </button>
         </div>
+        <p>{{ successMessage }}</p>
       </form>
 
       <p class="mt-10 text-center text-sm text-gray-500">
@@ -77,6 +91,7 @@ import { useRouter } from 'vue-router';
 const nombre = ref('');
 const email = ref('');
 const password = ref('');
+const repeat_password= ref('')
 const emailError = ref('');
 const passwordError = ref('');
 const backendError = ref('');
@@ -85,13 +100,31 @@ const router = useRouter();
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^.{6,}$/;
 
+const loading = ref(false);
+
+const successMessage = ref('');
+
 const handleRegister = async () => {
   emailError.value = '';
   passwordError.value = '';
   backendError.value = '';
 
+  loading.value=true;
   let valid = true;
 
+  if (password.value !== repeat_password.value) {
+    passwordError.value = 'Las contraseñas deben coincidir';
+    valid = false;
+  }
+  if (!emailRegex.test(email.value)) {
+    emailError.value = 'Introduce un email válido';
+    valid = false;
+  }
+
+  if (!passwordRegex.test(password.value)) {
+    passwordError.value = 'La contraseña debe tener al menos 6 caracteres';
+    valid = false;
+  }
 
   if (!valid) return;
 
@@ -103,17 +136,29 @@ const handleRegister = async () => {
     });
 
     const { token, user } = res.data;
+    const safeUser = {
+      id: user.id_usuario,
+      name: user.nombre,
+      email: user.email,
+      rol: user.rol,
+      suscripcion: user.id_suscripcion
+    };
 
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(safeUser));
 
-    router.push('/'); // Redirige al home (o dashboard)
 
+    successMessage.value = 'Registro exitoso. Redirigiendo...';
+  setTimeout(() => {
+    router.push('/');
+  }, 1500);
   } catch (err: any) {
     backendError.value =
       err.response?.data?.messages?.error ||
       err.response?.data?.message ||
       'Error al registrar';
+  }finally {
+    loading.value = false;
   }
 };
 </script>

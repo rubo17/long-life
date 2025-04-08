@@ -11,7 +11,7 @@ const user = ref<User | null>(
 const loading = ref(false);
 const error = ref<string | null>(null);
 
-export function useAuth() {
+export function useAuthLogin() {
   const login = async (email: string, password: string) => {
     loading.value = true;
     error.value = null;
@@ -29,10 +29,16 @@ export function useAuth() {
 
       token.value = res.data.token;
       user.value = res.data.user;
-
+      const safeUser = {
+        id: user.value!.id_usuario,
+        name: user.value!.nombre,
+        email: user.value!.email,
+        rol: user.value!.rol,
+        suscripcion: user.value!.id_suscripcion
+      };
       // Guardar token en localStorage
       localStorage.setItem('token', token.value!);
-      localStorage.setItem('user', JSON.stringify(user.value));
+      localStorage.setItem('user', JSON.stringify(safeUser));
 
     } catch (err: any) {
       error.value = err.response?.data?.messages?.error || 'Error al iniciar sesión';

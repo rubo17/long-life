@@ -58,7 +58,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuth } from '../composables/api/login/UseUserLogin'
+import { useAuthLogin } from '../composables/api/login/UseUserLogin'
 
   const router = useRouter()
 
@@ -71,7 +71,7 @@ import { useAuth } from '../composables/api/login/UseUserLogin'
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   const passwordRegex = /^.{6,}$/
 
-  const { login, error, loading } = useAuth()
+  const { login, error, loading } = useAuthLogin()
 
   const handleSubmit = async () => {
     emailError.value = ''

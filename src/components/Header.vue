@@ -124,7 +124,7 @@ import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useAuth } from '../composables/api/login/UseUserLogin'
+import { useAuthLogin } from '../composables/api/login/UseUserLogin'
 import Cart from './icons/Cart.vue'
 import Profile from './icons/Profile.vue'
 const navigation = [
@@ -143,7 +143,7 @@ if (localStorage.getItem('token')) {
 } else {
   sessionState.value = 'Log in'
 }
-const {logout,isLoggedIn}= useAuth();
+const {logout,isLoggedIn}= useAuthLogin();
 
 const mobileMenuOpen = ref(false)
 const activeItem = ref(null) 

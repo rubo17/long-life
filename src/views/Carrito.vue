@@ -47,5 +47,4 @@ import { useCart } from '../composables/UseCart';
 const { cart, getTotal } = useCart();
 
 
-
 </script>
