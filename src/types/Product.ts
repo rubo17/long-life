@@ -9,5 +9,6 @@ export interface Product {
     imagen: string;
     stock: string;
     estado: string;
+    cantidad:number;
   }
   

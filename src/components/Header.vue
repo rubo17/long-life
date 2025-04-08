@@ -25,17 +25,42 @@
           </router-link>
 
           <!-- Ícono de perfil -->
-          <a href="/admin" @click="activeItem = 'profile'" :class="{
-            'text-blue-600': activeItem === 'profile',
-            'text-gray-900': activeItem !== 'profile'
+          <a v-if="isLoggedIn" href="/admin" @click="activeItem = 'cart'" :class="{
+            'text-blue-600': activeItem === 'cart',
+            'text-gray-900': activeItem !== 'cart'
           }">
             <Profile class="w-6 h-6 transition hover:text-green-500" />
           </a>
+          <router-link
+            to="/carrito"
+            @click="activeItem = 'profile'"
+            :class="{
+              'text-blue-600': activeItem === 'profile',
+              'text-gray-900': activeItem !== 'profile'
+            }"
+            class="transition hover:text-green-500"
+          >
+          <Cart class="w-6 h-6" />
+        </router-link>
         </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="/login" class="text-sm/6 font-semibold text-gray-900 transition hover:text-green-500">Log in <span
-              class="text-green-500" aria-hidden="true">&rarr;</span></a>
+          <a
+                  v-if="sessionState === 'Log in'"
+                  href="/login"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500"
+                >
+                  {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
+                </a>
+
+                <!-- Log out como botón -->
+                <a
+                  v-else
+                  @click="logout"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer"
+                >
+                  {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
+                </a>
         </div>
       </nav>
       <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -60,14 +85,31 @@
                   @click="activeItem = item.name">
                   {{ item.name }}
                 </a>
-                <a href="/admin">
+                <a v-if="isLoggedIn" href="/admin">
                   <Profile class="w-6 h-6 transition hover:text-green-500" />
+                </a>
+                <a  href="/carrito">
+                  <Cart class="w-6 h-6 transition hover:text-green-500" />
                 </a>
               </div>
               <div class="py-6">
-                <a href="/login"
-                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 transition hover:text-green-500 ">Log
-                  in <span class="text-green-500" aria-hidden="true">&rarr;</span></a>
+                <a
+                  v-if="sessionState === 'Log in'"
+                  href="/login"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500"
+                >
+                  {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
+                </a>
+
+                <!-- Log out como botón -->
+                <a
+                  v-else
+                  @click="logout"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer"
+                >
+                  {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
+                </a>
+
               </div>
             </div>
           </div>
@@ -81,6 +123,9 @@
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useAuth } from '../composables/api/login/UseUserLogin'
+import Cart from './icons/Cart.vue'
 import Profile from './icons/Profile.vue'
 const navigation = [
   { name: 'Inicio', href: '/' },
@@ -91,7 +136,15 @@ const navigation = [
   { name: 'Blog', href: '#' },
   { name: 'Contacto', href: 'Contacto' },
 ]
+const sessionState = ref('')
+
+if (localStorage.getItem('token')) {
+  sessionState.value = 'Log out'
+} else {
+  sessionState.value = 'Log in'
+}
+const {logout,isLoggedIn}= useAuth();
 
 const mobileMenuOpen = ref(false)
-const activeItem = ref(null) // Añadir esta variable para manejar el ítem activo
+const activeItem = ref(null) 
 </script>

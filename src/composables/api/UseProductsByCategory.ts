@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { Product } from '../types/Product';
+import { Product } from '../../types/Product';
 
 export function useProductsByCategory(id: string) {
   const products = ref<Product[]>([]);

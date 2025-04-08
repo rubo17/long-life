@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import { useProductById } from '../composables/UseProductsById';
+import { useProductById } from '../composables/api/UseProductsById';
 const activeTab = ref<'descripcion' | 'ingredientes'>('descripcion');
 const route = useRoute();
 

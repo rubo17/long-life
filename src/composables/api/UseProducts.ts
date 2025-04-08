@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ref } from 'vue';
-import { Product } from '../types/Product';
+import { Product } from '../../types/Product';
 
 // Para obtener TODOS los productos
 export function useProducts() {

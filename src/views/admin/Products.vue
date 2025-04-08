@@ -34,8 +34,13 @@
   </template>
   
   <script setup lang="ts">
-import { useProducts } from '../../composables/UseProducts.ts';
+import { onMounted } from 'vue';
+import { useProducts } from '../../composables/api/UseProducts.ts';
 
-const { products, loading, error } = useProducts();
+const { products, loading, error, fetchProducts} = useProducts();
+onMounted(() => {
+    fetchProducts();
+  });
+
 
 </script>

@@ -43,14 +43,9 @@
         <!-- Productos -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 justify-center items-center mt-20 space-y-6">
             <ProductCard
-                v-for="product in products"
-                :key="product.id_producto"
-                :id_producto="product.id_producto"
-                :title="product.nombre"
-                :descripcion="product.meta_descripcion"
-                :imageUrl="product.imagen"
-                :price="product.precio"
-                :estado="product.estado"
+            v-for="product in products"
+            :key="product.id_producto"
+            :product="product"
             />
         </div>
     </div>
@@ -60,9 +55,9 @@
     import { onMounted, ref } from 'vue';
 import CategoryProductCard from '../components/tienda/CategoryProductCard.vue';
 import ProductCard from '../components/tienda/ProductCard.vue';
-import { UseCategoryProducts } from '../composables/UseCategoryProducts';
-import { useProducts } from '../composables/UseProducts';
-import { useProductsByCategory } from '../composables/UseProductsByCategory';
+import { UseCategoryProducts } from '../composables/api/UseCategoryProducts';
+import { useProducts } from '../composables/api/UseProducts';
+import { useProductsByCategory } from '../composables/api/UseProductsByCategory';
 import { Product } from '../types/Product';
 
     const activeCategoryId = ref<string>('todos'); // ID activa por defecto
