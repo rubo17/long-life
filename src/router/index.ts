@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '../layouts/AdminLayout.vue'
 import ClientLayout from '../layouts/ClientLayout.vue'
@@ -27,7 +28,7 @@ const routes = [
       { path: '/longlife', name: 'longlife', component: QueEsLongLife },
       { path: '/planes', name: 'planes', component: Planes },
       { path: '/tienda', name: 'tienda', component: Tienda },
-      { path: '/carrito', name: 'carrito', component: Carrito },
+      { path: '/carrito', name: 'carrito', component: Carrito, meta: {requiresAuth: true} },
       { path: '/tienda/product/:id', name: 'productDetail', component: ProductDetail },
       { path: '/suscripciones', name: 'suscripciones', component: Suscripciones },
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
@@ -39,11 +40,11 @@ const routes = [
   {
     path: '/admin',
     component: AdminLayout,
-    meta: { requiresAdmin: true },
+    meta: { requiresAuth: true, requiresAdmin: true }, // <-- Aquí
     children: [
       { path: '', name: 'admin-dashboard', component: Dashboard },
-      { path: 'users', name: 'admin-users', component: Users },  // Cambié '/users' a 'users'
-      { path: 'products', name: 'admin-products', component: Products },  // Cambié '/users' a 'users'
+      { path: 'users', name: 'admin-users', component: Users },  
+      { path: 'products', name: 'admin-products', component: Products },  
     ]
   }
 ]
@@ -54,18 +55,33 @@ const router = createRouter({
 })
 
 // 🚀 Protección de rutas para admin
-{
-  /* 
-  router.beforeEach((to, from, next) => {
-  const isAdmin = localStorage.getItem('role') === 'admin';
-  if (to.meta.requiresAdmin && !isAdmin) {
-    next('/login');
-  } else {
-    next();
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if (to.meta.requiresAuth) {
+    if (!token) return next('/login');
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Date.now() / 1000;
+
+      if (decoded.exp < now) {
+        localStorage.clear();
+        return next('/login');
+      }
+
+      if (to.meta.requiresAdmin && decoded.rol !== '1') {
+        return next('/');
+      }
+
+    } catch (err) {
+      localStorage.clear();
+      return next('/login');
+    }
   }
+
+  next();
 });
-  */
-}
 
 
 export default router

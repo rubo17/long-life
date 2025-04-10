@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ref } from 'vue';
 
-import { Product } from '../../types/Product';
+import { Product } from '../../../types/Product';
 
 export function useProductById(id: string) {
   const product = ref<Product | null>(null);

@@ -53,11 +53,11 @@ export function useAuthLogin() {
     user.value = null;
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem("productsInCart")
     router.push('/login')
   };
 
   const isLoggedIn = computed(() => !!token.value);
-
 
   return {
     user,

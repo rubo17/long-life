@@ -55,9 +55,9 @@
     import { onMounted, ref } from 'vue';
 import CategoryProductCard from '../components/tienda/CategoryProductCard.vue';
 import ProductCard from '../components/tienda/ProductCard.vue';
-import { UseCategoryProducts } from '../composables/api/UseCategoryProducts';
-import { useProducts } from '../composables/api/UseProducts';
-import { useProductsByCategory } from '../composables/api/UseProductsByCategory';
+import { UseCategoryProducts } from '../composables/api/productos/UseCategoryProducts';
+import { useProducts } from '../composables/api/productos/UseProducts';
+import { useProductsByCategory } from '../composables/api/productos/UseProductsByCategory';
 import { Product } from '../types/Product';
 
     const activeCategoryId = ref<string>('todos'); // ID activa por defecto

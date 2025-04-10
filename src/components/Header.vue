@@ -10,7 +10,8 @@
           </a>
         </div>
         <div class="flex lg:hidden">
-          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 cursor-pointer"
+          <button type="button"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 cursor-pointer"
             @click="mobileMenuOpen = true">
             <span class="sr-only">Open main menu</span>
             <Bars3Icon class="size-6" aria-hidden="true" />
@@ -31,36 +32,31 @@
           }">
             <Profile class="w-6 h-6 transition hover:text-green-500" />
           </a>
-          <router-link
-            to="/carrito"
-            @click="activeItem = 'profile'"
-            :class="{
-              'text-blue-600': activeItem === 'profile',
-              'text-gray-900': activeItem !== 'profile'
-            }"
-            class="transition hover:text-green-500"
-          >
-          <Cart class="w-6 h-6" />
-        </router-link>
+          <router-link v-if="isLoggedIn" to="/carrito" @click="activeItem = 'profile'" :class="{
+            'text-blue-600': activeItem === 'profile',
+            'text-gray-900': activeItem !== 'profile'
+          }" class="relative transition hover:text-green-500">
+            <Cart class="w-6 h-6" />
+
+            <!-- Badge de cantidad -->
+            <span v-if="cart.length > 0"
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {{ cart.length }}
+            </span>
+          </router-link>
         </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-                  v-if="sessionState === 'Log in'"
-                  href="/login"
-                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500"
-                >
-                  {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
-                </a>
+          <a v-if="sessionState === 'Log in'" href="/login"
+            class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500">
+            {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
+          </a>
 
-                <!-- Log out como botón -->
-                <a
-                  v-else
-                  @click="logout"
-                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer"
-                >
-                  {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
-                </a>
+          <!-- Log out como botón -->
+          <a v-else @click="logout"
+            class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer">
+            {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
+          </a>
         </div>
       </nav>
       <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -88,25 +84,19 @@
                 <a v-if="isLoggedIn" href="/admin">
                   <Profile class="w-6 h-6 transition hover:text-green-500" />
                 </a>
-                <a  href="/carrito">
+                <a href="/carrito">
                   <Cart class="w-6 h-6 transition hover:text-green-500" />
                 </a>
               </div>
               <div class="py-6">
-                <a
-                  v-if="sessionState === 'Log in'"
-                  href="/login"
-                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500"
-                >
+                <a v-if="sessionState === 'Log in'" href="/login"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500">
                   {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
                 </a>
 
                 <!-- Log out como botón -->
-                <a
-                  v-else
-                  @click="logout"
-                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer"
-                >
+                <a v-else @click="logout"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer">
                   {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
                 </a>
 
@@ -125,6 +115,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
+import { useCart } from '../composables/UseCart'
 import Cart from './icons/Cart.vue'
 import Profile from './icons/Profile.vue'
 const navigation = [
@@ -143,8 +134,8 @@ if (localStorage.getItem('token')) {
 } else {
   sessionState.value = 'Log in'
 }
-const {logout,isLoggedIn}= useAuthLogin();
-
+const { logout, isLoggedIn } = useAuthLogin();
+const {cart} = useCart();
 const mobileMenuOpen = ref(false)
 const activeItem = ref(null) 
 </script>

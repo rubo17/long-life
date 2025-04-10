@@ -33,14 +33,17 @@
         </div>
 
         <!-- Selección unidades -->
-        <select class="block border rounded-md p-2">
-          <option disabled selected>Selecciona las unidades</option>
+        <select class="block border rounded-md p-2" v-model="selectedQuantity">
+          <option disabled value="">Selecciona las unidades</option>
           <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
         </select>
         <p class="font-bold">En Stock: {{ product?.stock }}</p>
         <!-- Botón -->
-        <button @click="addToCart"
-          class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow transition duration-300 font-medium cursor-pointer">
+        <button @click="addToCart" :disabled="!isLoggedIn"
+          class="px-6 py-2 rounded-full font-medium mt-4 w-full text-white transition-all" :class="{
+            'bg-green-500 hover:bg-blue-500 cursor-pointer': isLoggedIn,
+            'bg-gray-400 opacity-50 cursor-not-allowed': !isLoggedIn
+          }">
           Añadir al carrito
         </button>
       </div>
@@ -77,21 +80,35 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import { useProductById } from '../composables/api/UseProductsById';
+import { useAuthLogin } from '../composables/api/login/UseUserLogin';
+import { useProductById } from '../composables/api/productos/UseProductsById';
+import { useCart } from '../composables/UseCart';
 const activeTab = ref<'descripcion' | 'ingredientes'>('descripcion');
 const route = useRoute();
 
-const { product,fetchProduct } = useProductById(route.params.id as string);
+const { product, fetchProduct } = useProductById(route.params.id as string);
 
 console.log(product)
 onMounted(() => {
   setTimeout(async () => {
-    await fetchProduct(); 
+    await fetchProduct();
     console.log("Producto:", product.value);
 
   }, 500);
 });
+const { addToCart: addToCartFn } = useCart();
+const selectedQuantity = ref<number | null>(null);
+
 const addToCart = () => {
-  console.log("Producto añadido al carrito");
+  if (!product.value || !selectedQuantity.value) return;
+
+  const item = {
+    ...product.value,
+    cantidad: selectedQuantity.value
+  };
+
+  addToCartFn(item);
 };
+
+const { isLoggedIn } = useAuthLogin();
 </script>

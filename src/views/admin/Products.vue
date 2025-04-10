@@ -35,7 +35,7 @@
   
   <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useProducts } from '../../composables/api/UseProducts.ts';
+import { useProducts } from '../../composables/api/productos/UseProducts.ts';
 
 const { products, loading, error, fetchProducts} = useProducts();
 onMounted(() => {

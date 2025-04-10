@@ -12,13 +12,13 @@
         <div class="flex justify-between items-center bg-green-50 px-4 py-2 rounded-md">
         <div class="flex items-center gap-3 text-green-700">
             <Positivo class="w-6 h-6 text-green-500" />
-            <p class="text-sm">“Lifft-off” se ha añadido a tu carrito.</p>
-        </div>
+            <p class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
+          </div>
         <router-link class="text-sm text-white p-4 bg-gray-800 rounded-lg cursor-pointer" to="/tienda">Seguir comprando</router-link>
         </div>
 
         <!-- Lista de productos -->
-        <ProductInCart :products="cart" />
+        <ProductInCart v-if="cart.length > 0" :products="cart" />
 
         <!-- Resumen del total -->
         <div class="flex justify-center">
@@ -38,13 +38,17 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import Positivo from '../components/icons/Positivo.vue';
 import ProductInCart from "../components/tienda/ProductInCart.vue";
 import { useCart } from '../composables/UseCart';
 
 
-const { cart, getTotal } = useCart();
+const { cart, getTotal, loadCart } = useCart();
 
+onMounted(async () => {
+  await loadCart();
+});
 
 </script>
