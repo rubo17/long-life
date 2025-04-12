@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue';
-import { Product } from '../types/Product';
+import { Product } from '../../../types/Product';
 
 const cart = ref<Product[]>([]);
 

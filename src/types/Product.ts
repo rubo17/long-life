@@ -7,7 +7,7 @@ export interface Product {
     precio: number;
     id_categoria_producto: string;
     imagen: string;
-    stock: string;
+    stock: number;
     estado: string;
     cantidad:number;
   }

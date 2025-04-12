@@ -33,7 +33,7 @@
 <script setup lang="ts">
     import { defineProps } from "vue";
 import { useRouter } from "vue-router";
-import { useCart } from "../../composables/UseCart";
+import { useCart } from "../../composables/api/carrito/UseCart";
 import { Product } from "../../types/Product";
 import AddToCart from "../buttons/AddToCart.vue";
     const props = defineProps<{

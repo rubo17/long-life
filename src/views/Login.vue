@@ -38,7 +38,8 @@
               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900  outline-1 outline-gray-300 focus:outline-2 focus:outline-green-500"
               placeholder="******"
             />    
-            <p v-if="passwordError" class="text-sm text-red-500 mt-1">{{ passwordError }}</p>       
+            <p v-if="passwordError" class="text-sm text-red-500 mt-1">{{ passwordError }}</p>     
+            <p v-if="error" class="text-sm text-red-500 mt-1">{{ error }}</p>     
            </div>
           </div>
   

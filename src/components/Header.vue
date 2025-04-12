@@ -112,12 +112,13 @@
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useCart } from '../composables/api/carrito/UseCart'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
-import { useCart } from '../composables/UseCart'
 import Cart from './icons/Cart.vue'
 import Profile from './icons/Profile.vue'
+
 const navigation = [
   { name: 'Inicio', href: '/' },
   { name: 'Que es longLife', href: 'longlife' },
@@ -135,7 +136,11 @@ if (localStorage.getItem('token')) {
   sessionState.value = 'Log in'
 }
 const { logout, isLoggedIn } = useAuthLogin();
-const {cart} = useCart();
+const { cart, loadCart } = useCart();
+
+onMounted(() => {
+  loadCart(); // 🔄 Carga el carrito al iniciar
+});
 const mobileMenuOpen = ref(false)
 const activeItem = ref(null) 
 </script>

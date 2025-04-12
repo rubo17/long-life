@@ -41,7 +41,7 @@
   
   <script setup lang="ts">
   import { defineProps } from 'vue';
-import { useCart } from '../../composables/UseCart';
+import { useCart } from '../../composables/api/carrito/UseCart';
 import { Product } from '../../types/Product';
 import CrossIcon from '../icons/CrossIcon.vue';
   

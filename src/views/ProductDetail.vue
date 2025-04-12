@@ -33,9 +33,9 @@
         </div>
 
         <!-- Selección unidades -->
-        <select class="block border rounded-md p-2" v-model="selectedQuantity">
+        <select class="block border rounded-md p-2" v-model="selectedQuantity" >
           <option disabled value="">Selecciona las unidades</option>
-          <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
+          <option v-for="n in product?.stock" :key="n" :value="n">{{ n }}</option>
         </select>
         <p class="font-bold">En Stock: {{ product?.stock }}</p>
         <!-- Botón -->
@@ -80,9 +80,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import { useCart } from '../composables/api/carrito/UseCart';
 import { useAuthLogin } from '../composables/api/login/UseUserLogin';
 import { useProductById } from '../composables/api/productos/UseProductsById';
-import { useCart } from '../composables/UseCart';
 const activeTab = ref<'descripcion' | 'ingredientes'>('descripcion');
 const route = useRoute();
 

@@ -30,11 +30,11 @@ export function useAuthLogin() {
       token.value = res.data.token;
       user.value = res.data.user;
       const safeUser = {
-        id: user.value!.id_usuario,
-        name: user.value!.nombre,
+        id_usuario: user.value!.id_usuario,
+        nombre: user.value!.nombre,
         email: user.value!.email,
         rol: user.value!.rol,
-        suscripcion: user.value!.id_suscripcion
+        id_suscripcion: user.value!.id_suscripcion
       };
       // Guardar token en localStorage
       localStorage.setItem('token', token.value!);
@@ -59,6 +59,13 @@ export function useAuthLogin() {
 
   const isLoggedIn = computed(() => !!token.value);
 
+  const loadUser = () => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      user.value = JSON.parse(stored);
+    }
+  };
+
   return {
     user,
     token,
@@ -66,6 +73,7 @@ export function useAuthLogin() {
     error,
     login,
     logout,
-    isLoggedIn
+    isLoggedIn,
+    loadUser
   };
 }

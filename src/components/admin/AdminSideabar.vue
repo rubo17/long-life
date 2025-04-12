@@ -23,7 +23,7 @@
           <router-link to="#" class="text-lg">Configuraciones</router-link>
         </li>
         <li class="py-2 px-4 hover:bg-gray-700">
-          <router-link to="/" class="text-lg">Cerrar sesión</router-link>
+          <router-link to="/" class="text-lg">Volver</router-link>
         </li>
       </ul>
     </div>

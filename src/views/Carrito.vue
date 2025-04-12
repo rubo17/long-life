@@ -11,8 +11,8 @@
         <!-- Mensaje de producto añadido -->
         <div class="flex justify-between items-center bg-green-50 px-4 py-2 rounded-md">
         <div class="flex items-center gap-3 text-green-700">
-            <Positivo class="w-6 h-6 text-green-500" />
-            <p class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
+            <Positivo v-if="cart.length>0" class="w-6 h-6 text-green-500" />
+            <p v-if="cart.length>0" class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
           </div>
         <router-link class="text-sm text-white p-4 bg-gray-800 rounded-lg cursor-pointer" to="/tienda">Seguir comprando</router-link>
         </div>
@@ -42,7 +42,7 @@ import { onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import Positivo from '../components/icons/Positivo.vue';
 import ProductInCart from "../components/tienda/ProductInCart.vue";
-import { useCart } from '../composables/UseCart';
+import { useCart } from '../composables/api/carrito/UseCart';
 
 
 const { cart, getTotal, loadCart } = useCart();

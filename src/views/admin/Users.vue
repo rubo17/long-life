@@ -1,56 +1,170 @@
 <template>
-  <div class="container border mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">Lista de Usuarios</h1>
+  <div class="container mx-auto p-6 space-y-10">
+    <div class="flex justify-between">
+      <h1 class="text-2xl font-bold mb-4">Usuarios</h1>
+      <CreateButton text="Crear Usuario" @click="comenzarCreacion" />
 
-    <!-- Estado de carga -->
-    <div v-if="loading" class="text-gray-600">Cargando usuarios...</div>
+    </div>
+    <div v-if="loading">Cargando...</div>
 
-    <!-- Mensaje de error -->
-    <div v-if="error" class="text-red-500">Error al cargar los usuarios.</div>
+    <BaseTable :columns="columns" :data="users" showActions>
+      <template #actions="{ row }">
+        <div class="flex gap-5">
+          <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
+          Editar
+        </button>
+        <button @click="confirmarEliminacion(row.id_usuario)"
+          class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
+          Eliminar
+        </button>
+          <button class="p-2 rounded-full hover:bg-gray-200 transition">
+            <ViewDetails class="w-5 h-5 text-gray-600 hover:text-blue-500 cursor-pointer" />
+          </button>
+        </div>
+     
+      </template>
+    </BaseTable>
+    <Modal :open="showModal" @close="showModal = false">
+      <h2 class="text-2xl text-center font-bold mb-6 text-gray-800">Nuevo Usuario</h2>
 
-    <!-- Lista de usuarios -->
-    <ul v-if="users.length" class="bg-white shadow-md rounded-lg p-4">
-      <li v-for="user in users" :key="user.id_usuario" class="border-b p-2 last:border-none">
-        <span class="font-semibold">{{ user.nombre }}</span> -
-        <span class="text-gray-500">{{ user.email }}</span>
-      </li>
-    </ul>
+      <form @submit.prevent="handleSubmit" class="space-y-5">
+        <!-- Nombre -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+          <input v-model="nuevo.nombre" type="text" placeholder="Nombre"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+            required />
+          <p class="text-sm text-red-600" v-if="validationErrors.nombre">{{ validationErrors.nombre }}</p>
+        </div>
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input v-model="nuevo.email" type="email" placeholder="Email"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+            required />
+          <p class="text-sm text-red-600" v-if="validationErrors.email">{{ validationErrors.email }}</p>
+        </div>
+        <!-- Contraseña -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+          <input v-model="nuevo.password" type="password" placeholder="Contraseña"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+            required />
+          <p class="text-sm text-red-600" v-if="validationErrors.password">{{ validationErrors.password }}</p>
+        </div>
+        <!-- Rol (select) -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+          <select v-model="nuevo.rol"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+            required>
+            <option disabled value="">Selecciona un rol</option>
+            <option value="1">Administrador</option>
+            <option value="2">Cliente</option>
+            <option value="3">Empleado</option>
+          </select>
+        </div>
+        <!-- Suscripción (select) -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Suscripción</label>
+          <select v-model="nuevo.id_suscripcion"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+            required>
+            <option disabled value="">Selecciona una suscripción</option>
+            <option value="1">Básica</option>
+            <option value="2">Premium</option>
+          </select>
+        </div>
+        <!-- Botón -->
+        <div class="pt-2">
+          <button type="submit"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg shadow transition cursor-pointer">
+            {{ modoEdicion ? 'Editar Usuario' : 'Crear Usuario' }}
+          </button>
+        </div>
+      </form>
+    </Modal>
+    <Notifications position="bottom right" />
 
-    <!-- Mensaje si no hay usuarios -->
-    <p v-if="!loading && !error && users.length === 0" class="text-gray-500">No hay usuarios disponibles.</p>
   </div>
 </template>
- 
+
 <script setup lang="ts">
-  import axios from 'axios';
+import { Notifications, notify } from "@kyvg/vue3-notification";
 import { onMounted, ref } from 'vue';
+import CreateButton from '../../components/admin/buttons/CreateButton.vue';
+import BaseTable from '../../components/admin/ui/BaseTable.vue';
+import Modal from '../../components/admin/ui/Modal.vue';
+import ViewDetails from "../../components/icons/ViewDetails.vue";
+import { useUsers } from '../../composables/api/admin/UseUsers';
 
-  interface User {
-    id_usuario: string;
-    nombre: string;
-    email: string;
-    password: string;
-    rol: string;
-    id_suscripcion: string;
-  }
+const showModal = ref(false);
+const { users, nuevo, crearUsuario, fetchUsers, eliminarUsuario, loading, validate, validationErrors, editarUsuario, error } = useUsers();
 
-  const users = ref < User[] > ([]);  
-  const loading = ref < boolean > (true);
-  const error = ref < boolean > (false);
+onMounted(fetchUsers);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get < User[] > ('http://localhost/longLifeBack/public/users');
-      users.value = response.data;
-    } catch (err) {
-      error.value = true;
-    } finally {
-      loading.value = false;
+const handleSubmit = async () => {
+  const isValid = validate();
+  if (!isValid) return;
+
+  try {
+    if (modoEdicion.value && usuarioEditandoId.value) {
+      await editarUsuario(usuarioEditandoId.value);
+      notify({ type: 'success', title: 'Usuario editado correctamente' });
+    } else {
+      await crearUsuario();
+      notify({ type: 'success', title: 'Usuario creado correctamente' });
     }
+
+    showModal.value = false;
+    modoEdicion.value = false;
+    usuarioEditandoId.value = null;
+
+  } catch (err) {
+    notify({
+      type: 'error',
+      title: 'Error al guardar usuario',
+      text: 'Ocurrió un problema al procesar la solicitud'
+    });
+  }
+};
+
+const confirmarEliminacion = async (id: number) => {
+  if (!confirm('¿Estás seguro de que quieres eliminar este usuario?')) return;
+  await eliminarUsuario(id);
+  notify({ type: 'success', title: 'Usuario eliminado correctamente' });
+
+};
+
+const modoEdicion = ref(false);
+const usuarioEditandoId = ref<number | null>(null);
+
+const comenzarEdicion = (usuario: any) => {
+  modoEdicion.value = true;
+  usuarioEditandoId.value = usuario.id_usuario;
+
+  // Cargar los datos del usuario al formulario
+  nuevo.value = {
+    nombre: usuario.nombre,
+    email: usuario.email,
+    password: '', // ← por seguridad lo dejas vacío
+    rol: usuario.rol,
+    id_suscripcion: usuario.id_suscripcion
   };
 
-  onMounted(() => {
-    fetchUsers();
-  });
+  showModal.value = true;
+};
+const comenzarCreacion = () => {
+  modoEdicion.value = false;
+  showModal.value = true;
 
+}
+
+const columns = [
+  { key: 'nombre', label: 'Nombre' },
+  { key: 'email', label: 'Email' },
+  { key: 'password', label: 'Contraseña' },
+  { key: 'rol', label: 'Rol' },
+  { key: 'id_suscripcion', label: 'Suscripción' },
+];
 </script>
