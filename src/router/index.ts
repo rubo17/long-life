@@ -10,6 +10,7 @@ import Contacto from '../views/Contacto.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
+import Perfil from '../views/perfil.vue'
 import Planes from '../views/Planes.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
@@ -34,6 +35,7 @@ const routes = [
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
+      { path: '/perfil', name: 'perfil', component: Perfil },
     ]
   },
   // 📌 Rutas del Panel de Administración
@@ -65,23 +67,28 @@ router.beforeEach((to, from, next) => {
       const decoded: any = jwtDecode(token);
       const now = Date.now() / 1000;
 
+      // Token expirado
       if (decoded.exp < now) {
         localStorage.clear();
         return next('/login');
       }
 
+      // Solo admins a rutas protegidas con requiresAdmin
       if (to.meta.requiresAdmin && decoded.rol !== '1') {
         return next('/');
       }
 
+      // ✅ Usuario autenticado y autorizado
+      return next();
     } catch (err) {
       localStorage.clear();
       return next('/login');
     }
   }
 
-  next();
+  return next();
 });
+
 
 
 export default router

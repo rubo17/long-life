@@ -60,6 +60,7 @@
   import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
+import { useRole } from '../composables/UseRole'
 
   const router = useRouter()
 
@@ -94,6 +95,8 @@ import { useAuthLogin } from '../composables/api/login/UseUserLogin'
     if (!valid) return
 
     await login(email.value, password.value)
+    const {  updateRole } = useRole();
+    updateRole(); 
 
     if (!error.value) {
       // Redireccionar si todo ha ido bien

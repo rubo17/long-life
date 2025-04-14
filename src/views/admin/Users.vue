@@ -11,17 +11,17 @@
       <template #actions="{ row }">
         <div class="flex gap-5">
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
-          Editar
-        </button>
-        <button @click="confirmarEliminacion(row.id_usuario)"
-          class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
-          Eliminar
-        </button>
+            Editar
+          </button>
+          <button @click="confirmarEliminacion(row.id_usuario)"
+            class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
+            Eliminar
+          </button>
           <button class="p-2 rounded-full hover:bg-gray-200 transition">
             <ViewDetails class="w-5 h-5 text-gray-600 hover:text-blue-500 cursor-pointer" />
           </button>
         </div>
-     
+
       </template>
     </BaseTable>
     <Modal :open="showModal" @close="showModal = false">

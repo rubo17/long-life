@@ -25,13 +25,13 @@
             {{ item.name }}
           </router-link>
 
-          <!-- Ícono de perfil -->
-          <a v-if="isLoggedIn" href="/admin" @click="activeItem = 'cart'" :class="{
-            'text-blue-600': activeItem === 'cart',
-            'text-gray-900': activeItem !== 'cart'
-          }">
-            <Profile class="w-6 h-6 transition hover:text-green-500" />
-          </a>
+          <!-- Icono de perfil -->
+          <router-link v-if="isLoggedIn" to="/perfil" class="transition hover:text-green-500 relative"
+            :class="{ 'text-blue-600': activeItem === 'perfil', 'text-gray-900': activeItem !== 'perfil' }"
+            @click="activeItem = 'perfil'">
+            <Profile class="w-6 h-6" />
+          </router-link>
+
           <router-link v-if="isLoggedIn" to="/carrito" @click="activeItem = 'profile'" :class="{
             'text-blue-600': activeItem === 'profile',
             'text-gray-900': activeItem !== 'profile'
@@ -129,6 +129,8 @@ const navigation = [
   { name: 'Contacto', href: 'Contacto' },
 ]
 const sessionState = ref('')
+const mobileMenuOpen = ref(false)
+const activeItem = ref(null)
 
 if (localStorage.getItem('token')) {
   sessionState.value = 'Log out'
@@ -139,8 +141,7 @@ const { logout, isLoggedIn } = useAuthLogin();
 const { cart, loadCart } = useCart();
 
 onMounted(() => {
-  loadCart(); // 🔄 Carga el carrito al iniciar
+  loadCart();
 });
-const mobileMenuOpen = ref(false)
-const activeItem = ref(null) 
+
 </script>

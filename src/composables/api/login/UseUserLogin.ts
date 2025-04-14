@@ -3,6 +3,7 @@ import axios from 'axios';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { User } from '../../../types/User';
+import { useRole } from '../../UseRole';
 
 const token = ref<string | null>(localStorage.getItem('token'));
 const user = ref<User | null>(
@@ -36,7 +37,7 @@ export function useAuthLogin() {
         rol: user.value!.rol,
         id_suscripcion: user.value!.id_suscripcion
       };
-      // Guardar token en localStorage
+
       localStorage.setItem('token', token.value!);
       localStorage.setItem('user', JSON.stringify(safeUser));
 
@@ -55,6 +56,8 @@ export function useAuthLogin() {
     localStorage.removeItem('user');
     localStorage.removeItem("productsInCart")
     router.push('/login')
+    const {  updateRole } = useRole();
+    updateRole(); 
   };
 
   const isLoggedIn = computed(() => !!token.value);

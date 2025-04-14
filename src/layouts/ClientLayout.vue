@@ -1,10 +1,3 @@
-<script setup>
-import { useRoute } from 'vue-router';
-import Footer from '../components/Footer.vue';
-import Header from '../components/Header.vue';
-const route = useRoute();
-</script>
-
 <template>
   <!-- Solo muestra Header si NO estamos en /login -->
   <Header v-if="!['/login', '/register'].includes(route.path)" />
@@ -15,4 +8,27 @@ const route = useRoute();
 
   <!-- Solo muestra Footer si NO estamos en /login -->
   <Footer v-if="!['/login', '/register'].includes(route.path)" />
+  <router-link v-if="isAdmin"
+    to="/admin"
+    class="fixed bottom-6 right-6 z-50 bg-indigo-600 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition"
+  >
+    Administrar
+  </router-link>
 </template>
+
+<script setup lang="ts">
+
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import Footer from '../components/Footer.vue';
+import Header from '../components/Header.vue';
+import { useRole } from '../composables/UseRole';
+
+const route = useRoute();
+const { isAdmin, updateRole } = useRole();
+
+onMounted(updateRole); // se ejecuta al montar
+
+
+
+</script>
