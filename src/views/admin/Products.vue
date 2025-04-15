@@ -27,19 +27,19 @@
 
       </template>
     </BaseTable>
-    <Modal  :open="showModal" @close="showModal = false">
+    <Modal :open="showModal" @close="showModal = false">
       <h2 class="text-2xl text-center font-bold mb-6 text-gray-800">
         {{ modoEdicion ? 'Editar Producto' : 'Nuevo Producto' }}
       </h2>
 
       <form @submit.prevent="handleSubmit" class="space-y-5">
-         <div class="flex gap-5">
-            <div class="">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-              <input v-model="producto.nombre" type="text" placeholder="Nombre"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
-                required />
-            </div>
+        <div class="flex gap-5">
+          <div class="">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+            <input v-model="producto.nombre" type="text" placeholder="Nombre"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+              required />
+          </div>
 
           <div class="flex-1">
             <label class="block text-sm font-medium text-gray-700 mb-1">Meta Descripcion</label>
@@ -47,7 +47,7 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
               placeholder="Descripción breve del producto" required />
           </div>
-         </div>
+        </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
@@ -87,11 +87,11 @@
               placeholder="Cantidad disponible" required />
           </div>
           <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-          <input v-model="producto.estado" type="text" placeholder="Estado"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
-            required />
-        </div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+            <input v-model="producto.estado" type="text" placeholder="Estado"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
+              required />
+          </div>
         </div>
 
         <div>
@@ -116,13 +116,12 @@
         </div>
       </form>
     </Modal>
-    <Notifications position="bottom right" />
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { Notifications, notify } from '@kyvg/vue3-notification'
+import { notify } from '@kyvg/vue3-notification'
 import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
@@ -131,7 +130,7 @@ import ViewDetails from '../../components/icons/ViewDetails.vue'
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin'
 const showModal = ref(false)
 const modoEdicion = ref(false)
-const { producto, createProduct, deleteProduct,editProduct, fetchProducts, products, loading, error } = useProductsAdmin()
+const { producto, createProduct, deleteProduct, editProduct, fetchProducts, products, loading, error } = useProductsAdmin()
 const previewUrl = ref<string | null>(null);
 
 const confirmdeleteProduct = async (id: number) => {
@@ -145,11 +144,11 @@ const comenzarCreacion = () => {
   producto.value = { nombre: '', descripcion: '', meta_descripcion: '', ingredientes: '', categoria: '', precio: 0, stock: 0, estado: '', imagenFile: null }
   showModal.value = true
 }
-const comenzarEdicion = async (product:any) => {
-  modoEdicion.value= true
-  productoEditandoId.value = product.id_producto; 
+const comenzarEdicion = async (product: any) => {
+  modoEdicion.value = true
+  productoEditandoId.value = product.id_producto;
   producto.value = { nombre: product.nombre, descripcion: product.descripcion, meta_descripcion: product.meta_descripcion, ingredientes: product.ingredientes, categoria: product.id_categoria_producto, precio: product.precio, stock: product.stock, estado: product.estado, imagenFile: null }
-  showModal.value= true
+  showModal.value = true
 }
 const onFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -174,7 +173,7 @@ const handleSubmit = async () => {
     };
     productoEditandoId.value = null;
     modoEdicion.value = false;
-    previewUrl.value=""
+    previewUrl.value = ""
 
   } catch (err) {
     console.error(err);

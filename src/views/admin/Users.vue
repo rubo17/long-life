@@ -84,13 +84,12 @@
         </div>
       </form>
     </Modal>
-    <Notifications position="bottom right" />
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { Notifications, notify } from "@kyvg/vue3-notification";
+import { notify } from "@kyvg/vue3-notification";
 import { onMounted, ref } from 'vue';
 import CreateButton from '../../components/admin/buttons/CreateButton.vue';
 import BaseTable from '../../components/admin/ui/BaseTable.vue';
@@ -164,7 +163,7 @@ const columns = [
   { key: 'nombre', label: 'Nombre' },
   { key: 'email', label: 'Email' },
   { key: 'password', label: 'Contraseña' },
-  { key: 'rol', label: 'Rol' },
+  { key: 'id_rol', label: 'Rol' },
   { key: 'id_suscripcion', label: 'Suscripción' },
 ];
 </script>

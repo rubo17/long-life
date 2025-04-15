@@ -2,12 +2,14 @@ import { jwtDecode } from 'jwt-decode'
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '../layouts/AdminLayout.vue'
 import ClientLayout from '../layouts/ClientLayout.vue'
+import FinalizarCompra from '../layouts/FinalizarCompra.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Products from '../views/admin/Products.vue'
 import Users from '../views/admin/Users.vue'
 import Carrito from '../views/Carrito.vue'
 import Contacto from '../views/Contacto.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
+import ForgotPasswsord from '../views/ForgotPasswsord.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Perfil from '../views/perfil.vue'
@@ -15,9 +17,9 @@ import Planes from '../views/Planes.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
+import ResetPassword from '../views/ResetPassword.vue'
 import Tienda from '../views/Tienda.vue'
 import Suscripciones from '../views/VistaSuscripciones.vue'
-
 const routes = [
   // Rutas del Cliente
   {
@@ -36,7 +38,16 @@ const routes = [
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
       { path: '/perfil', name: 'perfil', component: Perfil },
+      { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
+      { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
     ]
+  },
+  {
+    path:'/finalizarCompra',
+    component:FinalizarCompra,
+    children: [
+    ]
+
   },
   // 📌 Rutas del Panel de Administración
   {

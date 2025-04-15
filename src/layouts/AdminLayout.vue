@@ -11,9 +11,12 @@
       </main>
     </div>
   </div>
+  <Notifications position="bottom right" />
+
 </template>
 
 <script setup>
+import { Notifications } from '@kyvg/vue3-notification';
 import AdminNavbar from '../components/admin/AdminNavbar.vue';
 import AdminSidebar from '../components/admin/AdminSideabar.vue';
 </script>

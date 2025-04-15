@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthLogin } from './UseUserLogin';
 
 export function useRegister() {
   const nombre = ref('');
@@ -64,7 +65,10 @@ export function useRegister() {
 
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(safeUser));
-
+      
+      const { login } = useAuthLogin();
+      localStorage.setItem('user', JSON.stringify(safeUser));
+      await login(email.value, password.value); // O 
       successMessage.value = 'Registro exitoso. Redirigiendo...';
       setTimeout(() => {
         router.push('/');
