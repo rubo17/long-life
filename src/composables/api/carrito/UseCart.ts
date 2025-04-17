@@ -100,8 +100,25 @@ const addToCart = async (product: Product) => {
 
   
 
-const clearCart = () => {
-  cart.value = [];
+const clearCart = async () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const res = await fetch('http://localhost/longLifeBack/public/carrito/clear', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        cart.value =  [];
+        return;
+      }
+    } catch (e) {
+      console.error("Error al limpiar carrito:", e);
+    }
+  }
+
 };
 
 const getTotal = () => {

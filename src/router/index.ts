@@ -9,15 +9,18 @@ import Users from '../views/admin/Users.vue'
 import Carrito from '../views/Carrito.vue'
 import Contacto from '../views/Contacto.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
+import Direccion from '../views/Direccion.vue'
 import ForgotPasswsord from '../views/ForgotPasswsord.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
+import Pago from '../views/Pago.vue'
 import Perfil from '../views/perfil.vue'
 import Planes from '../views/Planes.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
 import ResetPassword from '../views/ResetPassword.vue'
+import Succes from '../views/Succes.vue'
 import Tienda from '../views/Tienda.vue'
 import Suscripciones from '../views/VistaSuscripciones.vue'
 const routes = [
@@ -46,6 +49,9 @@ const routes = [
     path:'/finalizarCompra',
     component:FinalizarCompra,
     children: [
+      { path: 'direccion', name: 'direccion', component: Direccion },
+      { path: 'pago', name: 'pago', component: Pago },
+      { path: 'succes', name: 'succes', component: Succes },
     ]
 
   },

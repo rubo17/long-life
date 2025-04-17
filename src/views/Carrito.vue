@@ -28,7 +28,7 @@
             <span>Total:</span>
             <span>{{ getTotal() }}€</span>  
             </div>
-            <router-link to="/finalizarCompra"
+            <router-link to="/finalizarCompra/direccion"
             class="block w-full text-center mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition shadow cursor-pointer">
             Finalizar compra
           </router-link>
