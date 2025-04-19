@@ -6,11 +6,11 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Productos</h2>
-          <p class="text-2xl font-bold text-indigo-600">120</p>
+          <p class="text-2xl font-bold text-indigo-600">{{ products.length }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Usuarios</h2>
-          <p class="text-2xl font-bold text-green-600">85</p>
+          <p class="text-2xl font-bold text-green-600">{{ users.length }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Ventas</h2>
@@ -35,7 +35,15 @@
   </template>
   
   <script setup lang="ts">
-  // Aquí podrías traer datos desde un composable como useDashboardData()
-  // o desde un store si usas Pinia/Vuex
-  </script>
+import { onMounted } from 'vue';
+import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin';
+import { useUsers } from '../../composables/api/admin/UseUsers';
+const { products,fetchProducts } = useProductsAdmin() 
+const {fetchUsers,users}= useUsers()
+
+onMounted(() => {
+  fetchProducts()
+  fetchUsers()
+})
+</script>
   

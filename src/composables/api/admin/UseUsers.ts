@@ -14,12 +14,26 @@ export function useUsers() {
     rol: 0,
     id_suscripcion: 0
   });
+  const currentPage = ref(1)
+  const perPage = ref(10)
 
+  const pagination = ref({
+    currentPage: 1,
+    totalPages: 1,
+    total: 0
+  })
   const fetchUsers = async () => {
     loading.value = true;
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/users');
-      users.value = res.data;
+      const res = await axios.get('http://localhost/longLifeBack/public/users', {
+        params: {
+          page: currentPage.value,
+          perPage: perPage.value
+        }
+      })
+      users.value = res.data.data;
+      pagination.value = res.data.pagination
+
     } catch (err) {
       console.error(err);
       error.value = err;
@@ -103,6 +117,9 @@ export function useUsers() {
     eliminarUsuario,
     validate,
     validationErrors,
-    editarUsuario
+    editarUsuario,
+    currentPage,
+    perPage,
+    pagination
   };
 }

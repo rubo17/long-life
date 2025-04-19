@@ -15,12 +15,18 @@
 </template>
 
 <script setup>
-import { HomeIcon, ShoppingBagIcon, UsersIcon } from '@heroicons/vue/24/outline';
+import {
+  CurrencyDollarIcon,
+  HomeIcon,
+  ShoppingBagIcon,
+  UsersIcon,
+} from '@heroicons/vue/24/outline';
 
 const links = [
   { name: 'Dashboard', to: '/admin', icon: HomeIcon },
   { name: 'Usuarios', to: '/admin/users', icon: UsersIcon },
   { name: 'Productos', to: '/admin/products', icon: ShoppingBagIcon },
+  { name: 'Ventas', to: '/admin/ventas', icon:CurrencyDollarIcon  },
   { name: 'Volver', to: '/' }
 ]
 </script>

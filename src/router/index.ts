@@ -6,6 +6,7 @@ import FinalizarCompra from '../layouts/FinalizarCompra.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Products from '../views/admin/Products.vue'
 import Users from '../views/admin/Users.vue'
+import Ventas from '../views/admin/Ventas.vue'
 import Carrito from '../views/Carrito.vue'
 import Contacto from '../views/Contacto.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
@@ -49,6 +50,7 @@ const routes = [
     path:'/finalizarCompra',
     component:FinalizarCompra,
     children: [
+      { path: '', redirect: { name: 'direccion' } }, 
       { path: 'direccion', name: 'direccion', component: Direccion },
       { path: 'pago', name: 'pago', component: Pago },
       { path: 'succes', name: 'succes', component: Succes },
@@ -64,6 +66,7 @@ const routes = [
       { path: '', name: 'admin-dashboard', component: Dashboard },
       { path: 'users', name: 'admin-users', component: Users },  
       { path: 'products', name: 'admin-products', component: Products },  
+      { path: 'ventas', name: 'admin-ventas', component: Ventas },  
     ]
   }
 ]
@@ -102,7 +105,12 @@ router.beforeEach((to, from, next) => {
       return next('/login');
     }
   }
-
+  if (
+    to.path.startsWith('/finalizarCompra')  // protege todo lo que empiece por /finalizarCompra
+  ) {
+    const carrito = JSON.parse(localStorage.getItem('productsInCart') || '[]')
+    if (!carrito.length) return next('/') // o donde quieras redirigir
+  }
   return next();
 });
 

@@ -36,11 +36,12 @@
           </div>
 
           <select class="block border rounded-md p-2" v-model="selectedQuantity">
-            <option disabled selected >Selecciona las unidades</option>
+            <option disabled :value="null">Selecciona las unidades</option>
             <option v-for="n in Number(product?.stock)" :key="n" :value="n">
               {{ n }}
             </option>
           </select>
+
           <p class="font-bold">En Stock: {{ product?.stock }}</p>
 
           <button @click="addToCart" :disabled="!isLoggedIn"

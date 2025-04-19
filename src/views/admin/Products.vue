@@ -116,7 +116,11 @@
         </div>
       </form>
     </Modal>
-
+    <Paginator
+         :currentPage="currentPage"
+         :totalPages="pagination.totalPages"
+         @changePage="handlePageChange"
+    />
   </div>
 </template>
 
@@ -127,10 +131,11 @@ import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
 import ViewDetails from '../../components/icons/ViewDetails.vue'
+import Paginator from '../../components/Paginator.vue'
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin'
 const showModal = ref(false)
 const modoEdicion = ref(false)
-const { producto, createProduct, deleteProduct, editProduct, fetchProducts, products, loading, error } = useProductsAdmin()
+const { producto, createProduct, deleteProduct, editProduct, fetchProducts, products, loading, error, currentPage,pagination} = useProductsAdmin()
 const previewUrl = ref<string | null>(null);
 
 const confirmdeleteProduct = async (id: number) => {
@@ -181,6 +186,11 @@ const handleSubmit = async () => {
   }
 };
 
+function handlePageChange(page: number) {
+  currentPage.value = page
+  fetchProducts()
+}
+onMounted(fetchProducts)
 
 const columns = [
   { key: 'nombre', label: 'Nombre' },
@@ -188,5 +198,4 @@ const columns = [
   { key: 'stock', label: 'Stock' }
 ]
 
-onMounted(fetchProducts)
 </script>

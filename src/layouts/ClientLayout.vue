@@ -9,7 +9,7 @@
 
   <!-- Solo muestra Footer si NO estamos en /login -->
   <Footer   v-if="!['/login', '/register'].includes(route.path) && !route.path.startsWith('/resetPassword') && !route.path.startsWith('/forgotPassword')"  />
-  <router-link v-if="isAdmin"
+  <router-link v-if="isAdmin && !['/login','/register'].includes(route.path)"
     to="/admin"
     class="fixed bottom-6 right-6 z-50 bg-indigo-600 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition"
   >

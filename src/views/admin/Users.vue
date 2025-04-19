@@ -84,7 +84,11 @@
         </div>
       </form>
     </Modal>
-
+    <Paginator
+         :currentPage="currentPage"
+         :totalPages="pagination.totalPages"
+         @changePage="handlePageChange"
+    />
   </div>
 </template>
 
@@ -95,10 +99,11 @@ import CreateButton from '../../components/admin/buttons/CreateButton.vue';
 import BaseTable from '../../components/admin/ui/BaseTable.vue';
 import Modal from '../../components/admin/ui/Modal.vue';
 import ViewDetails from "../../components/icons/ViewDetails.vue";
+import Paginator from "../../components/Paginator.vue";
 import { useUsers } from '../../composables/api/admin/UseUsers';
 
 const showModal = ref(false);
-const { users, nuevo, crearUsuario, fetchUsers, eliminarUsuario, loading, validate, validationErrors, editarUsuario, error } = useUsers();
+const { users, nuevo, crearUsuario, fetchUsers, eliminarUsuario, loading, validate, validationErrors, editarUsuario, currentPage,pagination } = useUsers();
 
 onMounted(fetchUsers);
 
@@ -158,12 +163,16 @@ const comenzarCreacion = () => {
   showModal.value = true;
 
 }
+function handlePageChange(page: number) {
+  currentPage.value = page
+  fetchUsers()
+}
 
 const columns = [
   { key: 'nombre', label: 'Nombre' },
   { key: 'email', label: 'Email' },
   { key: 'password', label: 'Contraseña' },
-  { key: 'id_rol', label: 'Rol' },
-  { key: 'id_suscripcion', label: 'Suscripción' },
+  { key: 'rol_nombre', label: 'Rol' },
+  { key: 'suscripcion', label: 'Suscripción' },
 ];
 </script>

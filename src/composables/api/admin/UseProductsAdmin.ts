@@ -19,12 +19,28 @@ export function useProductsAdmin() {
     estado: '',
     imagenFile: null as File | null,
   });
+  
+  const currentPage = ref(1)
+  const perPage = ref(10)
+
+  const pagination = ref({
+    currentPage: 1,
+    totalPages: 1,
+    total: 0
+  })
 
   const fetchProducts = async () => {
     loading.value = true;
     try {
-      const response = await axios.get('http://localhost/longLifeBack/public/products');
-      products.value = response.data;
+      const res = await axios.get('http://localhost/longLifeBack/public/products', {
+        params: {
+          page: currentPage.value,
+          perPage: perPage.value
+        }
+      })
+        products.value = res.data.data;
+        pagination.value = res.data.pagination
+
     } catch (err) {
       console.error('Error al obtener productos:', err);
       error.value = err;
@@ -104,6 +120,9 @@ export function useProductsAdmin() {
     fetchProducts,
     createProduct,
     deleteProduct,
-    editProduct
+    editProduct,
+    currentPage,
+    perPage,
+    pagination
   };
 }

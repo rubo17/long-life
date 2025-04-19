@@ -10,8 +10,8 @@ export function useProducts() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get<Product[]>('http://localhost/longLifeBack/public/products');
-      products.value = res.data;
+      const res = await axios.get('http://localhost/longLifeBack/public/products');
+      products.value = res.data.data;
     } catch (err) {
       error.value = true;
     } finally {

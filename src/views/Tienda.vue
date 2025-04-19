@@ -85,7 +85,6 @@ import { Product } from '../types/Product';
     };
 
     const filterByCategory = async (id: string,nombre?:string,description?:string) => {
-        console.log("Descripcion de "+nombre+" "+description)
         currentCategory.value = nombre;
          activeCategoryId.value =id
         currentDescriptionCategory.value= description
@@ -95,6 +94,7 @@ import { Product } from '../types/Product';
             const { products: all, fetchProducts } = useProducts();
             await fetchProducts();
             products.value = all.value || [];
+            console.log("productos: "+products.value)
         } else {
             const { products: byCategory, fetchProducts } = useProductsByCategory(id);
             await fetchProducts();
