@@ -126,7 +126,7 @@ const navigation = [
   { name: 'Suscripciones', href: 'suscripciones' },
   { name: 'Tienda', href: '/tienda' },
   { name: 'Blog', href: '#' },
-  { name: 'Contacto', href: 'Contacto' },
+  { name: 'Contacto', href: '/Contacto' },
 ]
 const sessionState = ref('')
 const mobileMenuOpen = ref(false)

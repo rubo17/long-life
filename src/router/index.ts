@@ -15,6 +15,7 @@ import ForgotPasswsord from '../views/ForgotPasswsord.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Pago from '../views/Pago.vue'
+import Pedidos from '../views/Pedidos.vue'
 import Perfil from '../views/perfil.vue'
 import Planes from '../views/Planes.vue'
 import ProductDetail from '../views/ProductDetail.vue'
@@ -42,6 +43,7 @@ const routes = [
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
       { path: '/perfil', name: 'perfil', component: Perfil },
+      { path: '/pedidos', name: 'pedidos', component: Pedidos },
       { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
     ]

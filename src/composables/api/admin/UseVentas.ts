@@ -1,5 +1,6 @@
 // src/composables/api/admin/useVentas.ts
 
+import { notify } from '@kyvg/vue3-notification'
 import axios from 'axios'
 import { ref } from 'vue'
 
@@ -45,6 +46,17 @@ export function useVentas() {
       return []
     }
   }
+  const actualizarEstado = async (venta: any) => {
+    try {
+      await axios.put(`http://localhost/longLifeBack/public/admin/ventas/${venta.id}/estado`, {
+        estado: venta.estado
+      })
+      notify({ type: 'success', title: 'Estado actualizado correctamente' })
+      fetchVentas()
+    } catch (err) {
+      notify({ type: 'error', title: 'Error al actualizar estado' })
+    }
+  }
 
   return {
     ventas,
@@ -54,6 +66,7 @@ export function useVentas() {
     currentPage,
     perPage,
     pagination,
-    getDetallesVenta
+    getDetallesVenta,
+    actualizarEstado
   }
 }

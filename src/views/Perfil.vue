@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import MeditionIcon from '../components/icons/MeditionIcon.vue';
-import Statistics from '../components/icons/Statistics.vue';
-</script>
+
 
 <template>
   <div class="container mx-auto px-4 py-12 mt-24 space-y-10">
@@ -14,7 +11,19 @@ import Statistics from '../components/icons/Statistics.vue';
         <p class="text-gray-500 text-sm">Consulta y gestiona tus actividades diarias y entrenamientos registrados.</p>
       </div>
 
-      <!-- Informe Corporal -->
+      <!-- Mis Pedidos -->
+      <RouterLink
+        to="/pedidos"
+        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block"
+      >
+          <div>
+            <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📦 Mis Pedidos</h2>
+            <p class="text-gray-500 text-sm mt-2">Consulta el estado de tus pedidos y revisa los productos comprados.</p>
+          </div>
+
+      </RouterLink>
+
+      <!-- Estudio Corporal -->
       <div class="p-6 bg-white shadow-lg rounded-xl space-y-4">
         <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📊 Estudio Corporal</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -42,10 +51,102 @@ import Statistics from '../components/icons/Statistics.vue';
       </div>
 
       <!-- Editar Perfil -->
-      <div class="p-6 bg-white shadow-lg rounded-xl space-y-4">
-        <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">⚙️ Editar Perfil</h2>
-        <p class="text-gray-500 text-sm">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
-      </div>
+      <div
+        @click="showModal = true"
+        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
+      >
+          <div>
+            <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">⚙️ Editar Perfil</h2>
+            <p class="text-gray-500 text-sm">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
+          </div>
+        </div>
     </div>
+    <Modal :open="showModal" @close="showModal = false">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Editar Perfil</h2>
+
+      <form @submit.prevent="guardarCambios" class="space-y-4">
+        <!-- Nombre -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Nombre</label>
+          <input
+            v-model="form.nombre"
+            type="text"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
+            required
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+          <input
+            v-model="form.password"
+            type="password"
+            placeholder="Deja vacío si no deseas cambiarla"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200"
+          />
+        </div>
+
+        <!-- Botón -->
+        <div class="pt-2 text-center">
+          <button
+            type="submit"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+          >
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </Modal>
   </div>
 </template>
+<script setup lang="ts">
+import { notify } from '@kyvg/vue3-notification'
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
+import Modal from '../components/admin/ui/Modal.vue'
+import MeditionIcon from '../components/icons/MeditionIcon.vue'
+import Statistics from '../components/icons/Statistics.vue'
+const showModal = ref(false)
+const form = ref({
+  nombre: '',
+  email: '',
+  password: ''
+})
+
+// Simulación de datos cargados del usuario
+onMounted(() => {
+  const usuario = JSON.parse(localStorage.getItem('user') || '{}')
+  form.value.nombre = usuario.nombre || ''
+  form.value.email = usuario.email || ''
+})
+
+const guardarCambios = async () => {
+  try {
+    const token = localStorage.getItem('token')
+
+    await axios.put(`http://localhost/longLifeBack/public/editPerfil`, form.value, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    notify({ type: 'success', title: 'perfil actualizado correctamente' })
+    showModal.value = false
+  } catch (err) {
+      notify({ type: 'error', title: 'perfil actualizado correctamente' })
+    console.error(err)
+  }
+}
+</script>

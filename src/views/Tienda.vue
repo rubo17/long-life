@@ -48,57 +48,104 @@
             :product="product"
             />
         </div>
+
+        <Paginator
+         :currentPage="currentPage"
+         :totalPages="pagination.totalPages"
+         @changePage="handlePageChange"
+    />
+    
     </div>
 </template>
 
 <script setup lang="ts">
-    import { onMounted, ref } from 'vue';
-import CategoryProductCard from '../components/tienda/CategoryProductCard.vue';
-import ProductCard from '../components/tienda/ProductCard.vue';
-import { UseCategoryProducts } from '../composables/api/productos/UseCategoryProducts';
-import { useProducts } from '../composables/api/productos/UseProducts';
-import { useProductsByCategory } from '../composables/api/productos/UseProductsByCategory';
-import { Product } from '../types/Product';
+import { computed, onMounted, ref } from 'vue'
+import Paginator from '../components/Paginator.vue'
+import CategoryProductCard from '../components/tienda/CategoryProductCard.vue'
+import ProductCard from '../components/tienda/ProductCard.vue'
+import { UseCategoryProducts } from '../composables/api/productos/UseCategoryProducts'
+import { useProducts } from '../composables/api/productos/UseProducts'
+import { useProductsByCategory } from '../composables/api/productos/UseProductsByCategory'
+import { Product } from '../types/Product'
 
-    const activeCategoryId = ref<string>('todos'); // ID activa por defecto
-    const products = ref<Product[]>([]);
-        const currentCategory = ref<string | undefined>("Todos los productos");
-         const currentDescriptionCategory = ref<string | undefined>("Tanto si tu objetivo es controlar tu peso, nutrir tus entrenamientos, abordar necesidades nutricionales específicas o perfeccionar tu rutina de cuidado de la piel, nuestra gama de productos te ofrece todo lo que necesitas.");
-        const { categoryProducts } = UseCategoryProducts();
-    
-    onMounted(async () => {
-        const { products: all, fetchProducts } = useProducts();
-        await fetchProducts();
-        products.value = all.value || [];
-    });
-    const handleSelectCategory = (e: Event) => {
-        const target = e.target as HTMLSelectElement;
-        const value = target.value;
+// Variables globales
+const activeCategoryId = ref<string>('todos')
+const products = ref<Product[]>([])
+const currentCategory = ref<string | undefined>('Todos los productos')
+const currentDescriptionCategory = ref<string | undefined>('Tanto si tu objetivo es controlar tu peso, nutrir tus entrenamientos, abordar necesidades nutricionales específicas o perfeccionar tu rutina de cuidado de la piel, nuestra gama de productos te ofrece todo lo que necesitas.')
+const { categoryProducts } = UseCategoryProducts()
 
-        if (value === "todos") {
-            filterByCategory("todos", "Todos los productos");
-            return;
-        }
+// useProducts para todos los productos
+const { products: allProducts, fetchProducts: fetchAllProducts, currentPage: currentPageAll, pagination: paginationAll } = useProducts()
 
-        const [id, name] = value.split("||");
-        filterByCategory(id, name);
-    };
+// Datos para productos por categoría (se crean después)
+let productsByCategory = ref<Product[]>([])
+let fetchCategoryProducts: () => Promise<void>
+let currentPageCategory = ref(1)
+let paginationCategory = ref({ currentPage: 1, perPage: 6, total: 0, totalPages: 1 })
 
-    const filterByCategory = async (id: string,nombre?:string,description?:string) => {
-        currentCategory.value = nombre;
-         activeCategoryId.value =id
-        currentDescriptionCategory.value= description
-        console.log(currentCategory.value)
+// Computed dinámico
+const currentPage = computed(() => {
+  return activeCategoryId.value === 'todos' ? currentPageAll.value : currentPageCategory.value
+})
 
-        if (id === "todos") {
-            const { products: all, fetchProducts } = useProducts();
-            await fetchProducts();
-            products.value = all.value || [];
-            console.log("productos: "+products.value)
-        } else {
-            const { products: byCategory, fetchProducts } = useProductsByCategory(id);
-            await fetchProducts();
-            products.value = byCategory.value || [];
-        }
-    };
+const pagination = computed(() => {
+  return activeCategoryId.value === 'todos' ? paginationAll.value : paginationCategory.value
+})
+
+// onMounted
+onMounted(async () => {
+  await fetchAllProducts()
+  products.value = allProducts.value || []
+})
+
+// Manejar selección en el select (móvil)
+const handleSelectCategory = (e: Event) => {
+  const target = e.target as HTMLSelectElement
+  const value = target.value
+
+  if (value === 'todos') {
+    filterByCategory('todos', 'Todos los productos')
+    return
+  }
+
+  const [id, name] = value.split('||')
+  filterByCategory(id, name)
+}
+
+// Filtro de categoría
+const filterByCategory = async (id: string, nombre?: string, description?: string) => {
+  currentCategory.value = nombre
+  activeCategoryId.value = id
+  currentDescriptionCategory.value = description
+
+  if (id === 'todos') {
+    currentPageAll.value = 1
+    await fetchAllProducts()
+    products.value = allProducts.value || []
+  } else {
+    // Cargar productos por categoría (creando el composable dinámicamente)
+    const categoryComposable = useProductsByCategory(id)
+    productsByCategory = categoryComposable.products
+    fetchCategoryProducts = categoryComposable.fetchProducts
+    currentPageCategory = categoryComposable.currentPage
+    paginationCategory = categoryComposable.pagination
+
+    currentPageCategory.value = 1
+    await fetchCategoryProducts()
+    products.value = productsByCategory.value || []
+  }
+}
+
+async function handlePageChange(page: number) {
+  if (activeCategoryId.value === 'todos') {
+    currentPageAll.value = page
+    await fetchAllProducts()
+    products.value = allProducts.value || []
+  } else {
+    currentPageCategory.value = page
+    await fetchCategoryProducts()
+    products.value = productsByCategory.value || []
+  }
+}
 </script>

@@ -14,25 +14,60 @@
         </template>
       </BaseTable>
   
-      <Modal :open="mostrarModal" @close="mostrarModal = false">
-        <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2>
-  
-        <div v-if="ventaSeleccionada">
-          <p><strong>Cliente:</strong> {{ ventaSeleccionada.nombre }}</p>
-          <p><strong>Total:</strong> €{{ ventaSeleccionada.total }}</p>
-          <p><strong>Estado:</strong> {{ ventaSeleccionada.estado }}</p>
-          <p><strong>Fecha:</strong> {{ ventaSeleccionada.fecha }}</p>
-  
-          <div class="mt-4">
-            <h3 class="font-bold mb-2">Productos:</h3>
-            <ul class="list-disc ml-5 text-sm">
-                <li v-for="detalle in ventaSeleccionada.detalles" :key="detalle.id">
-                    {{ detalle.nombre }} (x{{ detalle.cantidad }}) - €{{ detalle.precio_unitario }}
-                </li>
-                </ul>
-          </div>    
+      <Modal :open="showModal" @close="showModal = false">
+  <h2 class="text-xl font-semibold mb-4">Detalles de la Venta</h2>
+
+  <div v-if="ventaSeleccionada">
+    <div class="space-y-2 mb-6">
+      <p><strong>Cliente:</strong> {{ ventaSeleccionada.nombre }}</p>
+      <p><strong>Total:</strong> €{{ ventaSeleccionada.total }}</p>
+      <p><strong>Fecha:</strong> {{ ventaSeleccionada.fecha }}</p>
+    </div>
+
+    <!-- Select de estado -->
+    <div class="mb-6">
+      <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">Estado del pedido</label>
+      <select
+        id="estado"
+        v-model="ventaSeleccionada.estado"
+        @change="() => actualizarEstado(ventaSeleccionada)"
+        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-green-200 focus:outline-none"
+      >
+        <option value="pendiente">Pendiente</option>
+        <option value="pagado">Pagado</option>
+        <option value="en preparación">En preparación</option>
+        <option value="enviado">Enviado</option>
+        <option value="entregado">Entregado</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+    </div>
+
+    <!-- Lista de productos -->
+    <div>
+      <h3 class="text-lg font-semibold mb-4">Productos:</h3>
+      <div class="space-y-4">
+        <div
+          v-for="detalle in ventaSeleccionada.detalles"
+          :key="detalle.id"
+          class="flex items-center gap-4 bg-gray-100 rounded-lg p-4 shadow-sm"
+        >
+          <img
+            :src="detalle.imagen"
+            alt="Imagen del producto"
+            class="w-16 h-16 object-cover rounded-md border"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium text-gray-800">{{ detalle.nombre }}</h4>
+            <p class="text-sm text-gray-600">Cantidad: {{ detalle.cantidad }}</p>
+            <p class="text-sm text-gray-600">Precio unitario: €{{ detalle.precio_unitario }}</p>
+            <p class="text-sm font-semibold text-gray-800 mt-1">Subtotal: €{{ (detalle.cantidad * detalle.precio_unitario).toFixed(2) }}</p>
+          </div>
         </div>
-    </Modal>
+      </div>
+    </div>
+  </div>
+</Modal>
+
      <Paginator
          :currentPage="currentPage"
          :totalPages="pagination.totalPages"
@@ -50,12 +85,10 @@ import ViewDetails from '../../components/icons/ViewDetails.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useVentas } from '../../composables/api/admin/UseVentas'
   
-  const { ventas, fetchVentas, loading,pagination,currentPage,getDetallesVenta } = useVentas()
-  
-  const mostrarModal = ref(false)
-  const ventaSeleccionada = ref<any>(null)
-  
+  const { ventas, fetchVentas, loading,pagination,currentPage,getDetallesVenta,actualizarEstado } = useVentas()
+  const showModal = ref(false);
 
+  const ventaSeleccionada = ref<any>(null)
   
   onMounted(fetchVentas)
   
@@ -71,7 +104,7 @@ const verDetalles = async (venta: any) => {
     detalles
   }
 
-  mostrarModal.value = true
+  showModal.value = true
 }
   const columns = [
     { key: 'id', label: 'ID' },

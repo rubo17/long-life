@@ -195,7 +195,8 @@ onMounted(fetchProducts)
 const columns = [
   { key: 'nombre', label: 'Nombre' },
   { key: 'precio', label: 'precio' },
-  { key: 'stock', label: 'Stock' }
+  { key: 'stock', label: 'Stock' },
+  { key: 'estado', label: 'Estado' }
 ]
 
 </script>
