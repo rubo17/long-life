@@ -9,7 +9,7 @@
             'relative inline-flex items-center rounded-l-md px-2 py-2 text-sm ring-1 ring-inset focus:z-20',
             currentPage === 1
               ? 'text-gray-300 cursor-not-allowed bg-white'
-              : 'text-gray-500 hover:bg-gray-100 ring-gray-300'
+              : 'text-gray-500 hover:bg-gray-100 ring-gray-300 cursor-pointer'
           ]"
         >
           <span class="sr-only">Anterior</span>
@@ -45,7 +45,7 @@
             'relative inline-flex items-center rounded-r-md px-2 py-2 text-sm ring-1 ring-inset focus:z-20',
             currentPage === totalPages
               ? 'text-gray-300 cursor-not-allowed bg-white'
-              : 'text-gray-500 hover:bg-gray-100 ring-gray-300'
+              : 'text-gray-500 hover:bg-gray-100 ring-gray-300 cursor-pointer'
           ]"
         >
           <span class="sr-only">Siguiente</span>

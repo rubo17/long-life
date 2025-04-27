@@ -7,4 +7,5 @@ export interface User {
     id_suscripcion:number;
     created_at:Date;
     updated_At:Date;
+    customer_id: string
 }

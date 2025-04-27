@@ -26,11 +26,27 @@
           </router-link>
 
           <!-- Icono de perfil -->
-          <router-link v-if="isLoggedIn" to="/perfil" class="transition hover:text-green-500 relative"
-            :class="{ 'text-blue-600': activeItem === 'perfil', 'text-gray-900': activeItem !== 'perfil' }"
-            @click="activeItem = 'perfil'">
+          <router-link
+            v-if="isLoggedIn"
+            to="/perfil"
+            @click="activeItem = 'perfil'"
+            :class="{
+              'text-blue-600': activeItem === 'perfil',
+              'text-gray-900': activeItem !== 'perfil'
+            }"
+            class="relative transition hover:text-green-500"
+          >
             <Profile class="w-6 h-6" />
+
+            <!-- Badge Premium -->
+            <span
+              v-if="esPremium"
+              class="absolute -top-2 -right-2 bg-amber-400 text-white text-[9px] font-bold px-1 py-0.5 rounded-full"
+            >
+              ⭐
+            </span>
           </router-link>
+
 
           <router-link v-if="isLoggedIn" to="/carrito" @click="activeItem = 'profile'" :class="{
             'text-blue-600': activeItem === 'profile',
@@ -121,9 +137,9 @@ import Profile from './icons/Profile.vue'
 
 const navigation = [
   { name: 'Inicio', href: '/' },
-  { name: 'Que es longLife', href: 'longlife' },
-  { name: 'Planes', href: 'planes' },
-  { name: 'Suscripciones', href: 'suscripciones' },
+  { name: 'Que es longLife', href: '/longlife' },
+  { name: 'Planes', href: '/planes' },
+  { name: 'Suscripciones', href: '/suscripciones' },
   { name: 'Tienda', href: '/tienda' },
   { name: 'Blog', href: '#' },
   { name: 'Contacto', href: '/Contacto' },
@@ -139,7 +155,8 @@ if (localStorage.getItem('token')) {
 }
 const { logout, isLoggedIn } = useAuthLogin();
 const { cart, loadCart } = useCart();
-
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+const esPremium = user?.esPremium === true
 onMounted(() => {
   loadCart();
 });

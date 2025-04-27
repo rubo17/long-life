@@ -30,12 +30,19 @@ export function useAuthLogin() {
 
       token.value = res.data.token;
       user.value = res.data.user;
+
+      const premiumCheck = await axios.get(
+        `http://localhost/longLifeBack/public/check-premium/${user.value!.id_usuario}`, );
+  
+      const esPremium = premiumCheck.data.esPremium;
+
       const safeUser = {
         id_usuario: user.value!.id_usuario,
         nombre: user.value!.nombre,
         email: user.value!.email,
         rol: user.value!.rol,
-        id_suscripcion: user.value!.id_suscripcion
+        esPremium: esPremium,
+        customer_id: user.value?.customer_id
       };
 
       localStorage.setItem('token', token.value!);

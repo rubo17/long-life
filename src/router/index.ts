@@ -8,6 +8,7 @@ import Products from '../views/admin/Products.vue'
 import Users from '../views/admin/Users.vue'
 import Ventas from '../views/admin/Ventas.vue'
 import Carrito from '../views/Carrito.vue'
+import CheckoutSuscripcion from '../views/CheckoutSuscripcion.vue'
 import Contacto from '../views/Contacto.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
 import Direccion from '../views/Direccion.vue'
@@ -23,6 +24,7 @@ import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
 import ResetPassword from '../views/ResetPassword.vue'
 import Succes from '../views/Succes.vue'
+import SuscripcionSucces from '../views/SuscripcionSucces.vue'
 import Tienda from '../views/Tienda.vue'
 import Suscripciones from '../views/VistaSuscripciones.vue'
 const routes = [
@@ -46,6 +48,8 @@ const routes = [
       { path: '/pedidos', name: 'pedidos', component: Pedidos },
       { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
+      { path: '/CheckoutSuscripcion', name: 'CheckoutSuscripcion', component: CheckoutSuscripcion },
+      { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
     ]
   },
   {
