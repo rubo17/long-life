@@ -82,37 +82,43 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from 'vue-router';
 import { useCart } from '../composables/api/carrito/UseCart';
 import { useAuthLogin } from '../composables/api/login/UseUserLogin';
 import { useProductById } from '../composables/api/productos/UseProductsById';
-const activeTab = ref<'descripcion' | 'ingredientes'>('descripcion');
-const route = useRoute();
 
-const { product, fetchProduct, loading } = useProductById(route.params.id as string);
+const activeTab = ref<'descripcion' | 'ingredientes'>('descripcion');
+
+const route = useRoute();
 const router = useRouter();
 
-console.log(product)
+const { product, fetchProduct, loading } = useProductById(route.params.id as string);
+
+const { addToCart: addToCartFn, cart } = useCart();
+const selectedQuantity = ref<number | null>(null);
+
+const { isLoggedIn } = useAuthLogin();
+
 onMounted(async () => {
   await fetchProduct();
-  console.log("Producto:", product.value);
-
 });
-const { addToCart: addToCartFn } = useCart();
-const selectedQuantity = ref<number | null>(null);
 
 const addToCart = () => {
   if (!product.value || !selectedQuantity.value) return;
 
-  const item = {
+  const existingProduct = cart.value.find(p => p.id_producto === product.value?.id_producto);
+  const totalCantidad = (existingProduct?.cantidad || 0) + selectedQuantity.value;
+
+  if (totalCantidad > Number(product.value.stock)) {
+    alert('No hay suficiente stock disponible.');
+    return;
+  }
+
+  addToCartFn({
     ...product.value,
     cantidad: selectedQuantity.value
-  };
+  });
 
-  addToCartFn(item);
-  router.push('/carrito'); // opcional
-
+  router.push('/carrito');
 };
-
-const { isLoggedIn } = useAuthLogin();
 </script>

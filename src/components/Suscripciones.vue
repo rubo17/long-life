@@ -79,7 +79,7 @@ import Positivo from './icons/Positivo.vue';
 
 const suscripcionInfo = [
   {
-    descripcion: "Acceso ilimitado a la platadorma TODO EL AÑO. Los primeros 7 DIAS son GRATIS.",
+    descripcion: "Te ahorras 10 euros.",
   },
   {
     descripcion: "Acceso a contenido exclusivo, con entrenamientos y dietas realizadas por profesionales.",

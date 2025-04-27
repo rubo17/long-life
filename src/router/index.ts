@@ -23,6 +23,7 @@ import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
 import ResetPassword from '../views/ResetPassword.vue'
+import ResultadosEstudio from '../views/ResultadosEstudio.vue'
 import Succes from '../views/Succes.vue'
 import SuscripcionSucces from '../views/SuscripcionSucces.vue'
 import Tienda from '../views/Tienda.vue'
@@ -40,16 +41,17 @@ const routes = [
       { path: '/tienda', name: 'tienda', component: Tienda },
       { path: '/carrito', name: 'carrito', component: Carrito, meta: {requiresAuth: true} },
       { path: '/tienda/product/:id', name: 'productDetail', component: ProductDetail },
-      { path: '/suscripciones', name: 'suscripciones', component: Suscripciones },
+      { path: '/suscripciones', name: 'suscripciones', component: Suscripciones,meta: {requiresAuth: true} },
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
-      { path: '/perfil', name: 'perfil', component: Perfil },
-      { path: '/pedidos', name: 'pedidos', component: Pedidos },
+      { path: '/perfil', name: 'perfil', component: Perfil, meta: {requiresAuth: true} },
+      { path: '/pedidos', name: 'pedidos', component: Pedidos, meta: {requiresAuth: true} },
       { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
       { path: '/CheckoutSuscripcion', name: 'CheckoutSuscripcion', component: CheckoutSuscripcion },
       { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
+      { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: {requiresAuth: true} },
     ]
   },
   {

@@ -44,11 +44,17 @@ import AddToCart from "../buttons/AddToCart.vue";
     const goToDetails = () => {
         router.push({ name: 'productDetail', params: { id: props.product.id_producto } });
     };
-    const { addToCart: addToCartFn } = useCart(); 
+    const { addToCart: addToCartFn, cart } = useCart();
 
     const addToCart = async () => {
-  await addToCartFn(props.product);
-  router.push('/carrito'); // opcional
-};
+        const existingProduct = cart.value.find(p => p.id_producto === props.product.id_producto);
+        const totalCantidad = (existingProduct?.cantidad || 0) + 1;
+        if (totalCantidad > Number(props.product.stock)) {
+            alert('No hay suficiente stock disponible.');
+                return;
+            }
+    await addToCartFn(props.product);
+    router.push('/carrito'); // opcional
+    };
  
 </script>

@@ -24,22 +24,28 @@
       </RouterLink>
 
       <!-- Estudio Corporal -->
+       
 <!-- Estudio Corporal (solo si es Premium) -->
 <div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4">
   <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📊 Estudio Corporal</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
-      <div>
-        <p class="font-medium text-gray-700">Nueva Medición</p>
+      <div
+        @click="showMedicionModal = true"
+        class="cursor-pointer"
+      > 
+       <p class="font-medium text-gray-700">Nueva Medición</p>
         <p class="text-sm text-gray-500">Registra tus medidas actuales</p>
       </div>
       <MeditionIcon class="w-6 h-6 text-green-500" />
     </div>
     <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
-      <div>
+      <RouterLink 
+        to="/misMediciones"
+      >
         <p class="font-medium text-gray-700">Mis Resultados</p>
         <p class="text-sm text-gray-500">Consulta tu historial corporal</p>
-      </div>
+      </RouterLink>
       <Statistics class="w-6 h-6 text-blue-600" />
     </div>
   </div>
@@ -121,6 +127,82 @@
         </div>
       </form>
     </Modal>
+    <Modal :open="showMedicionModal" @close="showMedicionModal = false">
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">Nueva Medición Corporal Completa</h2>
+
+  <form @submit.prevent="guardarMedicion" class="space-y-4">
+
+    <!-- Peso -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Peso (kg)</label>
+      <input v-model="nuevaMedicion.peso" type="number" step="0.01" required
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" />
+    </div>
+
+    <!-- Altura -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Altura (cm)</label>
+      <input v-model="nuevaMedicion.altura" type="number" step="0.1" required
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" />
+    </div>
+
+    <!-- Edad -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Edad</label>
+      <input v-model="nuevaMedicion.edad" type="number" min="1" required
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" />
+    </div>
+
+    <!-- Sexo -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Sexo</label>
+      <select v-model="nuevaMedicion.sexo"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" required>
+        <option value="" disabled>Seleccione</option>
+        <option value="hombre">Hombre</option>
+        <option value="mujer">Mujer</option>
+      </select>
+    </div>
+
+    <!-- Circunferencia cintura -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Circunferencia de cintura (cm)</label>
+      <input v-model="nuevaMedicion.cintura" type="number" step="0.1"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" />
+    </div>
+
+    <!-- Circunferencia cadera -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Circunferencia de cadera (cm)</label>
+      <input v-model="nuevaMedicion.cadera" type="number" step="0.1"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200" />
+    </div>
+
+    <!-- Nivel de actividad física -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Nivel de Actividad Física</label>
+      <select v-model="nuevaMedicion.actividad"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-200">
+        <option value="" disabled>Seleccione</option>
+        <option value="sedentario">Sedentario</option>
+        <option value="ligero">Ligero (1-3 días/semana)</option>
+        <option value="moderado">Moderado (3-5 días/semana)</option>
+        <option value="intenso">Intenso (6-7 días/semana)</option>
+      </select>
+    </div>
+
+    <!-- Botón -->
+    <div class="pt-2 text-center">
+      <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition">
+        Guardar Medición
+      </button>
+    </div>
+
+  </form>
+</Modal>
+
+
   </div>
 </template>
 <script setup lang="ts">
@@ -145,6 +227,18 @@ onMounted(() => {
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 const esPremium = user?.esPremium === true
 const {}= useAuthLogin();
+const showMedicionModal = ref(false)
+const nuevaMedicion = ref({
+  peso: '',
+  altura: '',
+  edad: '',
+  sexo: '',
+  cintura: '',
+  cadera: '',
+  porcentajeGrasa: '',
+  masaMuscular: '',
+  actividad: ''
+})
 const guardarCambios = async () => {
   try {
     const token = localStorage.getItem('token')
@@ -159,6 +253,35 @@ const guardarCambios = async () => {
     showModal.value = false
   } catch (err) {
       notify({ type: 'error', title: 'perfil actualizado correctamente' })
+    console.error(err)
+  }
+}
+const guardarMedicion = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    await axios.post('http://localhost/longLifeBack/public/nuevaMedicion', nuevaMedicion.value, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    notify({ type: 'success', title: 'Medición guardada correctamente' })
+    showMedicionModal.value = false
+
+    // Opcional: limpiar el formulario
+    nuevaMedicion.value = {
+      peso: '',
+      altura: '',
+      edad: '',
+      sexo: '',
+      cintura: '',
+      cadera: '',
+      porcentajeGrasa: '',
+      masaMuscular: '',
+      actividad: ''
+    }
+  } catch (err) {
+    notify({ type: 'error', title: 'Error al guardar la medición' })
     console.error(err)
   }
 }

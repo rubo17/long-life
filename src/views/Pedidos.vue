@@ -70,56 +70,79 @@
         </p>
 
       </div>
-    </div>
+      <Paginator
+         :currentPage="currentPage"
+         :totalPages="pagination.totalPages"
+         @changePage="handlePageChange"
+    />
+  
+  </div>
+    
   </template>
   
   
 
-<script setup lang="ts">
-import axios from 'axios'
+  <script setup lang="ts">
+  import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { onMounted, ref } from 'vue'
-
-const pedidos = ref<any[]>([])
-const loading = ref(false)
-const token = localStorage.getItem('token')
-let userId = null
-
-if (token) {
+import Paginator from '../components/Paginator.vue'
+  
+  const pedidos = ref<any[]>([])
+  const loading = ref(false)
+  const currentPage = ref(1)
+  const pagination = ref({
+    totalPages: 1,
+    total: 0
+  })
+  
+  const token = localStorage.getItem('token')
+  let userId = null
+  
+  if (token) {
     const decoded: any = jwtDecode(token)
-    userId = decoded.sub 
-}
-const fetchPedidos = async () => {
+    userId = decoded.sub
+  }
+  
+  const fetchPedidos = async (page = 1) => {
+    loading.value = true
     try {
-        const response = await axios.get(`http://localhost/longLifeBack/public/pedidos/${userId}`)
-        pedidos.value = response.data
-        console.log(pedidos.value)
+      const response = await axios.get(`http://localhost/longLifeBack/public/pedidos/${userId}?page=${page}&perPage=5`)
+      pedidos.value = response.data.data
+      pagination.value.totalPages = response.data.pagination.totalPages
+      pagination.value.total = response.data.pagination.total
+      currentPage.value = response.data.pagination.currentPage
     } catch (error) {
-        console.error('Error al cargar los pedidos:', error)
+      console.error('Error al cargar los pedidos:', error)
     } finally {
-        loading.value = false
+      loading.value = false
     }
-}
-
-const formatFecha = (fecha: string) => {
+  }
+  
+  const handlePageChange = (page: number) => {
+    fetchPedidos(page)
+  }
+  
+  const formatFecha = (fecha: string) => {
     return new Date(fecha).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     })
-}
-
-const estadoClass = (estado: string) => {
+  }
+  
+  const estadoClass = (estado: string) => {
     switch (estado) {
-        case 'pendiente': return 'bg-yellow-100 text-yellow-800'
-        case 'pagado': return 'bg-blue-100 text-blue-800'
-        case 'en preparación': return 'bg-orange-100 text-orange-800'
-        case 'enviado': return 'bg-indigo-100 text-indigo-800'
-        case 'entregado': return 'bg-green-100 text-green-800'
-        case 'cancelado': return 'bg-red-100 text-red-800'
-        default: return 'bg-gray-100 text-gray-800'
+      case 'pendiente': return 'bg-yellow-100 text-yellow-800'
+      case 'pagado': return 'bg-blue-100 text-blue-800'
+      case 'en preparación': return 'bg-orange-100 text-orange-800'
+      case 'enviado': return 'bg-indigo-100 text-indigo-800'
+      case 'entregado': return 'bg-green-100 text-green-800'
+      case 'cancelado': return 'bg-red-100 text-red-800'
+      default: return 'bg-gray-100 text-gray-800'
     }
-}
-
-onMounted(fetchPedidos)
-</script>
+  }
+  
+  onMounted(() => fetchPedidos())
+  </script>
+  

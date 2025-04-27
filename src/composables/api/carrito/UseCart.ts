@@ -2,7 +2,7 @@ import { ref, watch } from 'vue';
 import { Product } from '../../../types/Product';
 
 const cart = ref<Product[]>([]);
-
+const error = ref ('')
 // Cargar del localStorage solo una vez al iniciar
 
 const loadCart = async () => {
@@ -45,6 +45,7 @@ watch(cart, (newVal) => {
 }, { deep: true });
 
 const removeFromCart = async (id_producto: string) => {
+  error.value=''
   const token = localStorage.getItem('token');
   if (!token) return;
 
@@ -84,12 +85,7 @@ const addToCart = async (product: Product) => {
     });
 
     if (res.ok) {
-      const existing = cart.value.find(p => p.id_producto === product.id_producto);
-      if (existing) {
-        existing.cantidad += product.cantidad || 1;
-      } else {
-        cart.value.push({ ...product });
-      }
+      await loadCart(); // <-- recarga el carrito bien desde el backend
     } else {
       console.error(await res.json());
     }
@@ -97,6 +93,7 @@ const addToCart = async (product: Product) => {
     console.error(e);
   }
 };
+
 
   
 
@@ -129,6 +126,7 @@ const getItemCount = () => {
   return cart.value.reduce((count, item) => count + item.cantidad, 0);
 };
 const updateCantidad = async (id_producto: string, cantidad: number) => {
+  error.value=''
   const token = localStorage.getItem('token');
   if (!token) return;
 
@@ -146,8 +144,9 @@ const updateCantidad = async (id_producto: string, cantidad: number) => {
       const item = cart.value.find(p => p.id_producto === id_producto);
       if (item) item.cantidad = cantidad;
     } else {
-      const error = await res.json();
-      console.error('Error al actualizar cantidad:', error);
+      const err = await res.json();
+      error.value = err.messages?.error || 'Error al actualizar cantidad';
+      console.error('Error al actualizar cantidad:', error.value);      console.error('Error al actualizar cantidad:', error);
     }
   } catch (e) {
     console.error('Error en la petición al backend:', e);
@@ -163,6 +162,7 @@ export function useCart() {
     getItemCount,
     removeFromCart,
     loadCart, 
-    updateCantidad
+    updateCantidad,
+    error
   };
 }

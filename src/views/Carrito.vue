@@ -28,10 +28,16 @@
             <span>Total:</span>
             <span>{{ getTotal() }}€</span>  
             </div>
-            <router-link to="/finalizarCompra/direccion"
-            class="block w-full text-center mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition shadow cursor-pointer">
+            <router-link 
+            :to="'/finalizarCompra/direccion'"
+            class="block w-full text-center mt-4 py-2 px-4 rounded-lg transition shadow
+                  text-white
+                  bg-blue-500 hover:bg-blue-600
+                  disabled-link"
+          >
             Finalizar compra
           </router-link>
+
         </div>
         </div>
     </div>
@@ -46,7 +52,7 @@ import ProductInCart from "../components/tienda/ProductInCart.vue";
 import { useCart } from '../composables/api/carrito/UseCart';
 
 
-const { cart, getTotal, loadCart } = useCart();
+const { cart, getTotal, loadCart,error } = useCart();
 
 onMounted(async () => {
   await loadCart();
