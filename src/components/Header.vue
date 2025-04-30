@@ -125,7 +125,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { onMounted, ref } from 'vue'
@@ -141,24 +141,26 @@ const navigation = [
   { name: 'Planes', href: '/planes' },
   { name: 'Suscripciones', href: '/suscripciones' },
   { name: 'Tienda', href: '/tienda' },
-  { name: 'Blog', href: '#' },
-  { name: 'Contacto', href: '/Contacto' },
-]
-const sessionState = ref('')
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contacto', href: '/contacto' },
+  ]
+
+const sessionState = ref('') 
 const mobileMenuOpen = ref(false)
-const activeItem = ref(null)
+const activeItem = ref('')
+
+// ✅ Traemos todo de useAuthLogin ya preparado
+const { logout, isLoggedIn, esPremium } = useAuthLogin()
+const { cart, loadCart } = useCart()
 
 if (localStorage.getItem('token')) {
   sessionState.value = 'Log out'
 } else {
   sessionState.value = 'Log in'
 }
-const { logout, isLoggedIn } = useAuthLogin();
-const { cart, loadCart } = useCart();
-const user = JSON.parse(localStorage.getItem('user') || '{}')
-const esPremium = user?.esPremium === true
-onMounted(() => {
-  loadCart();
-});
 
+onMounted(() => {
+  loadCart()
+})
 </script>
+

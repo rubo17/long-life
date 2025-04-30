@@ -31,6 +31,7 @@
 import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthLogin } from '../composables/api/login/UseUserLogin'
   
   const stripePromise = loadStripe('pk_test_51REpfRFMywclhIX2fvMzezEH6oljCi0O3JNQ8zUNIK6KZn2UqKpVcD1FY3P7gJlJqC3TzlDIhFEuZZBrq29FsjNE00gN5Jwr06')
   
@@ -102,7 +103,8 @@ import { useRoute, useRouter } from 'vue-router'
       error.value = 'Error al crear suscripción.'
     }
   })
-  
+  const { refreshAuth } = useAuthLogin(); // 👈 asegúrate de importar esto
+
   const handleSubscribe = async () => {
   loading.value = true
   error.value = ''
@@ -141,9 +143,17 @@ import { useRoute, useRouter } from 'vue-router'
 
       console.log('✅ Estado actualizado en base de datos.')
 
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      user.esPremium = true;
-      localStorage.setItem('user', JSON.stringify(user));
+      const refresh = await axios.post('http://localhost/longLifeBack/public/auth/refreshToken', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      if (refresh.data.token) {
+        localStorage.setItem('token', refresh.data.token)
+        refreshAuth()
+        console.log('✅ Token actualizado y sesión refrescada.')
+      }
 
       console.log('✅ LocalStorage actualizado: esPremium = true');
       router.push('/suscripcion/success')

@@ -31,7 +31,8 @@
 </template>
 
 <script setup lang="ts">
-    import { defineProps } from "vue";
+    import { notify } from "@kyvg/vue3-notification";
+import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import { useCart } from "../../composables/api/carrito/UseCart";
 import { Product } from "../../types/Product";
@@ -50,8 +51,11 @@ import AddToCart from "../buttons/AddToCart.vue";
         const existingProduct = cart.value.find(p => p.id_producto === props.product.id_producto);
         const totalCantidad = (existingProduct?.cantidad || 0) + 1;
         if (totalCantidad > Number(props.product.stock)) {
-            alert('No hay suficiente stock disponible.');
-                return;
+            notify({
+                type: 'error',
+                text: 'No hay stock de este producto'
+                });
+                return
             }
     await addToCartFn(props.product);
     router.push('/carrito'); // opcional

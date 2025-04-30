@@ -16,10 +16,12 @@
 
 <script setup>
 import {
+  BookmarkIcon,
+  CreditCardIcon,
   CurrencyDollarIcon,
   HomeIcon,
   ShoppingBagIcon,
-  UsersIcon,
+  UsersIcon
 } from '@heroicons/vue/24/outline';
 
 const links = [
@@ -27,6 +29,8 @@ const links = [
   { name: 'Usuarios', to: '/admin/users', icon: UsersIcon },
   { name: 'Productos', to: '/admin/products', icon: ShoppingBagIcon },
   { name: 'Ventas', to: '/admin/ventas', icon:CurrencyDollarIcon  },
+  { name: 'Suscripciones', to: '/admin/suscripciones', icon:CreditCardIcon  },
+  { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon:BookmarkIcon   },
   { name: 'Volver', to: '/' }
 ]
 </script>

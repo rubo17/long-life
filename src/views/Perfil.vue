@@ -58,10 +58,10 @@
 </div>
 
 
-      <div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4">
+      <RouterLink to ="/contenidosPremium" v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block">
         <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📚 Tu Contenido</h2>
         <p class="text-gray-500 text-sm">Accede a tus rutinas personalizadas, planes nutricionales y recursos exclusivos.</p>
-      </div>
+      </RouterLink>
 
       <div v-else class="p-6 bg-white shadow-lg rounded-xl space-y-4 ">
         <h2 class="text-xl font-semibold text-gray-500 border-b-2 border-gray-400 pb-2">🔒 Contenido Premium</h2>
@@ -224,9 +224,9 @@ onMounted(() => {
   form.value.nombre = usuario.nombre || ''
   form.value.email = usuario.email || ''
 })
-const user = JSON.parse(localStorage.getItem('user') || '{}')
-const esPremium = user?.esPremium === true
-const {}= useAuthLogin();
+
+const {esPremium}= useAuthLogin();
+
 const showMedicionModal = ref(false)
 const nuevaMedicion = ref({
   peso: '',

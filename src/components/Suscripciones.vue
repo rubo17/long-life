@@ -95,9 +95,8 @@ const suscripcionInfo = [
 ]
 const router = useRouter()
 const user = JSON.parse(localStorage.getItem('user') || '{}')
-const esPremium = user?.esPremium === true
 
-const {isLoggedIn}= useAuthLogin()
+const {isLoggedIn,esPremium}= useAuthLogin()
 
 const suscribirse = (priceId, planName) => {
   console.log(isLoggedIn)

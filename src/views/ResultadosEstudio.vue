@@ -7,7 +7,7 @@
       <div v-if="estudios.length" class="space-y-4">
         <!-- Mensaje general -->
         <p class="text-base sm:text-lg text-gray-600 text-center">
-          {{ nombreUsuario }} de {{ edadUsuario }} años ha realizado {{ estudios.length }} estudios corporales.
+          {{ nombreUsuario }} de {{ edad }} años ha realizado {{ estudios.length }} estudios corporales.
         </p>
   
         <!-- Tabla de estudios en contenedor con scroll en móvil -->
@@ -58,7 +58,8 @@
   </template>
   
   <script setup lang="ts">
-  import ResultadosMetabolicos from '../components/ResultadosMetabolicos.vue'
+  import { computed } from 'vue'
+import ResultadosMetabolicos from '../components/ResultadosMetabolicos.vue'
 import { useResultadosEstudio } from '../composables/UseResultadosEstudio'
 
   const { estudios } = useResultadosEstudio()
@@ -66,8 +67,11 @@ import { useResultadosEstudio } from '../composables/UseResultadosEstudio'
   // Datos usuario
   const user = JSON.parse(localStorage.getItem('user') || '{}')
   const nombreUsuario = user?.nombre || 'Usuario'
-  const edadUsuario = user?.edad || 'N/A'
-  
+  const edad = computed(() => {
+  if (estudios.value.length === 0) return 'N/A';
+  return estudios.value[estudios.value.length - 1].edad;
+
+})  
   // Formatear fecha
   const formatFecha = (fecha: string) => {
     const date = new Date(fecha)
