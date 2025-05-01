@@ -48,11 +48,11 @@
         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none"></textarea>
     </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Ruta del archivo (PDF)</label>
-      <input v-model="nuevo.archivo_url" type="text" placeholder="uploads/contenidos/archivo.pdf" required
-        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none" />
-    </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Archivo (PDF)</label>
+        <input @change="handleFileUpload" type="file" accept=".pdf"
+          class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none bg-white" />
+      </div>
 
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de publicación</label>
@@ -110,10 +110,8 @@ const handleSubmit = async () => {
   try {
     if (modoEdicion.value && contenidoEditandoId.value) {
       await editarContenido(contenidoEditandoId.value)
-      notify({ type: 'success', title: 'Contenido editado correctamente' })
     } else {
       await crearContenido()
-      notify({ type: 'success', title: 'Contenido creado correctamente' })
     }
 
     showModal.value = false
@@ -127,6 +125,16 @@ const handleSubmit = async () => {
     })
   }
 }
+const archivoSeleccionado = ref<File | null>(null)
+
+function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files.length > 0) {
+    archivoSeleccionado.value = target.files[0]
+    nuevo.value.archivoFile = archivoSeleccionado.value
+  }
+}
+
 const comenzarCreacion = () => {
   modoEdicion.value = false;
   showModal.value = true;
@@ -139,12 +147,11 @@ function activarEdicion(row: any) {
 
   // Rellenar datos
   nuevo.value = {
-    titulo: row.titulo,
-    descripcion: row.descripcion,
-    archivo_url: row.archivo_url,
-    fecha_publicacion: row.fecha_publicacion,
-    creado_por: row.creado_por
-  }
+  titulo: row.titulo,
+  descripcion: row.descripcion,
+  fecha_publicacion: row.fecha_publicacion,
+  archivoFile: null
+}
 }
 function handlePageChange(page: number) {
   currentPage.value = page
@@ -153,8 +160,6 @@ function handlePageChange(page: number) {
 const confirmarEliminacion = async (id: number) => {
   if (!confirm('¿Estás seguro de que quieres eliminar este contenido?')) return;
   await eliminarContenido(id);
-  notify({ type: 'success', title: 'Usuario eliminado correctamente' });
-
 };
 const columns = [
   { key: 'id', label: 'ID' },
