@@ -1,5 +1,8 @@
 <template>
     <div class="mt-35 p-10 container mx-auto space-y-6">
+      <div>
+        <BuscarProducto @buscar="handleSearch" />
+      </div>
         <!-- Título y descripción -->
         <div class="flex flex-col lg:flex-row justify-center items-center gap-5">
             <h2 class="text-green-500 text-6xl font-bold text-center">
@@ -61,6 +64,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import Paginator from '../components/Paginator.vue'
+import BuscarProducto from '../components/tienda/BuscarProducto.vue'
 import CategoryProductCard from '../components/tienda/CategoryProductCard.vue'
 import ProductCard from '../components/tienda/ProductCard.vue'
 import { UseCategoryProducts } from '../composables/api/productos/UseCategoryProducts'
@@ -92,6 +96,10 @@ const currentPage = computed(() => {
 const pagination = computed(() => {
   return activeCategoryId.value === 'todos' ? paginationAll.value : paginationCategory.value
 })
+const handleSearch = (query: string) => {
+  const all = activeCategoryId.value === 'todos' ? allProducts.value : productsByCategory.value
+  products.value = all.filter(p => p.nombre.toLowerCase().includes(query.toLowerCase()))
+}
 
 // onMounted
 onMounted(async () => {

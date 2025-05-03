@@ -75,10 +75,19 @@
       >
           <div>
             <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">⚙️ Editar Perfil</h2>
-            <p class="text-gray-500 text-sm">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
+            <p class="text-gray-500 text-sm mt-2">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
+          </div>
+        </div>
+        <div
+        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
+      >
+          <div>
+            <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2"> ⭐ Tu suscripcion</h2>
+            <p class="text-gray-500 text-sm mt-2">Activa hasta ...</p>
           </div>
         </div>
     </div>
+    
     <Modal :open="showModal" @close="showModal = false">
       <h2 class="text-xl font-semibold text-gray-800 mb-4">Editar Perfil</h2>
 

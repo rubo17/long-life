@@ -97,12 +97,15 @@
                   @click="activeItem = item.name">
                   {{ item.name }}
                 </a>
-                <a v-if="isLoggedIn" href="/admin">
-                  <Profile class="w-6 h-6 transition hover:text-green-500" />
-                </a>
-                <a href="/carrito">
-                  <Cart class="w-6 h-6 transition hover:text-green-500" />
-                </a>
+                <div class="space-y-3 ">
+                  <a class="block" v-if="isLoggedIn" href="/admin">
+                    <Profile class="w-6 h-6 transition hover:text-green-500" />
+                  </a>
+                  <a class="block" href="/carrito">
+                    <Cart class="w-6 h-6 transition hover:text-green-500" />
+                  </a>
+                </div>
+
               </div>
               <div class="py-6">
                 <a v-if="sessionState === 'Log in'" href="/login"

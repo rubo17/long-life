@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-20 w-full max-w-5xl mx-auto px-5 space-y-12 text-black">
+  <div class="mt-35 w-full max-w-5xl mx-auto px-5 space-y-12 text-black">
     <!-- Encabezado -->
     <div class="text-center space-y-5">
       <h1 class="text-2xl md:text-3xl font-extrabold leading-relaxed">
@@ -41,13 +41,13 @@
         <!-- Paso 1 -->
         <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-green-500 shadow-lg rounded-lg bg-gray-50">
           <span class="text-xl font-bold text-green-600">1.</span>
-          <p class="text-lg">Elige en esta página tu Plan de Nutrición (<b>Básico</b> o <b>Premium</b>).</p>
+          <p class="text-lg">Elige en esta página el Plan de Nutrición.</p>
         </div>
 
         <!-- Paso 2 -->
         <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-green-500 shadow-lg rounded-lg bg-gray-50">
           <span class="text-xl font-bold text-green-600">2.</span>
-          <p class="text-lg">Rellena lo antes posible el formulario que te vamos a pasar.</p>
+          <p class="text-lg">Rellena lo antes posible el formulario despues de realizar el pago.</p>
         </div>
 
         <!-- Paso 3 -->
@@ -59,19 +59,16 @@
         <!-- Paso 4 (Solo Premium) -->
         <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
           <span class="text-xl font-bold text-blue-600">4.</span>
-          <p class="text-lg"><b>Sólo Plan Premium:</b> Agendas cita con nosotras y tenemos nuestra primera Videollamada, para explicarte tu plan y que preguntes lo que necesites.</p>
-        </div>
-
-        <!-- Paso 5 (Solo Premium) -->
-        <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
-          <span class="text-xl font-bold text-blue-600">5.</span>
-          <p class="text-lg"><b>Sólo Plan Premium:</b> Después, tendremos una Videollamada por mes para hacerte seguimiento y empujarte a tope hasta tu objetivo físico, apoyándote con tu alimentación.</p>
+          <p class="text-lg"> Podras tener videollamados con el nutricionista que se te haya asignado.</p>
         </div>
       </div>
+    </div>
+    <div>
+      <EmpleadoList tipoEmpleado="nutricionista" titulo="nutricionistas" />
     </div>
   </div>
 </template>
 
-<script setup>
-import Fitness from '../components/icons/Fitness.vue';
+<script setup lang="ts">
+import EmpleadoList from '../components/EmpleadosList.vue';
 </script>

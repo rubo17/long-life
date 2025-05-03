@@ -14,6 +14,7 @@ import Carrito from '../views/Carrito.vue'
 import CheckoutSuscripcion from '../views/CheckoutSuscripcion.vue'
 import Contacto from '../views/Contacto.vue'
 import ContenidosPremium from '../views/ContenidosPremium.vue'
+import DetallesPlanEntrenamiento from '../views/DetallesPlanEntrenamiento.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
 import Direccion from '../views/Direccion.vue'
 import ForgotPasswsord from '../views/ForgotPasswsord.vue'
@@ -47,6 +48,7 @@ const routes = [
       { path: '/tienda/product/:id', name: 'productDetail', component: ProductDetail },
       { path: '/suscripciones', name: 'vistaSuscripciones', component: VistaSuscripciones },
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
+      { path: '/detalles-plan-entrenamiento', name: 'detallesPlanEntrenamiento', component: DetallesPlanEntrenamiento },
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
       { path: '/perfil', name: 'perfil', component: Perfil, meta: {requiresAuth: true} },
