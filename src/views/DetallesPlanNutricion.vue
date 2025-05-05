@@ -20,7 +20,7 @@
         <p>Con nuestras pautas personalizadas, ya no tendrás que preocuparte por qué comer cada día.</p>
         <p>Además, aprenderás cómo adaptar tus comidas en vacaciones, salidas con amigos o eventos especiales.</p>
         <a class="block bg-green-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition" href="#">
-          Conseguir Plan →
+          Adquirir Plan por 150 € →
         </a>
       </div>
 

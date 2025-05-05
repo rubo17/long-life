@@ -12,6 +12,7 @@ import Ventas from '../views/admin/Ventas.vue'
 import Blog from '../views/Blog.vue'
 import Carrito from '../views/Carrito.vue'
 import CheckoutSuscripcion from '../views/CheckoutSuscripcion.vue'
+import ConseguirPlan from '../views/ConseguirPlan.vue'
 import Contacto from '../views/Contacto.vue'
 import ContenidosPremium from '../views/ContenidosPremium.vue'
 import DetallesPlanEntrenamiento from '../views/DetallesPlanEntrenamiento.vue'
@@ -60,6 +61,7 @@ const routes = [
       { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
       { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/blog', name: 'blog', component: Blog },
+      { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan },
     ]
   },
   {
