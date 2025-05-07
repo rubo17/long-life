@@ -1,8 +1,8 @@
 // src/composables/useAuth.ts
-import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '../../../api/axios';
 import { User } from '../../../types/User';
 import { useRole } from '../../UseRole';
 
@@ -31,8 +31,8 @@ export function useAuthLogin() {
     error.value = null;
 
     try {
-      const res = await axios.post(
-        'http://localhost/longLifeBack/public/auth/login',
+      const res = await api.post(
+        '/auth/login',
         { email, password },
         {
           headers: {

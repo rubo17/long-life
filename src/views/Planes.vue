@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-20 px-4 sm:px-8 lg:px-16 py-12 bg-gray-100 text-center">
+  <section class="mt-20 px-4 sm:px-8 lg:px-16 py-12  text-center">
     <h1 class="text-4xl font-extrabold text-gray-800 mb-8">
       Planes de <span class="text-green-500">LongLife</span>
     </h1>

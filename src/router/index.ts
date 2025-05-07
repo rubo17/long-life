@@ -25,6 +25,7 @@ import Pago from '../views/Pago.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Perfil from '../views/perfil.vue'
 import Planes from '../views/Planes.vue'
+import PlanesActivos from '../views/PlanesActivos.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
@@ -45,16 +46,16 @@ const routes = [
       { path: '/longlife', name: 'longlife', component: QueEsLongLife },
       { path: '/planes', name: 'planes', component: Planes },
       { path: '/tienda', name: 'tienda', component: Tienda },
-      { path: '/carrito', name: 'carrito', component: Carrito, meta: {requiresAuth: true} },
+      { path: '/carrito', name: 'carrito', component: Carrito, meta: { requiresAuth: true } },
       { path: '/tienda/product/:id', name: 'productDetail', component: ProductDetail },
       { path: '/suscripciones', name: 'vistaSuscripciones', component: VistaSuscripciones },
       { path: '/detalles-plan-nutricion', name: 'detallesPlanNutricion', component: DetallesPlanNutricion },
       { path: '/detalles-plan-entrenamiento', name: 'detallesPlanEntrenamiento', component: DetallesPlanEntrenamiento },
       { path: '/login', name: 'login', component: Login },
       { path: '/register', name: 'register', component: Register },
-      { path: '/perfil', name: 'perfil', component: Perfil, meta: {requiresAuth: true} },
-      { path: '/pedidos', name: 'pedidos', component: Pedidos, meta: {requiresAuth: true} },
-      { path: '/contenidosPremium', name: 'contenidosPremium', component: ContenidosPremium, meta: { requiresAuth: true, requiresPremium: true }},
+      { path: '/perfil', name: 'perfil', component: Perfil, meta: { requiresAuth: true } },
+      { path: '/pedidos', name: 'pedidos', component: Pedidos, meta: { requiresAuth: true } },
+      { path: '/contenidosPremium', name: 'contenidosPremium', component: ContenidosPremium, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
       { path: '/CheckoutSuscripcion', name: 'CheckoutSuscripcion', component: CheckoutSuscripcion },
@@ -62,13 +63,15 @@ const routes = [
       { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/blog', name: 'blog', component: Blog },
       { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan },
+      { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
+
     ]
   },
   {
-    path:'/finalizarCompra',
-    component:FinalizarCompra,
+    path: '/finalizarCompra',
+    component: FinalizarCompra,
     children: [
-      { path: '', redirect: { name: 'direccion' } }, 
+      { path: '', redirect: { name: 'direccion' } },
       { path: 'direccion', name: 'direccion', component: Direccion },
       { path: 'pago', name: 'pago', component: Pago },
       { path: 'succes', name: 'succes', component: Succes },
@@ -82,19 +85,17 @@ const routes = [
     meta: { requiresAuth: true, requiresAdmin: true }, // <-- Aquí
     children: [
       { path: '', name: 'admin-dashboard', component: Dashboard },
-      { path: 'users', name: 'admin-users', component: Users },  
-      { path: 'products', name: 'admin-products', component: Products },  
-      { path: 'ventas', name: 'admin-ventas', component: Ventas },  
-      { path: 'suscripciones', name: 'admin-suscripciones', component: SuscripcionesUsuario },  
-      { path: 'contenidosPremium', name: 'admin-contenidosPremium', component: ContenidosPremiumAdmin },  
+      { path: 'users', name: 'admin-users', component: Users },
+      { path: 'products', name: 'admin-products', component: Products },
+      { path: 'ventas', name: 'admin-ventas', component: Ventas },
+      { path: 'suscripciones', name: 'admin-suscripciones', component: SuscripcionesUsuario },
+      { path: 'contenidosPremium', name: 'admin-contenidosPremium', component: ContenidosPremiumAdmin },
     ]
   }
 ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-})
+
+const router = createRouter({ history: createWebHistory(), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
 
 // 🚀 Protección de rutas para admin
 router.beforeEach((to, from, next) => {

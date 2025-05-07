@@ -1,7 +1,6 @@
 // src/composables/api/admin/useSuscripciones.ts
-
-import axios from 'axios'
 import { ref } from 'vue'
+import api from '../../../api/axios'
 
 export function useSuscripciones() {
   const suscripciones = ref<any[]>([])
@@ -20,7 +19,7 @@ export function useSuscripciones() {
   const fetchSuscripciones = async () => {
     loading.value = true
     try {
-      const response = await axios.get('http://localhost/longLifeBack/public/usuariosSuscripciones', {
+      const response = await api.get('/usuariosSuscripciones', {
         params: {
           page: currentPage.value,
           perPage: perPage.value

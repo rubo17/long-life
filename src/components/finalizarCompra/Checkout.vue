@@ -20,9 +20,9 @@
   
   <script lang="ts" setup>
   import { loadStripe } from '@stripe/stripe-js'
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import api from '../../api/axios'
 import { useCart } from '../../composables/api/carrito/UseCart'
   
   let stripe: any = null
@@ -71,7 +71,7 @@ import { useCart } from '../../composables/api/carrito/UseCart'
       error.value = result.error.message
     } else if (result.paymentIntent.status === 'succeeded') {
       try {
-        await axios.post('http://localhost/longLifeBack/public/finalizarCompra/payment', {
+        await api.post('/finalizarCompra/payment', {
           paymentIntentId: result.paymentIntent.id
         })
 

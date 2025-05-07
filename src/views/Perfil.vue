@@ -26,37 +26,36 @@
       <!-- Estudio Corporal -->
        
 <!-- Estudio Corporal (solo si es Premium) -->
-<div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4">
-  <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📊 Estudio Corporal</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
-      <div
-        @click="showMedicionModal = true"
-        class="cursor-pointer"
-      > 
-       <p class="font-medium text-gray-700">Nueva Medición</p>
-        <p class="text-sm text-gray-500">Registra tus medidas actuales</p>
+  <div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4">
+    <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📊 Estudio Corporal</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+        <div
+          @click="showMedicionModal = true"
+          class="cursor-pointer"
+        > 
+        <p class="font-medium text-gray-700">Nueva Medición</p>
+          <p class="text-sm text-gray-500">Registra tus medidas actuales</p>
+        </div>
+        <MeditionIcon class="w-6 h-6 text-green-500" />
       </div>
-      <MeditionIcon class="w-6 h-6 text-green-500" />
-    </div>
-    <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
-      <RouterLink 
-        to="/misMediciones"
-      >
-        <p class="font-medium text-gray-700">Mis Resultados</p>
-        <p class="text-sm text-gray-500">Consulta tu historial corporal</p>
-      </RouterLink>
-      <Statistics class="w-6 h-6 text-blue-600" />
+      <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+        <RouterLink 
+          to="/misMediciones"
+        >
+          <p class="font-medium text-gray-700">Mis Resultados</p>
+          <p class="text-sm text-gray-500">Consulta tu historial corporal</p>
+        </RouterLink>
+        <Statistics class="w-6 h-6 text-blue-600" />
+      </div>
     </div>
   </div>
-</div>
 
 <!-- Opcional: Mostrar mensaje para no premium -->
-<div v-else class="p-6 bg-white shadow-lg rounded-xl space-y-4">
-  <h2 class="text-xl font-semibold text-gray-500 border-b-2 border-gray-400 pb-2">🔒 Estudio Corporal Premium</h2>
-  <p class="text-gray-400 text-sm">Este módulo es exclusivo para usuarios Premium. Suscríbete para registrar y consultar tus mediciones corporales.</p>
-</div>
-
+  <div v-else class="p-6 bg-white shadow-lg rounded-xl space-y-4">
+    <h2 class="text-xl font-semibold text-gray-500 border-b-2 border-gray-400 pb-2">🔒 Estudio Corporal Premium</h2>
+    <p class="text-gray-400 text-sm">Este módulo es exclusivo para usuarios Premium. Suscríbete para registrar y consultar tus mediciones corporales.</p>
+  </div>
 
       <RouterLink to ="/contenidosPremium" v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block">
         <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📚 Tu Contenido</h2>
@@ -77,15 +76,26 @@
             <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">⚙️ Editar Perfil</h2>
             <p class="text-gray-500 text-sm mt-2">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
           </div>
-        </div>
-        <div
+      </div>
+      <div
         class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
       >
           <div>
             <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2"> ⭐ Tu suscripcion</h2>
             <p class="text-gray-500 text-sm mt-2">Activa hasta ...</p>
           </div>
+      </div>
+
+      <router-link
+        to="/mis-planes"
+        class="block p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
+      >
+        <div>
+          <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📋 Mis Planes Activos</h2>
+          <p class="text-gray-500 text-sm mt-2">Consulta toda la información sobre tus planes activos</p>
         </div>
+      </router-link>
+
     </div>
     
     <Modal :open="showModal" @close="showModal = false">

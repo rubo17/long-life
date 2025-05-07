@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { ref } from 'vue'
+import api from '../../../api/axios'
 
 export function useEmpleados() {
   const empleados = ref<any[]>([])
@@ -8,7 +8,7 @@ export function useEmpleados() {
   const fetchEmpleados = async () => {
     loading.value = true
     try {
-      const response = await axios.get('http://localhost/longLifeBack/public/empleados')
+      const response = await api.get('/empleados')
       empleados.value = response.data
     } catch (err) {
       console.error('Error al obtener empleados:', err)

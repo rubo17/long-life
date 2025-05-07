@@ -1,26 +1,25 @@
 import { ref, watch } from 'vue';
+import api from '../../../api/axios';
 import { Product } from '../../../types/Product';
 
 const cart = ref<Product[]>([]);
-const error = ref ('')
-// Cargar del localStorage solo una vez al iniciar
+const error = ref('');
 
+// Cargar del localStorage solo una vez al iniciar
 const loadCart = async () => {
   const token = localStorage.getItem('token');
 
   if (token) {
     try {
-      const res = await fetch('http://localhost/longLifeBack/public/carrito', {
+      const res = await api.get('/carrito', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
-      if (res.ok) {
-        const serverCart = await res.json();
-        cart.value = serverCart.productos || [];
-        localStorage.setItem('productsInCart', JSON.stringify(serverCart.productos || []));
-        return;
-      }
+      const serverCart = res.data;
+      cart.value = serverCart.productos || [];
+      localStorage.setItem('productsInCart', JSON.stringify(serverCart.productos || []));
+      return;
     } catch (e) {
       console.error("Error al obtener el carrito del backend:", e);
     }
@@ -38,32 +37,25 @@ const loadCart = async () => {
   }
 };
 
-
 // Guardar cada vez que el carrito cambie
 watch(cart, (newVal) => {
   localStorage.setItem('productsInCart', JSON.stringify(newVal));
 }, { deep: true });
 
 const removeFromCart = async (id_producto: string) => {
-  error.value=''
+  error.value = '';
   const token = localStorage.getItem('token');
   if (!token) return;
 
   try {
-    const res = await fetch(`http://localhost/longLifeBack/public/carrito/${id_producto}`, {
-      method: 'DELETE',
+    await api.delete(`/carrito/${id_producto}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     });
-
-    if (res.ok) {
-      cart.value = cart.value.filter(p => p.id_producto !== id_producto);
-    } else {
-      console.error('Error al eliminar del carrito:', await res.json());
-    }
+    cart.value = cart.value.filter(p => p.id_producto !== id_producto);
   } catch (e) {
-    console.error('Error de conexión al eliminar del carrito:', e);
+    console.error('Error al eliminar del carrito:', e);
   }
 };
 
@@ -72,50 +64,34 @@ const addToCart = async (product: Product) => {
   if (!token) return;
 
   try {
-    const res = await fetch('http://localhost/longLifeBack/public/carrito/add', {
-      method: 'POST',
+    await api.post('/carrito/add', {
+      id_producto: product.id_producto,
+      cantidad: product.cantidad || 1
+    }, {
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id_producto: product.id_producto,
-        cantidad: product.cantidad || 1
-      }),
+        Authorization: `Bearer ${token}`
+      }
     });
-
-    if (res.ok) {
-      await loadCart(); // <-- recarga el carrito bien desde el backend
-    } else {
-      console.error(await res.json());
-    }
+    await loadCart();
   } catch (e) {
     console.error(e);
   }
 };
 
-
-  
-
 const clearCart = async () => {
   const token = localStorage.getItem('token');
   if (token) {
     try {
-      const res = await fetch('http://localhost/longLifeBack/public/carrito/clear', {
-        method: 'DELETE',
+      await api.delete('/carrito/clear', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
-      if (res.ok) {
-        cart.value =  [];
-        return;
-      }
+      cart.value = [];
     } catch (e) {
       console.error("Error al limpiar carrito:", e);
     }
   }
-
 };
 
 const getTotal = () => {
@@ -125,31 +101,23 @@ const getTotal = () => {
 const getItemCount = () => {
   return cart.value.reduce((count, item) => count + item.cantidad, 0);
 };
+
 const updateCantidad = async (id_producto: string, cantidad: number) => {
-  error.value=''
+  error.value = '';
   const token = localStorage.getItem('token');
   if (!token) return;
 
   try {
-    const res = await fetch(`http://localhost/longLifeBack/public/carrito/${id_producto}`, {
-      method: 'PUT',
+    const res = await api.put(`/carrito/${id_producto}`, { cantidad }, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ cantidad })
+        Authorization: `Bearer ${token}`
+      }
     });
-
-    if (res.ok) {
-      const item = cart.value.find(p => p.id_producto === id_producto);
-      if (item) item.cantidad = cantidad;
-    } else {
-      const err = await res.json();
-      error.value = err.messages?.error || 'Error al actualizar cantidad';
-      console.error('Error al actualizar cantidad:', error.value);      console.error('Error al actualizar cantidad:', error);
-    }
-  } catch (e) {
-    console.error('Error en la petición al backend:', e);
+    const item = cart.value.find(p => p.id_producto === id_producto);
+    if (item) item.cantidad = cantidad;
+  } catch (e: any) {
+    error.value = e.response?.data?.messages?.error || 'Error al actualizar cantidad';
+    console.error('Error al actualizar cantidad:', error.value);
   }
 };
 
@@ -161,7 +129,7 @@ export function useCart() {
     getTotal,
     getItemCount,
     removeFromCart,
-    loadCart, 
+    loadCart,
     updateCantidad,
     error
   };

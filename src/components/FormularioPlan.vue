@@ -27,7 +27,7 @@
         <textarea v-model="form.experiencia" placeholder="Experiencia previa" class="w-full p-2 border rounded"></textarea>
         <textarea v-model="form.observaciones" placeholder="Observaciones adicionales" class="w-full p-2 border rounded"></textarea>
   
-        <button class="w-full py-3 bg-green-600 text-white font-bold rounded hover:bg-green-700">
+        <button class="w-full py-3 bg-green-600 text-white font-bold rounded hover:bg-green-700 cursor-pointer">
           Ir al pago →
         </button>
       </form>
@@ -40,7 +40,7 @@
           <h3 class="text-xl font-semibold text-center text-blue-600">Introduce tus datos de pago</h3>
         <form @submit.prevent="confirmarPago" class="space-y-4">
           <div id="card-element" class="p-4 border rounded"></div>
-          <button class="w-full py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700">
+          <button class="w-full py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 cursor-pointer">
             Confirmar y pagar
           </button>
         </form>
@@ -49,15 +49,20 @@
   </template>
   
   <script setup>
-  import { loadStripe } from '@stripe/stripe-js'
-import axios from 'axios'
+  import { notify } from '@kyvg/vue3-notification'
+import { loadStripe } from '@stripe/stripe-js'
 import { ref } from 'vue'
-  
+import { useRouter } from 'vue-router'
+import api from '../api/axios'
+
   let stripe
   let elements
   let card
   
-  const userId = 1 // tu sistema de login
+  const user = JSON.parse(localStorage.getItem("user"))
+  const userId = user.id_usuario ?  user.id_usuario : 1
+  const router = useRouter()
+
   const clientSecret = ref(null)
   const total = ref(0)
 
@@ -75,7 +80,7 @@ import { ref } from 'vue'
   
   const enviarFormulario = async () => {
     try {
-      const res = await axios.post('http://localhost/longLifeBack/public/planes/procesar', {
+      const res = await api.post('/planes/procesar', {
         ...form.value,
         id_usuario: userId
       })
@@ -87,7 +92,7 @@ import { ref } from 'vue'
       card = elements.create('card')
       card.mount('#card-element')
     } catch (err) {
-      alert('Error al enviar formulario')
+      notify({ type: 'error', title: 'Error al enviar el formulario' });
       console.error(err)
     }
   }
@@ -102,15 +107,19 @@ import { ref } from 'vue'
       alert('Pago fallido: ' + error.message)
     } else if (paymentIntent.status === 'succeeded') {
         try {
-    await axios.post('http://localhost/longLifeBack/public/planes/confirmar-pago', {
+    await api.post('/planes/confirmar-pago', {
       paymentIntentId: paymentIntent.id
     })
+    notify({ type: 'success', title: '¡Pago realizado y plan activado correctamente!' });
 
-    alert('¡Pago realizado y plan activado correctamente!')
-    // Redirige o muestra mensaje de éxito final
+    setTimeout(() => {
+      router.push('/perfil') 
+    }, 2000) 
+
   } catch (e) {
     console.error('Error al activar el plan:', e)
-    alert('El pago fue correcto, pero hubo un error al registrar el plan.')
+    notify({ type: 'error', title: 'El pago fue correcto, pero hubo un error al registrar el plan.' });
+
   }
 
     }

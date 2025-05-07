@@ -28,9 +28,9 @@
   
   <script setup>
   import { loadStripe } from '@stripe/stripe-js'
-import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import api from '../api/axios'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
   
   const stripePromise = loadStripe('pk_test_51REpfRFMywclhIX2fvMzezEH6oljCi0O3JNQ8zUNIK6KZn2UqKpVcD1FY3P7gJlJqC3TzlDIhFEuZZBrq29FsjNE00gN5Jwr06')
@@ -78,7 +78,7 @@ import { useAuthLogin } from '../composables/api/login/UseUserLogin'
       cardElement.mount('#card-element')
   
       // Crear suscripción nada más cargar
-      const response = await axios.post('http://localhost/longLifeBack/public/createSubscription', {
+      const response = await api.post('/createSubscription', {
         id_usuario: userId,
         customer_id: customerId,
         price_id: priceId,
@@ -133,7 +133,7 @@ import { useAuthLogin } from '../composables/api/login/UseUserLogin'
       console.log('✅ Pago confirmado.')
 
       // 🚀 Actualizar el estado en la base de datos
-      await axios.post('http://localhost/longLifeBack/public/updateSubscriptionStatus', {
+      await api.post('/updateSubscriptionStatus', {
         subscription_id: subscriptionId.value
       }, {
         headers: {
@@ -143,7 +143,7 @@ import { useAuthLogin } from '../composables/api/login/UseUserLogin'
 
       console.log('✅ Estado actualizado en base de datos.')
 
-      const refresh = await axios.post('http://localhost/longLifeBack/public/auth/refreshToken', {}, {
+      const refresh = await api.post('/auth/refreshToken', {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

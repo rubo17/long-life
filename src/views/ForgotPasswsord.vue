@@ -37,14 +37,14 @@
 
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { ref } from 'vue'
+import api from '../api/axios'
 
 const email = ref('')
 
 const submit = async () => {
   try {
-    const response = await axios.post('http://localhost/longLifeBack/public/forgotPassword', {
+    const response = await api.post('/forgotPassword', {
       email: email.value
     })
     notify({

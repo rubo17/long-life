@@ -1,6 +1,6 @@
 // src/composables/api/productos/UseProducts.ts
-import axios from 'axios';
 import { ref } from 'vue';
+import api from '../../../api/axios';
 
 export function useProducts() {
   const products = ref([]);
@@ -31,7 +31,7 @@ export function useProducts() {
   const fetchProducts = async () => {
     loading.value = true;
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/products', {
+      const res = await api.get('/products', {
         params: {
           page: currentPage.value,
           perPage: perPage.value

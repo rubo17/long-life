@@ -1,7 +1,6 @@
 // src/composables/api/users/useUsers.ts
-import axios from 'axios';
 import { ref } from 'vue';
-
+import api from '../../../api/axios';
 export function useUsers() {
   const users = ref([]);
   const loading = ref(false);
@@ -25,7 +24,7 @@ export function useUsers() {
   const fetchUsers = async () => {
     loading.value = true;
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/users', {
+      const res = await api.get('/users', {
         params: {
           page: currentPage.value,
           perPage: perPage.value
@@ -44,7 +43,7 @@ export function useUsers() {
 
   const crearUsuario = async () => {
     try {
-      await axios.post('http://localhost/longLifeBack/public/users', nuevo.value);
+      await api.post('/users', nuevo.value);
       await fetchUsers();
       nuevo.value.nombre=''
       nuevo.value.email=''
@@ -58,7 +57,7 @@ export function useUsers() {
 
   const eliminarUsuario = async (id: number) => {
     try {
-      await axios.delete(`http://localhost/longLifeBack/public/users/${id}`);
+      await api.delete(`/users/${id}`);
       await fetchUsers();
     } catch (err) {
       console.error('Error al eliminar usuario:', err);
@@ -101,7 +100,7 @@ export function useUsers() {
   // puedes añadir `editarUsuario`, `resetNuevo`, etc.
   const editarUsuario = async (id:number)=> {
     try {
-        await axios.put(`http://localhost/longLifeBack/public/users/${id}`, nuevo.value);
+        await api.put(`/users/${id}`, nuevo.value);
         await fetchUsers();
       } catch (err) {
         console.error('Error al editar el usuario:', err);

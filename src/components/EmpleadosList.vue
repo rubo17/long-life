@@ -26,8 +26,8 @@
   </template>
   
   <script setup>
-  import axios from 'axios'
-import { onMounted, ref, watch } from 'vue'
+  import { onMounted, ref, watch } from 'vue'
+import api from '../api/axios'
   
   const props = defineProps({
     tipoEmpleado: {
@@ -44,7 +44,7 @@ import { onMounted, ref, watch } from 'vue'
   
   const cargarEmpleados = async () => {
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/empleados')
+      const res = await api.get('/empleados')
       console.log(props.tipoEmpleado)
       empleados.value = res.data.data.filter(emp => emp.tipo === props.tipoEmpleado)
     } catch (error) {

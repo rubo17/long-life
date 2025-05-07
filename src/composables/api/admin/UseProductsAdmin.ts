@@ -1,7 +1,7 @@
 // src/composables/api/productos/UseProducts.ts
 import { notify } from '@kyvg/vue3-notification';
-import axios from 'axios';
 import { ref } from 'vue';
+import api from '../../../api/axios';
 
 export function useProductsAdmin() {
   const products = ref([]);
@@ -32,7 +32,7 @@ export function useProductsAdmin() {
   const fetchProducts = async () => {
     loading.value = true;
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/products', {
+      const res = await api.get('/products', {
         params: {
           page: currentPage.value,
           perPage: perPage.value
@@ -74,7 +74,7 @@ export function useProductsAdmin() {
     }
 
     try {
-      await axios.post('http://localhost/longLifeBack/public/products', formData, {
+      await api.post('/products', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -89,7 +89,7 @@ export function useProductsAdmin() {
 
   const deleteProduct = async (id:number)=> {
     try {
-      await axios.delete(`http://localhost/longLifeBack/public/products/${id}`);
+      await api.delete(`/products/${id}`);
       notify({ type: 'success', title: 'Producto eliminado correctamente' });
       await fetchProducts();
     } catch (err) {
@@ -101,7 +101,7 @@ export function useProductsAdmin() {
     const formData = createFormData();
   
     try {
-      await axios.post(`http://localhost/longLifeBack/public/updateProduct/${id}`, formData, {
+      await api.post(`/updateProduct/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       notify({ type: 'success', title: 'Producto editado correctamente' });

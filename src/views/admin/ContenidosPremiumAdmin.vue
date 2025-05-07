@@ -103,7 +103,7 @@ const {
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const contenidoEditandoId = ref<number | null>(null)
-const BASE_URL = 'http://localhost/longLifeBack/public/' // Ajusta según tu entorno
+const BASE_URL = 'http://localhost/longLifeBack/public/'
 
 onMounted(fetchContenidos)
 const handleSubmit = async () => {

@@ -7,7 +7,7 @@ const route = useRoute();
 <template>
   <!-- Solo muestra Header si NO estamos en /login -->
 
-  <div class=" min-h-screen leading-relaxed">
+  <div class="min-h-screen leading-relaxed">
     <RouterView />
   </div>
 

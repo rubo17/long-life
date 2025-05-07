@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import api from '../api/axios'
 import { Estudio } from '../types/Estudio'
 
 export function useResultadosEstudio() {
@@ -8,7 +8,7 @@ export function useResultadosEstudio() {
   const cargarEstudios = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await axios.get('http://localhost/longLifeBack/public/misMediciones', {
+      const response = await api.get('/misMediciones', {
         headers: {
           Authorization: `Bearer ${token}`
         }

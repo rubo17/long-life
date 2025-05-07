@@ -15,13 +15,20 @@
       <!-- Sección de texto -->
       <div class="space-y-4 text-gray-700 text-lg">
         <p>Personalizamos tu plan en función del objetivo que quieres conseguir.</p>
-        <p>Elige entre el <b>Plan BÁSICO</b> (seguimiento con formulario) o el <b>Plan PREMIUM</b> (te acompañamos cada mes con una videollamada).</p>
         <p>Menús cerrados, cantidades exactas, lista de la compra... Todo lo que necesitas para alcanzar tu objetivo físico de manera saludable.</p>
         <p>Con nuestras pautas personalizadas, ya no tendrás que preocuparte por qué comer cada día.</p>
         <p>Además, aprenderás cómo adaptar tus comidas en vacaciones, salidas con amigos o eventos especiales.</p>
-        <a class="block bg-green-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition" href="#">
-          Adquirir Plan por 150 € →
-        </a>
+        <router-link
+          v-if="!tienePlanActivo"
+          class="block bg-green-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition cursor-pointer"
+          to="/conseguirPlan"
+        >
+        Adquirir Plan por 50 € →
+      </router-link>
+
+    <p v-else class="block bg-gray-500 text-white text-center py-4 rounded-lg text-lg font-semibold cursor-not-allowed">
+      Ya tienes este plan activo 😊
+    </p>
       </div>
 
       <!-- Imagen -->
@@ -70,5 +77,25 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import EmpleadoList from '../components/EmpleadosList.vue';
+import { usePlanes } from '../composables/api/UsePlanes';
+
+const storedUser = localStorage.getItem('user')
+const user = storedUser ? JSON.parse(storedUser) : null
+const userId: number | null = user?.id_usuario ?? null
+
+const idPlan: number = 1 
+
+const { tienePlanActivo, verificarPlanActivo } = usePlanes()
+
+onMounted(async () => {
+  if (userId) {
+    await verificarPlanActivo(userId, idPlan)
+    console.log("plan (tras verificar):", tienePlanActivo.value)
+  } else {
+    console.log("No hay userId")
+  }
+})
+
 </script>

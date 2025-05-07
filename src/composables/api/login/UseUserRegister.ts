@@ -1,7 +1,7 @@
 // src/composables/api/auth/useRegister.ts
-import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '../../../api/axios';
 import { useAuthLogin } from './UseUserLogin';
 
 export function useRegister() {
@@ -48,7 +48,7 @@ export function useRegister() {
     }
 
     try {
-      const res = await axios.post('http://localhost/longLifeBack/public/auth/register', {
+      const res = await api.post('/auth/register', {
         nombre: nombre.value,
         email: email.value,
         password: password.value,

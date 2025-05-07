@@ -1,8 +1,8 @@
 // src/composables/api/admin/useVentas.ts
 
 import { notify } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { ref } from 'vue'
+import api from '../../../api/axios'
 
 export function useVentas() {
   const ventas = ref<any[]>([])
@@ -22,7 +22,7 @@ export function useVentas() {
   const fetchVentas = async () => {
     loading.value = true
     try {
-      const response = await axios.get('http://localhost/longLifeBack/public/ventas', {
+      const response = await api.get('/ventas', {
         params: {
           page: currentPage.value,
           perPage: perPage.value
@@ -39,7 +39,7 @@ export function useVentas() {
   }
   const getDetallesVenta = async (idVenta: number) => {
     try {
-      const response = await axios.get(`http://localhost/longLifeBack/public/detallesVenta/${idVenta}`)
+      const response = await api.get(`/detallesVenta/${idVenta}`)
       return response.data
     } catch (error) {
       console.error('Error al obtener detalles de venta:', error)
@@ -48,7 +48,7 @@ export function useVentas() {
   }
   const actualizarEstado = async (venta: any) => {
     try {
-      await axios.put(`http://localhost/longLifeBack/public/admin/ventas/${venta.id}/estado`, {
+      await api.put(`/admin/ventas/${venta.id}/estado`, {
         estado: venta.estado
       })
       notify({ type: 'success', title: 'Estado actualizado correctamente' })

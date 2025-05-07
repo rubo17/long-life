@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { ref } from 'vue';
+import api from '../../../api/axios';
 
 import { Product } from '../../../types/Product';
 
@@ -10,7 +10,7 @@ export function useProductById(id: string) {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get<Product[]>(`http://localhost/longLifeBack/public/products/${id}`);
+      const res = await api.get<Product[]>(`/products/${id}`);
       product.value = res.data[0];
     } catch (err) {
       console.error(err);

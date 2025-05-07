@@ -92,10 +92,10 @@
   
 
   <script setup lang="ts">
-  import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import api from '../api/axios'
 import Paginator from '../components/Paginator.vue'
   
   const pedidos = ref<any[]>([])
@@ -117,7 +117,7 @@ import Paginator from '../components/Paginator.vue'
   const fetchPedidos = async (page = 1) => {
     loading.value = true
     try {
-      const response = await axios.get(`http://localhost/longLifeBack/public/pedidos/${userId}?page=${page}&perPage=5`)
+      const response = await api.get(`/pedidos/${userId}?page=${page}&perPage=5`)
       pedidos.value = response.data.data
       pagination.value.totalPages = response.data.pagination.totalPages
       pagination.value.total = response.data.pagination.total

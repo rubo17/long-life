@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import api from '../../../api/axios'
 import { Product } from '../../../types/Product'
 
 export function useProductsByCategory(id: string) {
@@ -19,7 +19,7 @@ export function useProductsByCategory(id: string) {
   const fetchProducts = async () => {
     loading.value = true
     try {
-      const res = await axios.get(`http://localhost/longLifeBack/public/productsByCategory/${id}`, {
+      const res = await api.get(`/productsByCategory/${id}`, {
         params: {
           page: currentPage.value,
           perPage: perPage.value

@@ -51,9 +51,9 @@
   </template>
   <script setup lang="ts">
   import { notify } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import api from '../api/axios'
   
   const route = useRoute()
   const router = useRouter()
@@ -68,7 +68,7 @@ import { useRoute, useRouter } from 'vue-router'
     }
     try {
       const token = route.params.token
-      await axios.post(`http://localhost/longLifeBack/public/resetPassword/${token}`, {
+      await api.post(`/resetPassword/${token}`, {
         password: password.value
       })
       notify({ type: 'success', title: 'Contraseña actualizada' })

@@ -53,10 +53,10 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '../../api/axios';
 
 const props = defineProps<{
   metodoEntrega: 'domicilio' | 'tienda'
@@ -106,7 +106,7 @@ const enviarFormulario = async () => {
   console.log('Dirección enviada:', direccion.value)
 
   try {
-    const response = await axios.post('http://localhost/longLifeBack/public/finalizarCompra/payment-intent', {
+    const response = await api.post('/finalizarCompra/payment-intent', {
       items: carrito.value,
       customer: {
         nombre: direccion.value.nombre,
@@ -126,8 +126,6 @@ const enviarFormulario = async () => {
     const clientSecret = response.data.clientSecret
     console.log('clientSecret:', clientSecret)
     router.push("/finalizarCompra/pago")
-    // Aquí puedes redirigir a una vista con Stripe Elements o cargarlo directamente
-    // Por ejemplo: guardar en localStorage y navegar a la página de pago
     localStorage.setItem('clientSecret', clientSecret)
 
   } catch (error) {

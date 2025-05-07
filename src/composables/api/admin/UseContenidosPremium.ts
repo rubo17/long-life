@@ -1,7 +1,7 @@
 // src/composables/api/admin/UseContenidosPremium.ts
 import { notify } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { ref } from 'vue'
+import api from '../../../api/axios'
 
 export function useContenidosPremium() {
   const contenidos = ref([])
@@ -27,7 +27,7 @@ export function useContenidosPremium() {
   const fetchContenidos = async () => {
     loading.value = true
     try {
-      const res = await axios.get('http://localhost/longLifeBack/public/contenido-premium', {
+      const res = await api.get('/contenido-premium', {
         params: {
           page: currentPage.value,
           perPage: perPage.value
@@ -59,7 +59,7 @@ export function useContenidosPremium() {
   const crearContenido = async () => {
     try {
       const formData = createFormData()
-      await axios.post('http://localhost/longLifeBack/public/contenido-premium', formData, {
+      await api.post('/contenido-premium', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       notify({ type: 'success', title: 'Contenido creado correctamente' })
@@ -74,7 +74,7 @@ export function useContenidosPremium() {
   const editarContenido = async (id: number) => {
     try {
       const formData = createFormData()
-      await axios.post(`http://localhost/longLifeBack/public/updateContenidoPremium/${id}`, formData, {
+      await api.post(`/updateContenidoPremium/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       notify({ type: 'success', title: 'Contenido editado correctamente' })
@@ -87,7 +87,7 @@ export function useContenidosPremium() {
 
   const eliminarContenido = async (id: number) => {
     try {
-      await axios.delete(`http://localhost/longLifeBack/public/contenido-premium/${id}`)
+      await api.delete(`/contenido-premium/${id}`)
       notify({ type: 'success', title: 'Contenido eliminado correctamente' })
       await fetchContenidos()
     } catch (err) {

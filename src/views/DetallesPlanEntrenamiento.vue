@@ -14,13 +14,20 @@
         <!-- Sección de texto -->
         <div class="space-y-4 text-gray-700 text-lg">
           <p>Creamos un plan de entrenamiento ajustado a tu nivel, experiencia y objetivos.</p>
-          <p>Puedes elegir el <b>Plan BÁSICO</b> (rutina por correo) o el <b>Plan PREMIUM</b> (entrenamiento guiado con seguimiento por videollamada).</p>
           <p>Rutinas progresivas, ejercicios explicados, calendario de entrenamientos... Todo adaptado a ti.</p>
           <p>Con nuestras indicaciones, sabrás exactamente qué hacer en cada sesión para lograr resultados reales.</p>
           <p>También te ayudamos a mantener la motivación y adaptar los entrenamientos a tu estilo de vida.</p>
-          <a class="block bg-red-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-red-600 transition" href="#">
-            Empezar Entrenamiento →
-          </a>
+          <router-link
+          v-if="!tienePlanActivo"
+          class="block bg-red-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-red-600 transition cursor-pointer"
+          to="/conseguirPlan"
+        >
+        Adquirir Plan por 50 € →
+      </router-link>
+
+    <p v-else class="block bg-gray-500 text-white text-center py-4 rounded-lg text-lg font-semibold cursor-not-allowed">
+      Ya tienes este plan activo 😊
+    </p>        
         </div>
   
         <!-- Imagen -->
@@ -31,46 +38,75 @@
   
       <!-- Pasos para arrancar -->
       <div class="text-center space-y-6 mb-10">
-        <h2 class="text-2xl text-blue-500 font-bold flex items-center justify-center gap-3">
-          Empieza tu transformación en 4 pasos 
-        </h2>
-        
-        <div class="w-full mx-auto space-y-5 text-left">
-          <!-- Paso 1 -->
-          <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
-            <span class="text-xl font-bold text-red-600">1.</span>
-            <p class="text-lg">Selecciona el Plan de Entrenamiento ideal para ti: Básico o Premium.</p>
-          </div>
+  <h2 class="text-2xl text-blue-500 font-bold flex items-center justify-center gap-3">
+    Empieza tu transformación en 4 pasos 
+  </h2>
   
-          <!-- Paso 2 -->
-          <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
-            <span class="text-xl font-bold text-red-600">2.</span>
-            <p class="text-lg">Completa el formulario que recibirás tras el pago para conocerte mejor.</p>
-          </div>
-  
-          <!-- Paso 3 -->
-          <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
-            <span class="text-xl font-bold text-red-600">3.</span>
-            <p class="text-lg">Te enviamos tu rutina personalizada directamente a tu correo electrónico.</p>
-          </div>
-  
-          <!-- Paso 4 (Solo Premium) -->
-          <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
-            <span class="text-xl font-bold text-blue-600">4.</span>
-            <p class="text-lg">Tendrás sesiones por videollamada con tu entrenador asignado para seguir tu progreso.</p>
-          </div>
-        </div>
-      </div>
+  <div class="w-full mx-auto space-y-5 text-left">
+    <!-- Paso 1 -->
+    <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
+      <span class="text-xl font-bold text-red-600">1.</span>
+      <p class="text-lg">
+        Haz clic en <strong>"Conseguir este Plan"</strong> para iniciar el proceso y unirte al cambio que estás buscando.
+      </p>
+    </div>
+
+    <!-- Paso 2 -->
+    <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
+      <span class="text-xl font-bold text-red-600">2.</span>
+      <p class="text-lg">
+        Completa el formulario con tus datos y realiza el pago de forma segura en nuestra plataforma.
+      </p>
+    </div>
+
+    <!-- Paso 3 -->
+    <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-red-500 shadow-lg rounded-lg bg-gray-50">
+      <span class="text-xl font-bold text-red-600">3.</span>
+      <p class="text-lg">
+        Recibe tu plan personalizado directamente en tu correo, adaptado a tus objetivos y necesidades.
+      </p>
+    </div>
+
+    <!-- Paso 4 (Solo Premium) -->
+    <div class="flex items-center gap-4 h-40 p-10 border-l-4 border-blue-500 shadow-lg rounded-lg bg-gray-50">
+      <span class="text-xl font-bold text-blue-600">4.</span>
+      <p class="text-lg">
+       Podrás acceder a sesiones personalizadas por videollamada con tu entrenador para hacer seguimiento de tu progreso.
+      </p>
+    </div>
+  </div>
+</div>
+
   
       <!-- Mostrar entrenadores -->
           <div>
-            <EmpleadosList tipoEmpleado="entrenador" titulo="entrenadores" />
+            <EmpleadoList tipoEmpleado="entrenador" titulo="entrenadores" />
          </div>
 
     </div>
   </template>
   
-  <script setup>
-    import EmpleadosList from '../components/EmpleadosList.vue';
-  </script>
+  <script setup lang="ts">
+  import EmpleadoList from '../components/EmpleadosList.vue';
+
+  import { onMounted } from 'vue';
+import { usePlanes } from '../composables/api/UsePlanes';
   
+  const storedUser = localStorage.getItem('user')
+  const user = storedUser ? JSON.parse(storedUser) : null
+  const userId: number | null = user?.id_usuario ?? null
+  
+  const idPlan: number = 2
+  
+  const { tienePlanActivo, verificarPlanActivo } = usePlanes()
+  
+  onMounted(async () => {
+    if (userId) {
+      await verificarPlanActivo(userId, idPlan)
+      console.log("plan (tras verificar):", tienePlanActivo.value)
+    } else {
+      console.log("No hay userId")
+    }
+  })
+  
+  </script>
