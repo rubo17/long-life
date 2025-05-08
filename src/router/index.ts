@@ -12,6 +12,7 @@ import Ventas from '../views/admin/Ventas.vue'
 import Blog from '../views/Blog.vue'
 import Carrito from '../views/Carrito.vue'
 import CheckoutSuscripcion from '../views/CheckoutSuscripcion.vue'
+import ClientesEmpleado from '../views/clientesEmpleado.vue'
 import ConseguirPlan from '../views/ConseguirPlan.vue'
 import Contacto from '../views/Contacto.vue'
 import ContenidosPremium from '../views/ContenidosPremium.vue'
@@ -64,6 +65,7 @@ const routes = [
       { path: '/blog', name: 'blog', component: Blog },
       { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan },
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
+      { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
 
     ]
   },

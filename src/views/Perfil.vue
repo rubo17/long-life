@@ -6,10 +6,10 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Mis Actividades -->
-      <div class="p-6 bg-white shadow-lg rounded-xl space-y-4">
-        <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">🧘‍♀️ Mis Actividades</h2>
-        <p class="text-gray-500 text-sm">Consulta y gestiona tus actividades diarias y entrenamientos registrados.</p>
-      </div>
+      <RouterLink to ="/clientesEmpleado" v-if="esEmpleado" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block">
+        <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">🧘‍♀️ Mis clientes</h2>
+        <p class="text-gray-500 text-sm">Gestiona tus clientes.</p>
+      </RouterLink>
 
       <!-- Mis Pedidos -->
       <RouterLink
@@ -139,7 +139,7 @@
         <div class="pt-2 text-center">
           <button
             type="submit"
-            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition cursor-pointer"
           >
             Guardar Cambios
           </button>
@@ -226,8 +226,8 @@
 </template>
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import api from '../api/axios'
 import Modal from '../components/admin/ui/Modal.vue'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
 const showModal = ref(false)
@@ -236,10 +236,19 @@ const form = ref({
   email: '',
   password: ''
 })
-
+const esEmpleado = ref (false)
 // Simulación de datos cargados del usuario
-onMounted(() => {
+onMounted(async () => {
   const usuario = JSON.parse(localStorage.getItem('user') || '{}')
+  const userId = usuario?.id_usuario
+
+  try {
+    const res = await api.get(`/usuarios/${userId}/es-empleado`)
+    esEmpleado.value = res.data.es_empleado
+  } catch (error) {
+    console.error('Error al verificar tipo de usuario:', error)
+  }
+
   form.value.nombre = usuario.nombre || ''
   form.value.email = usuario.email || ''
 })
@@ -262,7 +271,7 @@ const guardarCambios = async () => {
   try {
     const token = localStorage.getItem('token')
 
-    await axios.put(`http://localhost/longLifeBack/public/editPerfil`, form.value, {
+    await api.put(`/editPerfil`, form.value, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -278,7 +287,7 @@ const guardarCambios = async () => {
 const guardarMedicion = async () => {
   try {
     const token = localStorage.getItem('token')
-    await axios.post('http://localhost/longLifeBack/public/nuevaMedicion', nuevaMedicion.value, {
+    await api.post('/nuevaMedicion', nuevaMedicion.value, {
       headers: {
         Authorization: `Bearer ${token}`
       }
