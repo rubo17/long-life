@@ -6,24 +6,34 @@
         <div
           v-for="cliente in clientes"
           :key="cliente.id_usuario"
-          class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition space-y-4"
+          class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition space-y-4 border border-gray-200"
         >
-          <!-- Información del cliente -->
+          <!-- Encabezado del cliente -->
           <div>
-            <h2 class="text-xl font-semibold text-gray-800">{{ cliente.nombre }}</h2>
-            <p class="text-sm text-gray-500">Email: {{ cliente.email }}</p>
-            <p class="text-sm text-gray-500">Objetivo: {{ cliente.objetivo || 'Sin definir' }}</p>
+            <h2 class="text-2xl font-bold text-gray-800">{{ cliente.nombre }}</h2>
+            <p class="text-sm text-gray-500">📧 {{ cliente.gmail }}</p>
+            <p class="text-sm text-gray-500">🎯 Objetivo: {{ cliente.objetivo || 'Sin definir' }}</p>
           </div>
-  
+
+          <!-- Información corporal -->
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600">
+            <div>📅 Edad: {{ cliente.edad || 'No definida' }}</div>
+            <div>⚖️ Peso: {{ cliente.peso || '-' }} kg</div>
+            <div>📏 Altura: {{ cliente.altura || '-' }} cm</div>
+            <div>💪 Experiencia: {{ cliente.experiencia || 'No definida' }}</div>
+            <div>🥗 Preferencias: {{ cliente.preferencias || 'No indicadas' }}</div>
+            <div>📝 Observaciones: {{ cliente.observaciones || 'Ninguna' }}</div>
+          </div>
+
           <!-- Subir plan diseñado -->
           <div>
-            <label class="block font-semibold mb-1">Subir plan diseñado (PDF):</label>
-            <input type="file" accept=".pdf" @change="handleUpload($event, cliente.id_usuario, cliente.id_plan)" />
+            <label class="block font-semibold mb-1 text-gray-700">Subir plan diseñado (PDF):</label>
+            <input type="file" accept=".pdf" @change="handleUpload($event, cliente.id_usuario, cliente.id_plan)" class="w-full text-sm cursor-pointer" />
           </div>
-  
+
           <!-- Peticiones de videollamada -->
           <div>
-            <label class="block font-semibold mb-1">Estado de la videollamada:</label>
+            <label class="block font-semibold mb-1 text-gray-700">Estado de la videollamada:</label>
             <select v-model="cliente.estado_cita" @change="cambiarEstadoCita(cliente.id_usuario, cliente.estado_cita)" class="p-2 border rounded w-full">
               <option value="pendiente">Pendiente</option>
               <option value="aceptada">Aceptar</option>

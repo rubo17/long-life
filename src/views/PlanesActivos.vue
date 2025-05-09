@@ -11,7 +11,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h2 class="text-2xl font-semibold text-gray-800">{{ plan.nombre_plan }}</h2>
-            <p class="text-sm text-gray-500">Tu nutricionista: <span class="font-medium text-gray-700">{{ plan.nombre_empleado }}</span></p>
+            <p class="text-sm text-gray-500">{{ plan.nombre_plan == "Plan de nutricion" ? "Tu nutricionista" : "Tu entrenador"}} <span class="font-medium text-gray-700">{{ plan.nombre_empleado }}</span></p>
             <p class="text-sm text-gray-500 font-bold" >Contacto: <span class="font-medium text-gray-700">{{ plan.email_empleado }}</span></p>
           </div>
           <span class="px-3 py-1 text-sm rounded-full font-semibold bg-green-100 text-green-700">
@@ -24,14 +24,26 @@
           <p>⏳ Fin: <strong>{{ plan.fecha_fin }}</strong></p>
         </div>
 
-        <!-- 🔗 Acciones futuras -->
         <div class="flex flex-col md:flex-row gap-4 mt-4">
-          <button
-            class="w-full md:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition disabled:opacity-50"
-            :disabled="!plan.plan_disenado_url"
-          >
-            📄 Ver plan diseñado
-          </button>
+      <div class="flex flex-col gap-2 w-full md:w-auto">
+        <a
+          v-for="(pdf, idx) in plan.planes_disenados"
+          :key="idx"
+          :href="`http://localhost/longLifeBack/public/${pdf.archivo}`"
+          target="_blank"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition text-center"
+        >
+          📄 Ver plan {{ idx + 1 }}
+        </a>
+      </div>
+
+      <button
+        v-if="!plan.planes_disenados.length"
+        class="w-full md:w-auto px-4 py-2 bg-gray-300 text-gray-600 rounded-lg font-semibold transition cursor-not-allowed"
+        disabled
+      >
+        📄 Plan no disponible aún
+      </button>
 
           <button
             class="w-full md:w-auto px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-semibold transition"
@@ -58,17 +70,25 @@ import api from '../api/axios'
   const user = storedUser ? JSON.parse(storedUser) : null
   const userId = user?.id_usuario ?? null
   
-  onMounted(async () => {
-    if (!userId) return
-  
-    try {
-      const res = await api.get(`/usuarios/${userId}/planes-activos`)
-      planes.value = res.data
-    } catch (err) {
-      console.error('Error cargando planes activos:', err)
-    }
+onMounted(async () => {
+  if (!userId) return
 
-  })
+  try {
+    const res = await api.get(`/usuarios/${userId}/planes-activos`)
+    const planesActivos = res.data
+
+    // Buscar PDF para cada plan
+  for (const plan of planesActivos) {
+    const resPlan = await api.get(`/planes-designed/${userId}/plan/${plan.id_plan}`)
+    plan.planes_disenados = resPlan.data || [] // guarda todos los resultados
+  }
+
+    planes.value = planesActivos
+  } catch (err) {
+    console.error('Error cargando planes activos o diseñados:', err)
+  }
+})
+
   const solicitarCita = (plan) => {
   alert(`Próximamente podrás solicitar una videollamada para el plan: ${plan.nombre_plan}`)
 }
