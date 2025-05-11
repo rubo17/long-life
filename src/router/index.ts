@@ -84,7 +84,7 @@ const routes = [
   {
     path: '/admin',
     component: AdminLayout,
-    meta: { requiresAuth: true, requiresAdmin: true }, // <-- Aquí
+    meta: { requiresAuth: true, requiresAdmin: true }, 
     children: [
       { path: '', name: 'admin-dashboard', component: Dashboard },
       { path: 'users', name: 'admin-users', component: Users },
@@ -116,7 +116,6 @@ router.beforeEach((to, from, next) => {
         return next('/login');
       }
 
-      // Solo admins a rutas protegidas con requiresAdmin
       if (to.meta.requiresAdmin && decoded.rol !== '1') {
         return next('/');
       }
@@ -125,7 +124,6 @@ router.beforeEach((to, from, next) => {
         return next('/');
       }
 
-      // ✅ Usuario autenticado y autorizado
       return next();
     } catch (err) {
       localStorage.clear();
@@ -133,10 +131,10 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (
-    to.path.startsWith('/finalizarCompra')  // protege todo lo que empiece por /finalizarCompra
+    to.path.startsWith('/finalizarCompra')
   ) {
     const carrito = JSON.parse(localStorage.getItem('productsInCart') || '[]')
-    if (!carrito.length) return next('/') // o donde quieras redirigir
+    if (!carrito.length) return next('/') 
   }
   return next();
 });
