@@ -22,6 +22,7 @@ import Direccion from '../views/Direccion.vue'
 import ForgotPasswsord from '../views/ForgotPasswsord.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
+import MisCitasEmpleado from '../views/misCitasEmpleado.vue'
 import Pago from '../views/Pago.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Perfil from '../views/perfil.vue'
@@ -66,6 +67,7 @@ const routes = [
       { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan },
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
+      { path: '/misCitas', name: 'misCitas', component: MisCitasEmpleado },
 
     ]
   },

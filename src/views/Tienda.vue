@@ -80,7 +80,7 @@ const currentDescriptionCategory = ref<string | undefined>('Tanto si tu objetivo
 const { categoryProducts } = UseCategoryProducts()
 
 // useProducts para todos los productos
-const { products: allProducts, fetchProducts: fetchAllProducts, currentPage: currentPageAll, pagination: paginationAll } = useProducts()
+const { products: allProducts, fetchProducts: fetchAllProducts, currentPage: currentPageAll, pagination: paginationAll,loading } = useProducts()
 
 // Datos para productos por categoría (se crean después)
 let productsByCategory = ref<Product[]>([])
