@@ -14,8 +14,8 @@ export function UseCategoryProducts() {
 
   const fetchCategoryProducts = async () => {
     try {
-      const response = await api.get<CategoryProducts[]>('/category_products');
-      categoryProducts.value = response.data;
+      const response = await api.get<CategoryProducts[],any>('/category_products');
+      categoryProducts.value = response.data.data;
       console.log(categoryProducts.value)
     } catch (err) {
       error.value = true;

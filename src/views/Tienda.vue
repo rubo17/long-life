@@ -52,7 +52,11 @@
             />
         </div>
 
-        <Paginator
+        <div v-if="!loading && products && products.length === 0">
+          <p class="text-center text-4xl font-bold text-gray-600">No hay productos en esta categoría.</p>
+        </div>
+
+        <Paginator v-if="products.length"
          :currentPage="currentPage"
          :totalPages="pagination.totalPages"
          @changePage="handlePageChange"

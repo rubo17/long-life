@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '../layouts/AdminLayout.vue'
 import ClientLayout from '../layouts/ClientLayout.vue'
 import FinalizarCompra from '../layouts/FinalizarCompra.vue'
+import CategoriaProductos from '../views/admin/CategoriaProductos.vue'
 import ContenidosPremiumAdmin from '../views/admin/ContenidosPremiumAdmin.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Products from '../views/admin/Products.vue'
@@ -94,6 +95,7 @@ const routes = [
       { path: 'ventas', name: 'admin-ventas', component: Ventas },
       { path: 'suscripciones', name: 'admin-suscripciones', component: SuscripcionesUsuario },
       { path: 'contenidosPremium', name: 'admin-contenidosPremium', component: ContenidosPremiumAdmin },
+      { path: 'categoriaProductos', name: 'admin-categorias', component: CategoriaProductos },
     ]
   }
 ]
