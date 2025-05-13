@@ -14,7 +14,7 @@
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Ventas</h2>
-          <p class="text-2xl font-bold text-amber-500">€4,250</p>
+          <p class="text-2xl font-bold text-amber-500">€{{ totalVentas }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Pedidos pendientes</h2>
@@ -35,15 +35,26 @@
   </template>
   
   <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import api from '../../api/axios';
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin';
 import { useUsers } from '../../composables/api/admin/UseUsers';
 const { products,fetchProducts } = useProductsAdmin() 
 const {fetchUsers,users}= useUsers()
-
 onMounted(() => {
   fetchProducts()
-  fetchUsers()
+  fetchUsers(),
+  fetchTotalVentas()
 })
+const totalVentas = ref()
+const fetchTotalVentas = async () => {
+  try {
+    const res = await api.get('/ventasTotal');
+    totalVentas.value = res.data.total;
+  } catch (error) {
+    console.error('Error al obtener el total de ventas:', error);
+  }
+};
+
 </script>
   

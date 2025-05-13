@@ -1,6 +1,6 @@
 <template>
   <div class="border rounded-xl p-6 bg-white shadow-md hover:shadow-lg transition space-y-4">
-    
+
     <!-- Encabezado del plan -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
@@ -22,92 +22,175 @@
 
     <!-- Fechas -->
     <div class="text-sm text-gray-600">
-      <p>📅 Inicio: <strong>{{ plan.fecha_inicio }}</strong></p>
-      <p>⏳ Fin: <strong>{{ plan.fecha_fin }}</strong></p>
+      <p> Inicio: <strong>{{ plan.fecha_inicio }}</strong></p>
+      <p> Fin: <strong>{{ plan.fecha_fin }}</strong></p>
     </div>
 
-    <!-- Botones de planes y cita -->
+    <!-- Botones -->
     <div class="flex flex-col md:flex-row gap-4 mt-4">
-      
-      <!-- Botones para ver PDFs -->
-      <div class="flex flex-col gap-2 w-full md:w-auto">
-        <a
-          v-for="(pdf, idx) in plan.planes_disenados"
-          :key="idx"
-          :href="`http://localhost/longLifeBack/public/${pdf.archivo}`"
-          target="_blank"
-          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition text-center"
-        >
-          📄 Ver plan {{ idx + 1 }}
-        </a>
-      </div>
-
-      <!-- Botón si no hay planes diseñados -->
+      <!-- Ver PDFs -->
+    <button
+      v-if="plan.planes_disenados.length"
+      class="px-4 py-2 bg-gray-100 text-blue-600 hover:underline rounded-lg font-semibold transition text-center cursor-pointer"
+      @click="mostrarModalPlanes = true"
+    >
+      📁 Ver todos los planes
+    </button>
+      <!-- Botón si no hay planes -->
       <button
         v-if="!plan.planes_disenados.length"
         class="w-full md:w-auto px-4 py-2 bg-gray-300 text-gray-600 rounded-lg font-semibold transition cursor-not-allowed"
         disabled
       >
-        📄 Plan no disponible aún
+         Plan no disponible aún
       </button>
 
-      <!-- Botón para solicitar cita -->
+      <!-- Botón para abrir modal -->
       <button
-        class="w-full md:w-auto px-4 py-2 text-white rounded-lg font-semibold transition"
-        :class="plan.cita_pendiente ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'"
+        class="w-full md:w-auto px-4 py-2 text-white rounded-lg font-semibold transition "
+        :class="plan.cita_pendiente ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600 cursor-pointer'"
         :disabled="plan.cita_pendiente"
-        @click="solicitarCita"
+        @click="showModal = true"
       >
-        {{ plan.cita_pendiente ? '⏳ Cita pendiente' : '📅 Solicitar videollamada' }}
+        {{ plan.cita_pendiente ? ' Cita pendiente' : ' Solicitar videollamada' }}
       </button>
     </div>
 
-    <!-- Mensaje informativo si la cita está pendiente -->
+    <!-- Mensaje si ya hay cita -->
     <p
       v-if="plan.cita_pendiente"
       class="text-sm text-gray-500 font-medium"
     >
-      📭 Ya has solicitado una videollamada. Espera a que tu
+       Ya has solicitado una videollamada. Espera a que tu
       {{ plan.nombre_plan.includes('nutricion') ? 'nutricionista' : 'entrenador' }} la acepte.
     </p>
-    
+
+    <!-- Modal para confirmar solicitud -->
+<Modal :open="showModal" @close="showModal = false">
+  <template #default>
+    <div class="p-4 space-y-4">
+      <h2 class="text-xl font-semibold">Confirmar solicitud de videollamada</h2>
+
+      <label class="block text-sm text-gray-700 font-medium">
+        Selecciona fecha y hora:
+        <Datepicker 
+          v-model="fechaSeleccionada"
+          :is-24="true" 
+          :enable-time-picker="true"
+          :min-date="new Date()"
+          :auto-apply="true"
+        />
+      </label>
+
+      <label class="block text-sm text-gray-700 font-medium">
+        Mensaje (opcional):
+        <textarea
+          v-model="mensaje"
+          rows="3"
+          class="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-yellow-500 resize-none"
+          placeholder="Escribe un mensaje para tu profesional..."
+        ></textarea>
+      </label>
+
+      <div class="flex items-center gap-4">
+        <button
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg cursor-pointer"
+          @click="solicitarCita"
+        >
+          Confirmar solicitud
+        </button>
+        <button
+          class="text-gray-500 hover:underline cursor-pointer"
+          @click="showModal = false"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </template>
+</Modal>
+<Modal :open="mostrarModalPlanes" @close="mostrarModalPlanes = false">
+  <template #default>
+    <div class="p-4 space-y-4 max-h-[70vh] overflow-y-auto">
+      <h2 class="text-xl font-semibold text-gray-800">Todos los planes adjuntos</h2>
+      <ul class="space-y-2">
+        <li v-for="(pdf, idx) in plan.planes_disenados" :key="idx">
+          <a
+            :href="`http://localhost/longLifeBack/public/${pdf.archivo}`"
+            target="_blank"
+            class="text-blue-600 hover:underline"
+          >
+            📄 Plan {{ idx + 1 }}
+          </a>
+        </li>
+      </ul>
+      <button class="text-gray-500 hover:underline cursor-pointer" @click="mostrarModalPlanes = false">
+        Cerrar
+      </button>
+    </div>
+  </template>
+</Modal>
+
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import { format } from 'date-fns';
+import { ref, watch } from 'vue';
 import api from '../api/axios';
-const { plan } = defineProps<{ plan: any }>()
+import Modal from './admin/ui/Modal.vue';
 
+const { plan } = defineProps<{ plan: any }>();
+const showModal = ref(false);
+const mensaje = ref("")
+const fechaSeleccionada = ref<Date | null>(new Date());
+const mostrarModalPlanes = ref(false);
 
 const solicitarCita = async () => {
-  const storedUser = localStorage.getItem('user')
-  const user = storedUser ? JSON.parse(storedUser) : null
-  const idUsuario = user?.id_usuario ?? null
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const idUsuario = user?.id_usuario ?? null;
 
   if (!idUsuario) {
-    alert('Usuario no autenticado.')
-    return
+    alert('Usuario no autenticado.');
+    return;
   }
-  const now = new Date()
-  const fechaFormateada = format(now, 'yyyy-MM-dd HH:mm:ss') 
 
+  const fechaFormateada = format(fechaSeleccionada.value!, 'yyyy-MM-dd HH:mm:ss');
+  if (!fechaSeleccionada.value) {
+    notify({ type: 'warn', text: 'Por favor, selecciona una fecha y hora para la cita.' });
+    return;
+  }
   try {
     await api.post('/citas/solicitar', {
       id_usuario: idUsuario,
-      id_empleado: plan.id_empleado, 
+      id_empleado: plan.id_empleado,
       id_plan: plan.id_plan,
       fecha: fechaFormateada,
-      mensaje: 'Solicitud automática desde el botón.'
-    })
-    plan.cita_pendiente = true
+      mensaje: mensaje.value
+    });
 
-      notify({type: 'success',text: 'Videollamada solicitada correctamente'});            
-    
+    plan.cita_pendiente = true;
+    showModal.value = false;
+    notify({ type: 'success', text: 'Videollamada solicitada correctamente' });
+
   } catch (err) {
-    console.error('Error al solicitar cita:', err)
-      notify({type: 'error',text: 'Error al solicitar la videollamada'});            
+    console.error('Error al solicitar cita:', err);
+    notify({ type: 'error', text: 'Error al solicitar la videollamada' });
   }
-}
+  const resetModal = () => {
+  mensaje.value = '';
+  fechaSeleccionada.value = new Date();
+};
+
+  watch(showModal, (nuevoValor) => {
+    if (!nuevoValor) resetModal();
+  });
+  
+};
+
 </script>
