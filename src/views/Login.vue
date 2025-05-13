@@ -2,13 +2,13 @@
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <img class="mx-auto h-30 w-auto" src="/images/longlife.png" alt="Your Company">
-        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+        <h2 class=" text-center text-2xl/9 font-bold tracking-tight text-gray-900">Inicia Sesión</h2>
       </div>
   
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form @submit.prevent="handleSubmit" class="space-y-6" action="#" method="POST">
           <div>
-            <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+            <label for="email" class="block text-sm/6 font-medium text-gray-900">Direccion de Email</label>
             <div class="mt-2">
               <input
               v-model="email"
@@ -26,7 +26,7 @@
             <div class="flex items-center justify-between">
               <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
               <div class="text-sm">
-                <a href="#" class="font-semibold text-green-500 hover:text-green-400">Forgot password?</a>
+                <a href="/forgotPassword" class="font-semibold text-green-500 hover:text-green-400">Forgot password?</a>
               </div>
             </div>
             <div class="mt-2">
@@ -47,11 +47,16 @@
             <button type="submit" class="flex cursor-pointer w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Sign in</button>
           </div>
         </form>
-  
-        <p class="mt-10 text-center text-sm/6 text-gray-500">
-          No tienes una cuenta?
-          <a href="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</a>
-        </p>
+        <div>
+            <p class="mt-10 text-center text-sm/6 text-gray-500">
+            Continua como invitado
+            <a href="/" class="font-semibold text-blue-500 hover:text-blue-600">Click aqui</a>
+          </p>
+          <p class="mt-5 text-center text-sm/6 text-gray-500">
+            No tienes una cuenta?
+            <a href="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</a>
+          </p>
+        </div>  
       </div>
     </div>
   </template>
@@ -60,6 +65,7 @@
   import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
+import { useRole } from '../composables/UseRole'
 
   const router = useRouter()
 
@@ -94,6 +100,8 @@ import { useAuthLogin } from '../composables/api/login/UseUserLogin'
     if (!valid) return
 
     await login(email.value, password.value)
+    const {  updateRole } = useRole();
+    updateRole(); 
 
     if (!error.value) {
       // Redireccionar si todo ha ido bien

@@ -31,11 +31,12 @@
             @change="(e: Event) => updateCantidad(product.id_producto, parseInt((e.target as HTMLInputElement).value))"
 />
           <!-- Botón eliminar -->
-          <button @click="removeFromCart(product.id_producto)" class="text-red-600 hover:text-red-800 cursor-pointer">
+          <button  @click="removeFromCart(product.id_producto)" class="text-red-600 hover:text-red-800 cursor-pointer">
             <CrossIcon class="w-5 h-5" />
           </button>
         </div>
       </div>
+      <p class="text-red-500" v-if="error">{{ error }}</p>
     </div>
   </template>
   
@@ -49,6 +50,6 @@ import CrossIcon from '../icons/CrossIcon.vue';
     products: Product[]
   }>()
   
-  const { removeFromCart, updateCantidad } = useCart();
+  const { removeFromCart, updateCantidad,error } = useCart();
   </script>
   

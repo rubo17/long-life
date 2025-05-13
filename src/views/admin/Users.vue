@@ -11,17 +11,17 @@
       <template #actions="{ row }">
         <div class="flex gap-5">
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
-          Editar
-        </button>
-        <button @click="confirmarEliminacion(row.id_usuario)"
-          class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
-          Eliminar
-        </button>
+            Editar
+          </button>
+          <button @click="confirmarEliminacion(row.id_usuario)"
+            class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
+            Eliminar
+          </button>
           <button class="p-2 rounded-full hover:bg-gray-200 transition">
             <ViewDetails class="w-5 h-5 text-gray-600 hover:text-blue-500 cursor-pointer" />
           </button>
         </div>
-     
+
       </template>
     </BaseTable>
     <Modal :open="showModal" @close="showModal = false">
@@ -84,22 +84,26 @@
         </div>
       </form>
     </Modal>
-    <Notifications position="bottom right" />
-
+    <Paginator
+         :currentPage="currentPage"
+         :totalPages="pagination.totalPages"
+         @changePage="handlePageChange"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Notifications, notify } from "@kyvg/vue3-notification";
+import { notify } from "@kyvg/vue3-notification";
 import { onMounted, ref } from 'vue';
 import CreateButton from '../../components/admin/buttons/CreateButton.vue';
 import BaseTable from '../../components/admin/ui/BaseTable.vue';
 import Modal from '../../components/admin/ui/Modal.vue';
 import ViewDetails from "../../components/icons/ViewDetails.vue";
+import Paginator from "../../components/Paginator.vue";
 import { useUsers } from '../../composables/api/admin/UseUsers';
 
 const showModal = ref(false);
-const { users, nuevo, crearUsuario, fetchUsers, eliminarUsuario, loading, validate, validationErrors, editarUsuario, error } = useUsers();
+const { users, nuevo, crearUsuario, fetchUsers, eliminarUsuario, loading, validate, validationErrors, editarUsuario, currentPage,pagination } = useUsers();
 
 onMounted(fetchUsers);
 
@@ -159,12 +163,16 @@ const comenzarCreacion = () => {
   showModal.value = true;
 
 }
+function handlePageChange(page: number) {
+  currentPage.value = page
+  fetchUsers()
+}
 
 const columns = [
   { key: 'nombre', label: 'Nombre' },
   { key: 'email', label: 'Email' },
   { key: 'password', label: 'Contraseña' },
-  { key: 'rol', label: 'Rol' },
-  { key: 'id_suscripcion', label: 'Suscripción' },
+  { key: 'rol_nombre', label: 'Rol' },
+  { key: 'suscripcion', label: 'Suscripción' },
 ];
 </script>

@@ -21,7 +21,7 @@
                 {{ product.nombre }}
             </h3>
             <p class="text-gray-600 mt-1">{{ product.meta_descripcion }}</p>
-            <div class="mt-3 text-lg font-semibold text-green-600">${{ product.precio }}</div>
+            <div class="mt-3 text-lg font-semibold text-green-600">{{ product.precio }} €</div>
         </div>
         
         <!-- Botón (aparece en hover) -->
@@ -31,7 +31,8 @@
 </template>
 
 <script setup lang="ts">
-    import { defineProps } from "vue";
+    import { notify } from "@kyvg/vue3-notification";
+import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import { useCart } from "../../composables/api/carrito/UseCart";
 import { Product } from "../../types/Product";
@@ -44,11 +45,20 @@ import AddToCart from "../buttons/AddToCart.vue";
     const goToDetails = () => {
         router.push({ name: 'productDetail', params: { id: props.product.id_producto } });
     };
-    const { addToCart: addToCartFn } = useCart(); 
+    const { addToCart: addToCartFn, cart } = useCart();
 
     const addToCart = async () => {
-  await addToCartFn(props.product);
-  router.push('/carrito'); // opcional
-};
+        const existingProduct = cart.value.find(p => p.id_producto === props.product.id_producto);
+        const totalCantidad = (existingProduct?.cantidad || 0) + 1;
+        if (totalCantidad > Number(props.product.stock)) {
+            notify({
+                type: 'error',
+                text: 'No hay stock de este producto'
+                });
+                return
+            }
+    await addToCartFn(props.product);
+    router.push('/carrito'); // opcional
+    };
  
 </script>

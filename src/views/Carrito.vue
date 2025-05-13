@@ -12,8 +12,9 @@
         <div class="flex justify-between items-center bg-green-50 px-4 py-2 rounded-md">
         <div class="flex items-center gap-3 text-green-700">
             <Positivo v-if="cart.length>0" class="w-6 h-6 text-green-500" />
-            <p v-if="cart.length>0" class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
-          </div>
+              <p v-if="cart.length>0" class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
+              <p v-if="cart.length==0" class="text-sm">El carrito esta vacio.</p>
+            </div>
         <router-link class="text-sm text-white p-4 bg-gray-800 rounded-lg cursor-pointer" to="/tienda">Seguir comprando</router-link>
         </div>
 
@@ -25,12 +26,18 @@
         <div class="w-full  space-y-3 text-right">
             <div class="flex justify-between text-lg font-semibold">
             <span>Total:</span>
-            <span>{{ getTotal() }}€</span>
+            <span>{{ getTotal() }}€</span>  
             </div>
-            <button
-            class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition shadow cursor-pointer">
+            <router-link 
+            :to="'/finalizarCompra/direccion'"
+            class="block w-full text-center mt-4 py-2 px-4 rounded-lg transition shadow
+                  text-white
+                  bg-blue-500 hover:bg-blue-600
+                  disabled-link"
+          >
             Finalizar compra
-            </button>
+          </router-link>
+
         </div>
         </div>
     </div>
@@ -45,7 +52,7 @@ import ProductInCart from "../components/tienda/ProductInCart.vue";
 import { useCart } from '../composables/api/carrito/UseCart';
 
 
-const { cart, getTotal, loadCart } = useCart();
+const { cart, getTotal, loadCart,error } = useCart();
 
 onMounted(async () => {
   await loadCart();

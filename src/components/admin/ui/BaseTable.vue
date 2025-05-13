@@ -17,7 +17,7 @@
               :key="column.key"
               class="px-4 py-2 whitespace-nowrap"
             >
-              {{ row[column.key] }}
+              {{ row[column.key]?.toString().length > 50 ? row[column.key].toString().slice(0, 50) + '...' : row[column.key] }}
             </td>
             <td v-if="showActions" class="px-4 py-2">
               <slot name="actions" :row="row" />

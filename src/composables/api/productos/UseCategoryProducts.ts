@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import api from '../../../api/axios';
 
 export interface CategoryProducts {
   id_categoria: string;
@@ -14,8 +14,8 @@ export function UseCategoryProducts() {
 
   const fetchCategoryProducts = async () => {
     try {
-      const response = await axios.get<CategoryProducts[]>('http://localhost/longLifeBack/public/category_products');
-      categoryProducts.value = response.data;
+      const response = await api.get<CategoryProducts[],any>('/category_products');
+      categoryProducts.value = response.data.data;
       console.log(categoryProducts.value)
     } catch (err) {
       error.value = true;

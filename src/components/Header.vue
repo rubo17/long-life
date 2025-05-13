@@ -25,13 +25,29 @@
             {{ item.name }}
           </router-link>
 
-          <!-- Ícono de perfil -->
-          <a v-if="isLoggedIn" href="/admin" @click="activeItem = 'cart'" :class="{
-            'text-blue-600': activeItem === 'cart',
-            'text-gray-900': activeItem !== 'cart'
-          }">
-            <Profile class="w-6 h-6 transition hover:text-green-500" />
-          </a>
+          <!-- Icono de perfil -->
+          <router-link
+            v-if="isLoggedIn"
+            to="/perfil"
+            @click="activeItem = 'perfil'"
+            :class="{
+              'text-blue-600': activeItem === 'perfil',
+              'text-gray-900': activeItem !== 'perfil'
+            }"
+            class="relative transition hover:text-green-500"
+          >
+            <Profile class="w-6 h-6" />
+
+            <!-- Badge Premium -->
+            <span
+              v-if="esPremium"
+              class="absolute -top-2 -right-2 bg-amber-400 text-white text-[9px] font-bold px-1 py-0.5 rounded-full"
+            >
+              ⭐
+            </span>
+          </router-link>
+
+
           <router-link v-if="isLoggedIn" to="/carrito" @click="activeItem = 'profile'" :class="{
             'text-blue-600': activeItem === 'profile',
             'text-gray-900': activeItem !== 'profile'
@@ -81,12 +97,15 @@
                   @click="activeItem = item.name">
                   {{ item.name }}
                 </a>
-                <a v-if="isLoggedIn" href="/admin">
-                  <Profile class="w-6 h-6 transition hover:text-green-500" />
-                </a>
-                <a href="/carrito">
-                  <Cart class="w-6 h-6 transition hover:text-green-500" />
-                </a>
+                <div class="space-y-3 ">
+                  <a class="block" v-if="isLoggedIn" href="/admin">
+                    <Profile class="w-6 h-6 transition hover:text-green-500" />
+                  </a>
+                  <a class="block" href="/carrito">
+                    <Cart class="w-6 h-6 transition hover:text-green-500" />
+                  </a>
+                </div>
+
               </div>
               <div class="py-6">
                 <a v-if="sessionState === 'Log in'" href="/login"
@@ -109,7 +128,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { onMounted, ref } from 'vue'
@@ -121,26 +140,30 @@ import Profile from './icons/Profile.vue'
 
 const navigation = [
   { name: 'Inicio', href: '/' },
-  { name: 'Que es longLife', href: 'longlife' },
-  { name: 'Planes', href: 'planes' },
-  { name: 'Suscripciones', href: 'suscripciones' },
+  { name: 'Que es longLife', href: '/longlife' },
+  { name: 'Planes', href: '/planes' },
+  { name: 'Suscripciones', href: '/suscripciones' },
   { name: 'Tienda', href: '/tienda' },
-  { name: 'Blog', href: '#' },
-  { name: 'Contacto', href: 'Contacto' },
-]
-const sessionState = ref('')
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contacto', href: '/contacto' },
+  ]
+
+const sessionState = ref('') 
+const mobileMenuOpen = ref(false)
+const activeItem = ref('')
+
+// ✅ Traemos todo de useAuthLogin ya preparado
+const { logout, isLoggedIn, esPremium } = useAuthLogin()
+const { cart, loadCart } = useCart()
 
 if (localStorage.getItem('token')) {
   sessionState.value = 'Log out'
 } else {
   sessionState.value = 'Log in'
 }
-const { logout, isLoggedIn } = useAuthLogin();
-const { cart, loadCart } = useCart();
 
 onMounted(() => {
-  loadCart(); // 🔄 Carga el carrito al iniciar
-});
-const mobileMenuOpen = ref(false)
-const activeItem = ref(null) 
+  loadCart()
+})
 </script>
+
