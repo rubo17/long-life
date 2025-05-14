@@ -39,6 +39,7 @@
         <option value="enviado">Enviado</option>
         <option value="entregado">Entregado</option>
         <option value="cancelado">Cancelado</option>
+        <option value="reembolsado">Reembolsado</option>
       </select>
     </div>
 

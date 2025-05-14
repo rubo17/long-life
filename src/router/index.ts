@@ -12,7 +12,6 @@ import Users from '../views/admin/Users.vue'
 import Ventas from '../views/admin/Ventas.vue'
 import Blog from '../views/Blog.vue'
 import Carrito from '../views/Carrito.vue'
-import CheckoutSuscripcion from '../views/CheckoutSuscripcion.vue'
 import ClientesEmpleado from '../views/clientesEmpleado.vue'
 import ConseguirPlan from '../views/ConseguirPlan.vue'
 import Contacto from '../views/Contacto.vue'
@@ -61,11 +60,10 @@ const routes = [
       { path: '/contenidosPremium', name: 'contenidosPremium', component: ContenidosPremium, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/forgotPassword', name: 'forgotPassword', component: ForgotPasswsord },
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
-      { path: '/CheckoutSuscripcion', name: 'CheckoutSuscripcion', component: CheckoutSuscripcion },
       { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
       { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/blog', name: 'blog', component: Blog },
-      { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan },
+      { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan, meta: { requiresAuth: true }},
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
       { path: '/misCitas', name: 'misCitas', component: MisCitasEmpleado },

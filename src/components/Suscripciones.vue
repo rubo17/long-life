@@ -72,11 +72,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '../api/axios';
 import { useAuthLogin } from '../composables/api/login/UseUserLogin';
 import CruzSuscripciones from './icons/CruzSuscripciones.vue';
 import Positivo from './icons/Positivo.vue';
 
+const error = ref('')
 const suscripcionInfo = [
   {
     descripcion: "Te ahorras 10 euros.",
@@ -98,21 +101,17 @@ const user = JSON.parse(localStorage.getItem('user') || '{}')
 
 const {isLoggedIn,esPremium}= useAuthLogin()
 
-const suscribirse = (priceId, planName) => {
-  console.log(isLoggedIn)
-  if (isLoggedIn.value){
-    router.push({ 
-    name: 'CheckoutSuscripcion', 
-    query: { 
-      priceId, 
-      planName, 
-      userId: user.id_usuario,
-      customerId: user.customer_id 
-    } 
-  })
-  }else {
-    router.push("/login")
-  }
+const suscribirse = async (priceId, planName) => {
+ const response = await api.post('/createCheckoutSession', {
+  id_usuario: user.id_usuario,
+  price_id: priceId
+})
+
+if (response.data.url) {
+  window.location.href = response.data.url
+} else {
+  error.value = 'No se pudo redirigir a Stripe Checkout'
+}
 
 }
 </script>

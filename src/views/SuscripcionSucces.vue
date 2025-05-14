@@ -16,7 +16,55 @@
       </div>
     </div>
   </template>
-  
-  <script setup>
+  <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import api from '../api/axios'
+import { useAuthLogin } from '../composables/api/login/UseUserLogin'
+
+const route = useRoute()
+const router = useRouter()
+
+const error = ref('')
+const success = ref(false)
+const {refreshAuth}= useAuthLogin();
+  onMounted(async () => {
+  const sessionId = route.query.session_id
+
+  if (!sessionId) {
+    error.value = 'No se pudo obtener la sesión de Stripe.'
+    return
+  }
+
+  try {
+    const response = await api.post('/confirmCheckoutSubscription', {
+      session_id: sessionId
+    }, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    if (response.data.status === 'success') {
+      localStorage.setItem('esPremium', 'true')
+    } else {
+      error.value = 'Error al confirmar suscripción'
+    }
+        const refresh = await api.post('/auth/refreshToken', {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+
+        if (refresh.data.token) {
+          localStorage.setItem('token', refresh.data.token)
+          refreshAuth()
+          console.log('✅ Token actualizado y sesión refrescada.')
+        }
+  } catch (err) {
+    console.error(err)
+    error.value = 'Error inesperado'
+  }
+
+})
+
   </script>
   

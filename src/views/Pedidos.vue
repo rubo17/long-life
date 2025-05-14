@@ -37,6 +37,7 @@
             :key="detalle.id"
             class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 bg-gray-100 rounded-md p-3"
           >
+
             <div class="flex gap-3 items-start sm:items-center">
               <img
                 :src="detalle.imagen"
@@ -77,7 +78,14 @@
                 Calle Artista Juan José Vento González
             </span>
         </p>
-
+          <div v-if="mostrarBotonCancelar(pedido)" class="text-right">
+              <button
+                @click="cancelarPedido(pedido.id)"
+                class="mt-2 px-4 py-2 bg-red-500 transition hover:bg-red-600 text-white text-sm rounded-md shadow cursor-pointer"
+              >
+                Cancelar pedido
+              </button>
+            </div>
       </div>
       <Paginator
          :currentPage="currentPage"
@@ -149,10 +157,35 @@ import Paginator from '../components/Paginator.vue'
       case 'enviado': return 'bg-indigo-100 text-indigo-800'
       case 'entregado': return 'bg-green-100 text-green-800'
       case 'cancelado': return 'bg-red-100 text-red-800'
+      case 'reembolsado': return 'bg-gray-300 text-gray-600'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
-  
+const mostrarBotonCancelar = (pedido: any): boolean => {
+  // No permitir cancelar si el estado es pagado o entregado
+  if (pedido.estado === 'enviado' || pedido.estado === 'entregado' || pedido.estado === 'cancelado' || pedido.estado === 'reembolsado') return false
+
+  const fechaPedido = new Date(pedido.fecha)
+  const ahora = new Date()
+  const diferencia = ahora.getTime() - fechaPedido.getTime()
+
+  const horas = diferencia / (1000 * 60 * 60)
+  return horas <= 24
+}
+const cancelarPedido = async (id: number) => {
+  try {
+    const confirmacion = confirm('¿Estás seguro de que deseas cancelar este pedido?')
+    if (!confirmacion) return
+
+    const response = await api.put(`/cancelar-pedido/${id}`)
+
+    alert(response.data.message || 'Pedido cancelado')
+    fetchPedidos(currentPage.value)
+  } catch (error: any) {
+    alert(error.response?.data?.message || 'Error al cancelar el pedido')
+  }
+}
+
   onMounted(() => fetchPedidos())
   </script>
   
