@@ -44,10 +44,6 @@ const {refreshAuth}= useAuthLogin();
     })
 
     if (response.data.status === 'success') {
-      localStorage.setItem('esPremium', 'true')
-    } else {
-      error.value = 'Error al confirmar suscripción'
-    }
         const refresh = await api.post('/auth/refreshToken', {}, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -59,6 +55,11 @@ const {refreshAuth}= useAuthLogin();
           refreshAuth()
           console.log('✅ Token actualizado y sesión refrescada.')
         }
+      
+      } else {
+      error.value = 'Error al confirmar suscripción'
+    }
+
   } catch (err) {
     console.error(err)
     error.value = 'Error inesperado'

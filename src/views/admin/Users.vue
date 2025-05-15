@@ -17,9 +17,6 @@
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
             Eliminar
           </button>
-          <button class="p-2 rounded-full hover:bg-gray-200 transition">
-            <ViewDetails class="w-5 h-5 text-gray-600 hover:text-blue-500 cursor-pointer" />
-          </button>
         </div>
 
       </template>
@@ -98,7 +95,6 @@ import { onMounted, ref } from 'vue';
 import CreateButton from '../../components/admin/buttons/CreateButton.vue';
 import BaseTable from '../../components/admin/ui/BaseTable.vue';
 import Modal from '../../components/admin/ui/Modal.vue';
-import ViewDetails from "../../components/icons/ViewDetails.vue";
 import Paginator from "../../components/Paginator.vue";
 import { useUsers } from '../../composables/api/admin/UseUsers';
 
@@ -173,6 +169,5 @@ const columns = [
   { key: 'email', label: 'Email' },
   { key: 'password', label: 'Contraseña' },
   { key: 'rol_nombre', label: 'Rol' },
-  { key: 'suscripcion', label: 'Suscripción' },
 ];
 </script>

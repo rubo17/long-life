@@ -77,14 +77,15 @@
             <p class="text-gray-500 text-sm mt-2">Modifica tu información personal, contraseña y preferencias fácilmente.</p>
           </div>
       </div>
-      <div
+      <router-link
+        to="/infoSuscripcion"
         class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
       >
           <div>
             <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2"> ⭐ Tu suscripcion</h2>
             <p class="text-gray-500 text-sm mt-2">Activa hasta ...</p>
           </div>
-      </div>
+      </router-link>
 
       <router-link
         to="/mis-planes"

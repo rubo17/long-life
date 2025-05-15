@@ -7,6 +7,7 @@ import CategoriaProductos from '../views/admin/CategoriaProductos.vue'
 import ContenidosPremiumAdmin from '../views/admin/ContenidosPremiumAdmin.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Products from '../views/admin/Products.vue'
+import Suscripciones from '../views/admin/Suscripciones.vue'
 import SuscripcionesUsuario from '../views/admin/SuscripcionesUsuario.vue'
 import Users from '../views/admin/Users.vue'
 import Ventas from '../views/admin/Ventas.vue'
@@ -20,6 +21,7 @@ import DetallesPlanEntrenamiento from '../views/DetallesPlanEntrenamiento.vue'
 import DetallesPlanNutricion from '../views/DetallesPlanNutricion.vue'
 import Direccion from '../views/Direccion.vue'
 import ForgotPasswsord from '../views/ForgotPasswsord.vue'
+import InfoSuscripcion from '../views/InfoSuscripcion.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import MisCitasEmpleado from '../views/misCitasEmpleado.vue'
@@ -67,6 +69,7 @@ const routes = [
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
       { path: '/misCitas', name: 'misCitas', component: MisCitasEmpleado },
+      { path: '/infoSuscripcion', name: 'infoSuscripcion', component: InfoSuscripcion, meta: { requiresAuth: true,requiresPremium: true }},
 
     ]
   },
@@ -91,7 +94,8 @@ const routes = [
       { path: 'users', name: 'admin-users', component: Users },
       { path: 'products', name: 'admin-products', component: Products },
       { path: 'ventas', name: 'admin-ventas', component: Ventas },
-      { path: 'suscripciones', name: 'admin-suscripciones', component: SuscripcionesUsuario },
+      { path: 'usuariosSuscripciones', name: 'admin-usuariosSuscripciones', component: SuscripcionesUsuario },
+      { path: 'suscripciones', name: 'admin-suscripciones', component: Suscripciones },
       { path: 'contenidosPremium', name: 'admin-contenidosPremium', component: ContenidosPremiumAdmin },
       { path: 'categoriaProductos', name: 'admin-categorias', component: CategoriaProductos },
     ]

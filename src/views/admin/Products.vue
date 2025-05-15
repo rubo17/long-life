@@ -19,12 +19,7 @@
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
             Eliminar
           </button>
-          <button class="p-2 rounded-full hover:bg-gray-200 transition">
-            <ViewDetails class="w-5 h-5 text-gray-600 hover:text-blue-500 cursor-pointer" />
-          </button>
-
         </div>
-
       </template>
     </BaseTable>
     <Modal :open="showModal" @close="showModal = false">
@@ -130,7 +125,6 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
-import ViewDetails from '../../components/icons/ViewDetails.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin'
 const showModal = ref(false)
@@ -146,7 +140,7 @@ const productoEditandoId = ref<number | null>(null)
 
 const comenzarCreacion = () => {
   modoEdicion.value = false
-  producto.value = { nombre: '', descripcion: '', meta_descripcion: '', ingredientes: '', categoria: '', precio: 0, stock: 0, estado: '', imagenFile: null }
+  producto.value = { nombre: '', descripcion: '', meta_descripcion: '', ingredientes: '', categoria: '', precio: 0, stock: 0, estado: '',imagenFile: null }
   showModal.value = true
 }
 const comenzarEdicion = async (product: any) => {
@@ -196,7 +190,8 @@ const columns = [
   { key: 'nombre', label: 'Nombre' },
   { key: 'precio', label: 'precio' },
   { key: 'stock', label: 'Stock' },
-  { key: 'estado', label: 'Estado' }
+  { key: 'estado', label: 'Estado' },
+  { key: 'imagen', label: 'Imagen' }
 ]
 
 </script>

@@ -14,7 +14,7 @@
 
       <button 
       :disabled="esPremium"
-      @click="suscribirse('price_1RI4WBFMywclhIX2xIMjU0QY', 'Premium Mensual')"
+      @click="suscribirse('price_1RI4WBFMywclhIX2xIMjU0QY', 'Premium Mensual',1)"
       :class="[
         'font-bold rounded-2xl px-6 py-3 mt-4 w-full transition duration-300 ',
         esPremium 
@@ -47,7 +47,7 @@
 
       <button  
         :disabled="esPremium"
-        @click="suscribirse('price_1RI4R9FMywclhIX2EVNExpZN', 'Premium Anual')"
+        @click="suscribirse('price_1RI4R9FMywclhIX2EVNExpZN', 'Premium Anual',2)"
         :class="[
           'font-bold rounded-2xl px-6 py-3 mt-4 w-full transition duration-300',
           esPremium 
@@ -101,10 +101,12 @@ const user = JSON.parse(localStorage.getItem('user') || '{}')
 
 const {isLoggedIn,esPremium}= useAuthLogin()
 
-const suscribirse = async (priceId, planName) => {
+const suscribirse = async (priceId, planName,id) => {
  const response = await api.post('/createCheckoutSession', {
   id_usuario: user.id_usuario,
-  price_id: priceId
+  price_id: priceId,
+  plan_name: planName,
+  id_suscripcion: id
 })
 
 if (response.data.url) {

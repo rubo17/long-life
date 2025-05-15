@@ -12,13 +12,23 @@
         </thead>
         <tbody>
           <tr v-for="(row, index) in data" :key="index" class="border-t">
-            <td
-              v-for="column in columns"
-              :key="column.key"
-              class="px-4 py-2 whitespace-nowrap"
-            >
+          <td
+            v-for="column in columns"
+            :key="column.key"
+            class="px-4 py-2 whitespace-nowrap"
+          >
+            <!-- Mostrar imagen si la columna es imagen -->
+            <img
+              v-if="column.key === 'imagen' && row[column.key]"
+              :src="row[column.key]"
+              alt="Imagen"
+              class="w-40 h-40 object-cover rounded"
+            />
+            <!-- Mostrar texto normal -->
+            <span v-else>
               {{ row[column.key]?.toString().length > 50 ? row[column.key].toString().slice(0, 50) + '...' : row[column.key] }}
-            </td>
+            </span>
+          </td>
             <td v-if="showActions" class="px-4 py-2">
               <slot name="actions" :row="row" />
             </td>

@@ -29,9 +29,10 @@ const links = [
   { name: 'Dashboard', to: '/admin', icon: HomeIcon },
   { name: 'Usuarios', to: '/admin/users', icon: UsersIcon },
   { name: 'Productos', to: '/admin/products', icon: ShoppingBagIcon },
-{ name: 'Categorías', to: '/admin/categoriaProductos', icon: Squares2X2Icon },
+  { name: 'Categorías', to: '/admin/categoriaProductos', icon: Squares2X2Icon },
   { name: 'Ventas', to: '/admin/ventas', icon:CurrencyDollarIcon  },
   { name: 'Suscripciones', to: '/admin/suscripciones', icon:CreditCardIcon  },
+  { name: 'Usuarios Suscripciones', to: '/admin/usuariosSuscripciones', icon:CreditCardIcon  },
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon:BookmarkIcon   },
   { name: 'Volver', to: '/' }
 ]
