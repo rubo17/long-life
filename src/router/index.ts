@@ -6,6 +6,8 @@ import FinalizarCompra from '../layouts/FinalizarCompra.vue'
 import CategoriaProductos from '../views/admin/CategoriaProductos.vue'
 import ContenidosPremiumAdmin from '../views/admin/ContenidosPremiumAdmin.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
+import Empleados from '../views/admin/Empleados.vue'
+import PlanesUsuario from '../views/admin/PlanesUsuario.vue'
 import Products from '../views/admin/Products.vue'
 import Suscripciones from '../views/admin/Suscripciones.vue'
 import SuscripcionesUsuario from '../views/admin/SuscripcionesUsuario.vue'
@@ -98,6 +100,8 @@ const routes = [
       { path: 'suscripciones', name: 'admin-suscripciones', component: Suscripciones },
       { path: 'contenidosPremium', name: 'admin-contenidosPremium', component: ContenidosPremiumAdmin },
       { path: 'categoriaProductos', name: 'admin-categorias', component: CategoriaProductos },
+      { path: 'usuariosPlanes', name: 'admin-usuariosPlanes', component: PlanesUsuario },
+      { path: 'empleados', name: 'admin-empleados', component: Empleados },
     ]
   }
 ]

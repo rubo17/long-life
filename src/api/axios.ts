@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost/longLifeBack/public'
+  baseURL: 'http://localhost/longLifeBack/public/api/'
 })
 
 export default api

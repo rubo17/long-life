@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import api from '../../../api/axios';
 export function useUsers() {
-  const users = ref([]);
+  const users = ref<any>([]);
   const loading = ref(false);
   const error = ref("");
 

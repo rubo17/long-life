@@ -20,31 +20,30 @@
           <h2 class="text-sm font-semibold text-gray-500">Pedidos pendientes</h2>
           <p class="text-2xl font-bold text-red-500">7</p>
         </div>
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <h2 class="text-sm font-semibold text-gray-500">Empleados</h2>
+          <p class="text-2xl font-bold text-blue-500">{{ empleados.length }}</p>
+        </div>
       </div>
   
-      <!-- Gráfico / Actividad reciente -->
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Actividad reciente</h2>
-        <ul class="text-sm text-gray-600 list-disc pl-5 space-y-2">
-          <li>Nuevo producto añadido: Proteína Vegana</li>
-          <li>Pedido #1023 marcado como enviado</li>
-          <li>Usuario registrado: juan@gmail.com</li>
-        </ul>
-      </div>
     </div>
   </template>
   
   <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import api from '../../api/axios';
+import { useEmpleados } from '../../composables/api/admin/UseEmpleados';
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin';
 import { useUsers } from '../../composables/api/admin/UseUsers';
 const { products,fetchProducts } = useProductsAdmin() 
 const {fetchUsers,users}= useUsers()
+const {empleados,fetchEmpleados}= useEmpleados()
+
 onMounted(() => {
   fetchProducts()
   fetchUsers(),
   fetchTotalVentas()
+  fetchEmpleados()
 })
 const totalVentas = ref()
 const fetchTotalVentas = async () => {

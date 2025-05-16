@@ -100,6 +100,7 @@
   
 
   <script setup lang="ts">
+import { notify } from '@kyvg/vue3-notification'
 import { jwtDecode } from 'jwt-decode'
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -179,10 +180,10 @@ const cancelarPedido = async (id: number) => {
 
     const response = await api.put(`/cancelar-pedido/${id}`)
 
-    alert(response.data.message || 'Pedido cancelado')
+    notify({ type: 'success', title: 'Pedido Cancelado correctamente' })
     fetchPedidos(currentPage.value)
   } catch (error: any) {
-    alert(error.response?.data?.message || 'Error al cancelar el pedido')
+    notify({ type: 'error', title: 'No se ha podido cancelar el pedido ' })
   }
 }
 
