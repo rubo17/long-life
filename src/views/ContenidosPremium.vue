@@ -30,25 +30,26 @@
   
   <script setup>
   import { onMounted, ref } from 'vue';
-  
+import api from '../api/axios';
   const contenidos = ref([]);
   const BASE_URL = 'http://localhost/longLifeBack/public/'; 
   
-  onMounted(async () => {
-    const token = localStorage.getItem('token');
-  
-    try {
-      const res = await fetch(BASE_URL + '/contenidoPremiumUsuario', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-  
-      const data = await res.json();
-      contenidos.value = data.data ?? [];
-    } catch (err) {
-      console.error('Error cargando los contenidos:', err);
-    }
-  });
+onMounted(async () => {
+  const token = localStorage.getItem('token')
+
+  try {
+    const res = await api.get('/contenidoPremiumUsuario', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    contenidos.value = res.data.data ?? []
+    console.log(contenidos.value)
+  } catch (err) {
+    console.error('Error cargando los contenidos:', err)
+  }
+})
+
   </script>
   

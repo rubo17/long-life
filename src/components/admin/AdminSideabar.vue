@@ -36,6 +36,7 @@ const links = [
   { name: 'Categorías', to: '/admin/categoriaProductos', icon: Squares2X2Icon },
   { name: 'Ventas', to: '/admin/ventas', icon: CurrencyDollarIcon },
   { name: 'Suscripciones', to: '/admin/suscripciones', icon: CreditCardIcon },
+  { name: 'Planes', to: '/admin/planes', icon: CreditCardIcon },
   { name: 'Usuarios Suscripciones', to: '/admin/usuariosSuscripciones', icon: UserGroupIcon },
   { name: 'Usuarios con Planes', to: '/admin/usuariosPlanes', icon: ClipboardDocumentListIcon },
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon: StarIcon },

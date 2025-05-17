@@ -72,8 +72,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import api from '../api/axios';
 import { useAuthLogin } from '../composables/api/login/UseUserLogin';
 import CruzSuscripciones from './icons/CruzSuscripciones.vue';
@@ -98,7 +98,33 @@ const suscripcionInfo = [
 ]
 const router = useRouter()
 const user = JSON.parse(localStorage.getItem('user') || '{}')
+const route = useRoute()
+const { refreshAuth } = useAuthLogin()
 
+const sessionId = route.query.session_id as string
+
+onMounted(async () => {
+  if (!sessionId) return
+
+  try {
+    // Confirmar suscripción
+    await api.post('/confirmCheckoutSubscription', { session_id: sessionId })
+
+    // Refrescar token (re-loguear sesión)
+    const refresh = await api.post('/auth/refreshToken', {}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+
+    if (refresh.data.token) {
+      localStorage.setItem('token', refresh.data.token)
+      refreshAuth() // 👈 actualiza estado global (ej. isLoggedIn, esPremium, user)
+    }
+  } catch (err) {
+    console.error('Error al confirmar suscripción o refrescar sesión:', err)
+  }
+})
 const {isLoggedIn,esPremium}= useAuthLogin()
 
 const suscribirse = async (priceId, planName,id) => {

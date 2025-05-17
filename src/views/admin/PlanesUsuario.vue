@@ -35,8 +35,13 @@
           <input v-model="plan.id_plan" type="number" class="w-full px-4 py-2 border rounded-lg" required />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">ID Empleado</label>
-          <input v-model="plan.id_empleado" type="number" class="w-full px-4 py-2 border rounded-lg" />
+          <label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+          <select v-model="plan.id_empleado" class="w-full px-4 py-2 border rounded-lg" required>
+            <option disabled value="">Selecciona un usuario</option>
+            <option v-for="empleado in empleados" :key="empleado.id" :value="empleado.id">
+              {{ empleado.nombre }}
+            </option>
+          </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
@@ -69,6 +74,7 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import { useEmpleados } from '../../composables/api/admin/UseEmpleados'
 import { usePlanesUsuarios } from '../../composables/api/admin/usePlanesUsuarios'
 import { useUsers } from '../../composables/api/admin/UseUsers'
 
@@ -85,6 +91,7 @@ const {
 } = usePlanesUsuarios()
 
 const {users,fetchUsers} = useUsers();
+const {empleados,fetchEmpleados}= useEmpleados();
 
 const showModal = ref(false)
 const modoEdicion = ref(false)
@@ -92,6 +99,7 @@ const editandoId = ref<number | null>(null)
 
 onMounted(()=>{
   fetchUsers()
+  fetchEmpleados()
 })
 
 const plan = ref({
@@ -105,9 +113,9 @@ const plan = ref({
 
 const columns = [
   { key: 'id', label: 'ID' },
-  { key: 'id_usuario', label: 'Usuario' },
-  { key: 'id_plan', label: 'Plan' },
-  { key: 'id_empleado', label: 'Empleado' },
+  { key: 'nombre_usuario', label: 'Usuario' },
+  { key: 'nombre_plan', label: 'Plan' },
+  { key: 'empleado_nombre', label: 'Empleado' },
   { key: 'status', label: 'Estado' },
   { key: 'fecha_inicio', label: 'Inicio' },
   { key: 'fecha_fin', label: 'Fin' }

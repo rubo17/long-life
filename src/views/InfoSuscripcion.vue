@@ -17,10 +17,17 @@
         <p class="font-bold">⏳ Estado:</p>
         <p :class="statusColor">{{ statusDisplay }}</p>
       </div>
-      <div v-if="suscripcion?.cancel_at">
-        <p class="font-bold">🛑 Se desactiva el:</p>
-        <p>{{ formatFecha(suscripcion.cancel_at) }}</p>
-      </div>
+<!-- Si está cancelada, muestra la fecha de desactivación -->
+    <div v-if="suscripcion?.cancel_at">
+      <p class="font-bold">🛑 Se desactiva el:</p>
+      <p>{{ formatFecha(suscripcion.cancel_at) }}</p>
+    </div>
+
+    <!-- Si NO está cancelada, muestra la renovación estimada -->
+    <div v-else>
+      <p class="font-bold">🔁 Renovación el:</p>
+      <p>{{ calcularRenovacion() }}</p>
+    </div>
     </div>
 
     <div class="mt-10 text-center">
@@ -121,6 +128,20 @@ const cancelarSuscripcion = async () => {
   } finally {
     loading.value = false
   }
+}
+const calcularRenovacion = () => {
+  if (!suscripcion.value) return null
+
+  const inicio = new Date(suscripcion.value.start_date)
+  const tipo = suscripcion.value.nombre?.toLowerCase() || ''
+
+  if (tipo.includes('mensual')) {
+    inicio.setMonth(inicio.getMonth() + 1)
+  } else if (tipo.includes('anual')) {
+    inicio.setFullYear(inicio.getFullYear() + 1)
+  }
+
+  return formatFecha(inicio)
 }
 
 onMounted(fetchSuscripcion)

@@ -36,7 +36,7 @@
           </div>
 
           <select class="block border rounded-md p-2" v-model="selectedQuantity">
-            <option disabled :value="null">Selecciona las unidades</option>
+            <option disabled :value="0">Selecciona las unidades</option>
             <option v-for="n in Number(product?.stock)" :key="n" :value="n">
               {{ n }}
             </option>
@@ -44,13 +44,17 @@
 
           <p class="font-bold">En Stock: {{ product?.stock }}</p>
 
-          <button @click="addToCart" :disabled="!isLoggedIn"
-            class="px-6 py-2 rounded-full font-medium mt-4 w-full text-white transition-all" :class="{
-              'bg-green-500 hover:bg-blue-500 cursor-pointer': isLoggedIn,
-              'bg-gray-400 opacity-50 cursor-not-allowed': !isLoggedIn
-            }">
-            Añadir al carrito
-          </button>
+      <button
+        @click="addToCart"
+        :disabled="!isLoggedIn || Number(product?.stock) === 0"
+        class="px-6 py-2 rounded-full font-medium mt-4 w-full text-white transition-all"
+        :class="{
+          'bg-green-500 hover:bg-blue-500 cursor-pointer': isLoggedIn && Number(product?.stock) > 0,
+          'bg-gray-400 opacity-50 cursor-not-allowed': !isLoggedIn || Number(product?.stock) === 0
+        }"
+      >
+        Añadir al carrito
+      </button>
         </div>
       </div>
 
@@ -81,6 +85,7 @@
 
 
 <script setup lang="ts">
+import { notify } from '@kyvg/vue3-notification';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCart } from '../composables/api/carrito/UseCart';
@@ -95,7 +100,7 @@ const router = useRouter();
 const { product, fetchProduct, loading } = useProductById(route.params.id as string);
 
 const { addToCart: addToCartFn, cart } = useCart();
-const selectedQuantity = ref<number | null>(null);
+const selectedQuantity = ref<number>(0);
 
 const { isLoggedIn } = useAuthLogin();
 
@@ -104,13 +109,18 @@ onMounted(async () => {
 });
 
 const addToCart = () => {
-  if (!product.value || !selectedQuantity.value) return;
+  if (!product.value) return;
 
-  const existingProduct = cart.value.find(p => p.id_producto === product.value?.id_producto);
-  const totalCantidad = (existingProduct?.cantidad || 0) + selectedQuantity.value;
+  if (Number(product.value.stock) > 0 && !selectedQuantity.value) {
+    notify({ type: 'warn', text: 'Por favor, selecciona una cantidad antes de añadir al carrito' });
+    return;
+  }
+
+  const existingProduct = cart.value.find(p => p.id_producto === product.value!.id_producto);
+  const totalCantidad = (existingProduct?.cantidad || 0) + selectedQuantity.value!;
 
   if (totalCantidad > Number(product.value.stock)) {
-    alert('No hay suficiente stock disponible.');
+    notify({ type: 'error', text: 'No hay suficiente stock de este producto' });
     return;
   }
 
@@ -121,4 +131,5 @@ const addToCart = () => {
 
   router.push('/carrito');
 };
+
 </script>
