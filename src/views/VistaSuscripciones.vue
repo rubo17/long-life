@@ -1,7 +1,7 @@
 <template>
     <section 
       class="relative h-128 flex items-center justify-center text-center bg-cover bg-center shadow-md" 
-      style="background-image: url('/images/suscripciones.webp');"
+      style="background-image: url('images/suscripciones.webp');"
     >
       <div class="relative z-10 max-w-2xl mx-auto p-6">
         <h1 class="text-3xl sm:text-5xl font-extrabold text-white">TRANSFORMA TU CUERPO Y TU VIDA PARA SIEMPRE</h1>

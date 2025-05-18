@@ -1,5 +1,5 @@
 <template>
-  <section class="relative h-128 bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('/images/bannerInicio.webp');">
+  <section class="relative h-128 bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('images/bannerInicio.webp');">
     <div class="text-center bg-opacity-50 p-4 rounded-lg">
     </div>
     <a class="" href="#suscripciones">
