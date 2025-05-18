@@ -250,11 +250,33 @@ onMounted(async () => {
     console.error('Error al verificar tipo de usuario:', error)
   }
 
+try {
+  const check = await api.post('/verificarEstadoSuscripcion', {
+    id_usuario: userId
+  })
+
+  if (check.data.status === 'actualizado') {
+    // Solo si se actualizó la suscripción, refrescamos el token
+    const refresh = await api.post('/auth/refreshToken', {}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+
+    if (refresh.data.token) {
+      localStorage.setItem('token', refresh.data.token)
+      refreshAuth()
+    }
+  }
+} catch (err) {
+  console.error('Error verificando la suscripción:', err)
+}
+
   form.value.nombre = usuario.nombre || ''
   form.value.email = usuario.email || ''
 })
 
-const {esPremium}= useAuthLogin();
+const {esPremium,refreshAuth}= useAuthLogin();
 
 const showMedicionModal = ref(false)
 const nuevaMedicion = ref({

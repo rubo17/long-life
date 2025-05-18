@@ -11,7 +11,8 @@
                 <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
                 <input type="tel" id="telefono" v-model="direccion.telefono" class="w-full border rounded-md p-2 focus:ring focus:ring-green-200" required />
               </div>
-    
+             <p v-if="errorTelefono" class="text-red-500">{{ errorTelefono }}</p>
+
               <div v-if="props.metodoEntrega === 'domicilio'">
                 <label for="calle" class="block text-sm font-medium text-gray-700">Dirección</label>
                 <input type="text" id="calle" v-model="direccion.calle" class="w-full border rounded-md p-2 focus:ring focus:ring-green-200" required />
@@ -41,6 +42,8 @@
                 <label for="dni" class="block text-sm font-medium text-gray-700">Dni</label>
                 <input type="text" id="dni" v-model="direccion.dni" class="w-full border rounded-md p-2 focus:ring focus:ring-green-200" required />
               </div>
+              <p v-if="errorDni" class="text-red-500">{{ errorDni }}</p>
+
     
               <div class="pt-2 text-center">
                 <button type="submit" class="w-full cursor-pointer transition bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow">
@@ -57,6 +60,9 @@ import { jwtDecode } from 'jwt-decode';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../../api/axios';
+
+const errorTelefono = ref('')
+const errorDni = ref('')
 
 const props = defineProps<{
   metodoEntrega: 'domicilio' | 'tienda'
@@ -105,6 +111,25 @@ if (token) {
 const enviarFormulario = async () => {
   console.log('Dirección enviada:', direccion.value)
 
+  // Regex para validar teléfono y DNI
+  const telefonoRegex = /^(6|7|8|9)\d{8}$/
+  const dniRegex = /^\d{8}[A-HJ-NP-TV-Z]$/
+
+  // Resetear errores
+  errorTelefono.value = ''
+  errorDni.value = ''
+
+  // Validaciones
+  if (!telefonoRegex.test(direccion.value.telefono)) {
+    errorTelefono.value = 'Por favor, introduce un número de teléfono válido.'
+    return
+  }
+
+  if (!dniRegex.test(direccion.value.dni)) {
+    errorDni.value = 'Por favor, introduce un DNI válido.'
+    return
+  }
+
   try {
     const response = await api.post('/finalizarCompra/payment-intent', {
       items: carrito.value,
@@ -120,7 +145,6 @@ const enviarFormulario = async () => {
       },
       metodo_entrega: props.metodoEntrega,
       user_id: userId 
-
     })
 
     const clientSecret = response.data.clientSecret
@@ -132,4 +156,6 @@ const enviarFormulario = async () => {
     console.error('Error al crear el PaymentIntent:', error)
   }
 }
+
+
 </script>

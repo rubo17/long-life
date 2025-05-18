@@ -94,7 +94,7 @@ export function useAuthLogin() {
   const esPremium = computed(() => decodedToken.value?.esPremium === true);
   // ✅ NUEVA función refreshAuth
   function refreshAuth() {
-    const newToken = localStorage.getItem('tok en');
+    const newToken = localStorage.getItem('token');
     token.value = newToken;
 
     if (newToken) {

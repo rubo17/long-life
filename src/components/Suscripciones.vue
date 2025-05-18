@@ -3,13 +3,13 @@
     <!-- Suscripción Anual -->
     <div class="bg-[#1D1D1D] p-6 rounded-lg shadow-md text-white text-center w-full md:w-1/2">
       <p class="text-green-600 font-semibold text-lg">
-        Suscripción <span class="font-bold">PREMIUM</span> anual
+        Suscripción <span class="font-bold">PREMIUM</span> mensual
       </p>
       <h1 class="font-extrabold text-3xl pt-2">
         15,75 € <span class="font-normal text-2xl">/MES</span>
       </h1>
       <h2 class="text-gray-400 pt-2">
-        *Pago único anual de 189€ (ahorras 111)
+        *Paga mes a mes
       </h2>
 
       <button 
@@ -36,13 +36,13 @@
     <!-- Suscripción Mensual -->
     <div class=" p-6 rounded-lg shadow-md border text-center w-full md:w-1/2">
       <p class="text-blue-600 font-semibold text-lg">
-        Suscripción <span class="font-bold">PREMIUM</span> mensual
+        Suscripción <span class="font-bold">PREMIUM</span> anual
       </p>
       <h1 class="font-extrabold text-3xl pt-2">
-        25 € <span class="font-normal text-2xl">/MES</span>
+        15,75 € <span class="font-normal text-2xl">/MES</span>
       </h1>
       <h2 class="text-gray-900 pt-2">
-        *Paga mes a mes
+        *Pago único anual de 189€ (ahorras 111)
       </h2>
 
       <button  
