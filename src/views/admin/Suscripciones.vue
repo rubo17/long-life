@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto p-6 space-y-10">
-    <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold mb-4">Planes de Suscripción</h1>
-      <CreateButton text="Crear Suscripcion" @click="comenzarCreacion" />
+    <div class="flex gap-5 md:justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold mb-4">Suscripciones</h1>
+      <CreateButton text="Crear Suscripcion" @click="comenzarCreacion()" />
     </div>
 
     <div v-if="loading" class="text-center">Cargando...</div>

@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto p-6 space-y-10">
-    <div class="flex justify-between">
-      <h1 class="text-2xl font-bold mb-4">Productos</h1>
-      <CreateButton text="Crear Producto" @click="comenzarCreacion" />
+    <div class="flex gap-5 md:justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold mb-4">Productos</h1>
+      <CreateButton text="Crear Producto" @click="comenzarCreacion()" />
     </div>
 
     <div v-if="loading">Cargando productos...</div>

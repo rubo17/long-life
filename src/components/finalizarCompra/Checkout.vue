@@ -31,7 +31,7 @@ import { useCart } from '../../composables/api/carrito/UseCart'
   
   const loading = ref(false)
   const error = ref('')
-  const stripePromise = loadStripe("pk_test_51REpfRFMywclhIX2fvMzezEH6oljCi0O3JNQ8zUNIK6KZn2UqKpVcD1FY3P7gJlJqC3TzlDIhFEuZZBrq29FsjNE00gN5Jwr06")
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
   const {clearCart}=useCart();
   const router = useRouter();
   onMounted(async () => {

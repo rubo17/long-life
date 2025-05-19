@@ -1,9 +1,8 @@
 <template>
   <div class="container mx-auto p-6 space-y-10">
-    <div class="flex justify-between">
-      <h1 class="text-2xl font-bold mb-4">Contenidos Premium</h1>
-      <CreateButton text="Crear Contenido Premium" @click="comenzarCreacion" />
-
+    <div class="flex gap-5 md:justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold mb-4">Conternidos Premium</h1>
+      <CreateButton text="Crear Contenidos Premium" @click="comenzarCreacion()" />
     </div>
 
     <div v-if="loading" class="text-center">Cargando...</div>

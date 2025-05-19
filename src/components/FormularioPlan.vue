@@ -28,7 +28,7 @@
         <textarea v-model="form.observaciones" placeholder="Observaciones adicionales" class="w-full p-2 border rounded"></textarea>
   
         <button class="w-full py-3 bg-green-600 text-white font-bold rounded hover:bg-green-700 cursor-pointer">
-          Ir al pago →
+          {{ loading ? 'Ir al pago ...' : 'Ir al pago →'}}
         </button>
       </form>
   
@@ -41,7 +41,7 @@
         <form @submit.prevent="confirmarPago" class="space-y-4">
           <div id="card-element" class="p-4 border rounded"></div>
           <button class="w-full py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 cursor-pointer">
-            Confirmar y pagar
+           {{ loading ? 'Pagando ...' : 'Confirmar y pagar' }}
           </button>
         </form>
       </div>
@@ -77,17 +77,21 @@ import api from '../api/axios'
     experiencia: '',
     observaciones: ''
   })
+
+  const loading = ref(false)
   
   const enviarFormulario = async () => {
+    loading.value=true
     try {
       const res = await api.post('/planes/procesar', {
         ...form.value,
         id_usuario: userId
       })
+      loading.value=false
       clientSecret.value = res.data.clientSecret
       total.value = res.data.amount 
 
-      stripe = await loadStripe('pk_test_51REpfRFMywclhIX2fvMzezEH6oljCi0O3JNQ8zUNIK6KZn2UqKpVcD1FY3P7gJlJqC3TzlDIhFEuZZBrq29FsjNE00gN5Jwr06')
+      stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
       elements = stripe.elements()
       card = elements.create('card')
       card.mount('#card-element')
@@ -98,6 +102,7 @@ import api from '../api/axios'
   }
   
   const confirmarPago = async () => {
+    loading.value=true
     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret.value, {
       payment_method: {
         card: card,
@@ -110,11 +115,12 @@ import api from '../api/axios'
     await api.post('/planes/confirmar-pago', {
       paymentIntentId: paymentIntent.id
     })
+    loading.value=false
     notify({ type: 'success', title: '¡Pago realizado y plan activado correctamente!' });
 
     setTimeout(() => {
       router.push('/perfil') 
-    }, 2000) 
+    }, 1000) 
 
   } catch (e) {
     console.error('Error al activar el plan:', e)

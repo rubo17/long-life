@@ -74,10 +74,10 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import Paginator from '../../components/Paginator.vue'
 import { useEmpleados } from '../../composables/api/admin/UseEmpleados'
 import { usePlanesUsuarios } from '../../composables/api/admin/usePlanesUsuarios'
 import { useUsers } from '../../composables/api/admin/UseUsers'
-
 const {
   planesUsuarios,
   fetchPlanesUsuarios,

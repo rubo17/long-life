@@ -26,9 +26,11 @@
     </button>
 
 
-      <p v-for="info in suscripcionInfo" class="text-left mt-5 flex gap-2  items-start">
-        <Positivo class="text-[#155dfc] w-4 h-4" />
-        <span class="flex-1">{{ info.descripcion }}</span>
+      <p v-for="(info, index) in suscripcionInfo" :key="index"
+        class=" text-left mt-4 flex gap-2 items-center">
+          <component :is="index === 0 ? CruzSuscripciones : Positivo" class="w-4 h-4"
+          :class="index === 0 ? 'text-gray-500' : 'text-[#155dfc]'" /> 
+         <span :class="index === 0 ? 'text-gray-500 flex-1' : 'flex-1' ">{{ info.descripcion }}</span>
       </p>
 
     </div>
@@ -39,15 +41,15 @@
         Suscripción <span class="font-bold">PREMIUM</span> anual
       </p>
       <h1 class="font-extrabold text-3xl pt-2">
-        15,75 € <span class="font-normal text-2xl">/MES</span>
+        12,50 € <span class="font-normal text-2xl">/MES</span>
       </h1>
       <h2 class="text-gray-900 pt-2">
-        *Pago único anual de 189€ (ahorras 111)
+        *Pago único anual de 150€ (ahorras 39)
       </h2>
 
       <button  
         :disabled="esPremium"
-        @click="suscribirse('price_1RI4R9FMywclhIX2EVNExpZN', 'Premium Anual',2)"
+        @click="suscribirse('price_1RQXw8FMywclhIX2BGGqImUW', 'Premium Anual',2)"
         :class="[
           'font-bold rounded-2xl px-6 py-3 mt-4 w-full transition duration-300',
           esPremium 
@@ -58,12 +60,9 @@
         {{ esPremium ? 'Ya eres Premium' : 'ME APUNTO' }}
     </button>
 
-      
-
       <p v-for="(info, index) in suscripcionInfo" :key="index"
-        class="text-gray-500 text-left mt-4 flex gap-2 items-start">
-        <component :is="index === 0 ? CruzSuscripciones : Positivo" class="w-4 h-4"
-          :class="index === 0 ? 'text-gray-500' : 'text-[#155dfc]'" />
+        class="text-gray-500 text-left mt-4 flex gap-2 items-center">
+       <Positivo class="w-4 h-4 text-[#155dfc]"/> 
         <span class="flex-1">{{ info.descripcion }}</span>
       </p>
 
@@ -82,7 +81,7 @@ import Positivo from './icons/Positivo.vue';
 const error = ref('')
 const suscripcionInfo = [
   {
-    descripcion: "Te ahorras 10 euros.",
+    descripcion: "Te ahorras 39 euros.",
   },
   {
     descripcion: "Acceso a contenido exclusivo, con entrenamientos y dietas realizadas por profesionales.",
@@ -128,6 +127,10 @@ onMounted(async () => {
 const {isLoggedIn,esPremium}= useAuthLogin()
 
 const suscribirse = async (priceId, planName,id) => {
+  if (!isLoggedIn.value){
+      router.push("/login")
+      return
+  }
  const response = await api.post('/createCheckoutSession', {
   id_usuario: user.id_usuario,
   price_id: priceId,

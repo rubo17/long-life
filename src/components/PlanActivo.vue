@@ -116,7 +116,7 @@
       <ul class="space-y-2">
         <li v-for="(pdf, idx) in plan.planes_disenados" :key="idx">
           <a
-            :href="`http://localhost/longLifeBack/public/${pdf.archivo}`"
+          :href="`${BASE_URL}/${pdf.archivo}`"
             target="_blank"
             class="text-blue-600 hover:underline"
           >
@@ -149,7 +149,7 @@ const showModal = ref(false);
 const mensaje = ref("")
 const fechaSeleccionada = ref<Date | null>(new Date());
 const mostrarModalPlanes = ref(false);
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 const solicitarCita = async () => {
   const storedUser = localStorage.getItem('user');
   const user = storedUser ? JSON.parse(storedUser) : null;

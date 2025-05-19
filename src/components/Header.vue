@@ -4,10 +4,10 @@
       class="fixed inset-x-0 top-0 z-50 bg-white bg-opacity-60 backdrop-blur-lg backdrop-brightness-75 transition-all duration-300 shadow-md">
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5">
+          <RouterLink to="/" class="-m-1.5 p-1.5">
             <span class="sr-only">Your Company</span>
             <img class="h-20 w-auto" src="/images/longlife.png" alt="" />
-          </a>
+          </RouterLink>
         </div>
         <div class="flex lg:hidden">
           <button type="button"
@@ -63,16 +63,16 @@
         </div>
 
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a v-if="sessionState === 'Log in'" href="/login"
+          <RouterLink v-if="sessionState === 'Log in'" to="/login"
             class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500">
             {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
-          </a>
+          </RouterLink>
 
           <!-- Log out como botón -->
-          <a v-else @click="logout"
+          <p v-else @click="logout"
             class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer">
             {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
-          </a>
+          </p>
         </div>
       </nav>
       <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -80,10 +80,10 @@
         <DialogPanel
           class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div class="flex items-center justify-between">
-            <a href="/" class="-m-1.5 p-1.5">
+            <RouterLink @click="mobileMenuOpen=false" to="/" class="-m-1.5 p-1.5">
               <span class="sr-only">Your Company</span>
               <img class="h-20 w-auto sm:hidden" src="/images/longlife.png" alt="" />
-            </a>
+            </RouterLink>
             <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
               <span class="sr-only">Close menu</span>
               <XMarkIcon class="size-6 cursor-pointer" aria-hidden="true" />
@@ -92,32 +92,32 @@
           <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-gray-500/10">
               <div class="space-y-2 py-6">
-                <a v-for="item in navigation" :key="item.name" :href="item.href"
+                <RouterLink v-for="item in navigation" :key="item.name" :to="item.href"
                   class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 transition hover:text-green-500"
-                  @click="activeItem = item.name">
+                  @click="mobileMenuOpen=false">
                   {{ item.name }}
-                </a>
+                </RouterLink>
                 <div class="space-y-3 ">
-                  <a class="block" v-if="isLoggedIn" href="/admin">
+                  <RouterLink @click="mobileMenuOpen=false" class="block" v-if="isLoggedIn" to="/perfil">
                     <Profile class="w-6 h-6 transition hover:text-green-500" />
-                  </a>
-                  <a class="block" href="/carrito">
+                  </RouterLink>
+                  <RouterLink @click="mobileMenuOpen=false" class="block" to="/carrito">
                     <Cart class="w-6 h-6 transition hover:text-green-500" />
-                  </a>
+                  </RouterLink>
                 </div>
 
               </div>
               <div class="py-6">
-                <a v-if="sessionState === 'Log in'" href="/login"
+                <RouterLink v-if="sessionState === 'Log in'" to="/login"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 transition hover:text-green-500">
                   {{ sessionState }} <span class="text-green-500" aria-hidden="true">&rarr;</span>
-                </a>
+                </RouterLink>
 
                 <!-- Log out como botón -->
-                <a v-else @click="logout"
+                <p v-else @click="logout"
                   class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-red-600 hover:text-red-400 cursor-pointer">
                   {{ sessionState }} <span class="text-red-400" aria-hidden="true">&rarr;</span>
-                </a>
+                </p>
 
               </div>
             </div>

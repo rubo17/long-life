@@ -1,8 +1,8 @@
-// src/api/axios.js
+// src/services/api.ts
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost/longLifeBack/public/api/'
+  baseURL: `${import.meta.env.VITE_API_URL}/api/`
 })
 
 export default api

@@ -4,11 +4,10 @@
     </div>
     <a class="" href="#suscripciones">
     <BotonComienzaTuCambio/>
-
   </a>
   </section>
 
-  <section id="diferencias" class="py-12 bg-gray-100 text-center">
+  <section id="diferencias" class="py-12 text-center">
   <h1 class="text-3xl sm:text-5xl font-bold mb-6 text-gray-800">Descubre la diferencia entre <span class="text-green-500">LongLife</span> y hacerlo por tu cuenta</h1>
 
   <div class="flex flex-col lg:flex-row justify-center gap-6 max-w-6xl mx-auto px-4">

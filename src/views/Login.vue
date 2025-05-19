@@ -26,7 +26,7 @@
             <div class="flex items-center justify-between">
               <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
               <div class="text-sm">
-                <a href="/forgotPassword" class="font-semibold text-green-500 hover:text-green-400">Forgot password?</a>
+                <RouterLink to="/forgotPassword" class="font-semibold text-green-500 hover:text-green-400">Forgot password?</RouterLink>
               </div>
             </div>
             <div class="mt-2">
@@ -50,11 +50,11 @@
         <div>
             <p class="mt-10 text-center text-sm/6 text-gray-500">
             Continua como invitado
-            <a href="/" class="font-semibold text-blue-500 hover:text-blue-600">Click aqui</a>
+            <RouterLink to="/" class="font-semibold text-blue-500 hover:text-blue-600">Click aqui</RouterLink>
           </p>
           <p class="mt-5 text-center text-sm/6 text-gray-500">
             No tienes una cuenta?
-            <a href="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</a>
+            <RouterLink to="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</RouterLink>
           </p>
         </div>  
       </div>
@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { useAuthLogin } from '../composables/api/login/UseUserLogin'
 import { useRole } from '../composables/UseRole'
 

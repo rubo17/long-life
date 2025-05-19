@@ -9,14 +9,24 @@
 
     <div class="p-5 space-y-10">
         <!-- Mensaje de producto añadido -->
-        <div class="flex justify-between items-center bg-green-50 px-4 py-2 rounded-md">
-        <div class="flex items-center gap-3 text-green-700">
-            <Positivo v-if="cart.length>0" class="w-6 h-6 text-green-500" />
-              <p v-if="cart.length>0" class="text-sm">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</p>
-              <p v-if="cart.length==0" class="text-sm">El carrito esta vacio.</p>
-            </div>
-        <router-link class="text-sm text-white p-4 bg-gray-800 rounded-lg cursor-pointer" to="/tienda">Seguir comprando</router-link>
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-green-50 px-4 py-4 rounded-md min-h-[100px]">
+        <!-- Mensaje -->
+        <div class="flex items-center gap-3 text-green-700 text-center md:text-left">
+          <Positivo v-if="cart.length > 0" class="w-6 h-6 text-green-500" />
+          <p class="text-sm">
+            <span v-if="cart.length > 0">{{ cart[cart.length - 1]?.nombre }} se ha añadido a tu carrito.</span>
+            <span v-else>El carrito está vacío.</span>
+          </p>
         </div>
+
+        <!-- Botón -->
+        <router-link
+          class="w-full md:w-auto text-sm text-white text-center px-6 py-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition"
+          to="/tienda"
+        >
+          Seguir comprando
+        </router-link>
+      </div>
 
         <!-- Lista de productos -->
         <ProductInCart v-if="cart.length > 0" :products="cart" />

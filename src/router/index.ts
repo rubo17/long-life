@@ -33,6 +33,7 @@ import Pedidos from '../views/Pedidos.vue'
 import Perfil from '../views/perfil.vue'
 import Planes from '../views/Planes.vue'
 import PlanesActivos from '../views/PlanesActivos.vue'
+import PoliticaPrivacidad from '../views/PoliticaPrivacidad.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import QueEsLongLife from '../views/QueEsLongLife.vue'
 import Register from '../views/register.vue'
@@ -40,6 +41,7 @@ import ResetPassword from '../views/ResetPassword.vue'
 import ResultadosEstudio from '../views/ResultadosEstudio.vue'
 import Succes from '../views/Succes.vue'
 import SuscripcionSucces from '../views/SuscripcionSucces.vue'
+import TerminosCondiciones from '../views/terminosCondiciones.vue'
 import Tienda from '../views/Tienda.vue'
 import VistaSuscripciones from '../views/VistaSuscripciones.vue'
 const routes = [
@@ -73,6 +75,8 @@ const routes = [
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
       { path: '/misCitas', name: 'misCitas', component: MisCitasEmpleado },
       { path: '/infoSuscripcion', name: 'infoSuscripcion', component: InfoSuscripcion, meta: { requiresAuth: true,requiresPremium: true }},
+      { path: '/politicaPrivacidad', name: 'politicaPrivacidad', component: PoliticaPrivacidad},
+      { path: '/terminosCondiciones', name: 'terminosCondiciones', component: TerminosCondiciones},
 
     ]
   },

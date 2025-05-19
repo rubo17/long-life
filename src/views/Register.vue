@@ -56,12 +56,13 @@
 
       <p class="mt-10 text-center text-sm text-gray-500">
         ¿Ya tienes una cuenta?
-        <a href="/login" class="font-semibold text-green-500 hover:text-green-400">Inicia Sesión</a>
+        <RouterLink to="/login" class="font-semibold text-green-500 hover:text-green-400">Inicia Sesión</RouterLink>
       </p>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import { useRegister } from '../composables/api/login/UseUserRegister';
 
 const {
