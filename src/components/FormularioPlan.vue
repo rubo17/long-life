@@ -5,14 +5,7 @@
       <!-- Formulario usuario -->
       <form v-if="!clientSecret" @submit.prevent="enviarFormulario" class="space-y-6">
         <!-- Selección de plan -->
-        <div>
-          <label class="block font-semibold">Plan:</label>
-          <select v-model="form.id_plan" class="w-full p-2 border rounded" required>
-            <option disabled value="">-- Elige un plan --</option>
-            <option :value="1">Plan Nutrición</option>
-            <option :value="2">Plan Entrenamiento</option>
-          </select>
-        </div>
+      <p class="text-blue-500 font-semibold text-center">{{ Number(planId) === 1 ? 'Plan de nutricion seleccionado' : 'Plan de entrenamiento seleccionado' }}</p>
   
         <!-- Datos -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -48,26 +41,32 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { notify } from '@kyvg/vue3-notification'
 import { loadStripe } from '@stripe/stripe-js'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import api from '../api/axios'
 
   let stripe
   let elements
   let card
   
-  const user = JSON.parse(localStorage.getItem("user"))
-  const userId = user.id_usuario ?  user.id_usuario : 1
-  const router = useRouter()
+
+const router = useRouter()
+const route = useRoute()
+
+const planId = Number(route.params.id)
+
+const userRaw = localStorage.getItem("user")
+const user = userRaw ? JSON.parse(userRaw) : null
+const userId = user?.id_usuario ?? 1
 
   const clientSecret = ref(null)
   const total = ref(0)
 
   const form = ref({
-    id_plan: '',
+    id_plan: planId,
     edad: '',
     peso: '',
     altura: '',
@@ -130,5 +129,8 @@ import api from '../api/axios'
 
     }
   }
+  onMounted(()=>{
+    console.log("idplan "+ planId)
+  })
   </script>
   

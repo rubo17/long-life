@@ -140,7 +140,7 @@ import Profile from './icons/Profile.vue'
 
 const navigation = [
   { name: 'Inicio', href: '/' },
-  { name: 'Que es longLife', href: '/longlife' },
+  { name: 'Que es longLife', href: '/QueEsLongLife' },
   { name: 'Planes', href: '/planes' },
   { name: 'Suscripciones', href: '/suscripciones' },
   { name: 'Tienda', href: '/tienda' },

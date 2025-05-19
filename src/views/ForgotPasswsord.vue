@@ -29,7 +29,7 @@
   
         <p class="mt-10 text-center text-sm/6 text-gray-500">
           No tienes una cuenta?
-          <a href="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</a>
+          <RouterLink to="/register" class="font-semibold text-green-500 hover:text-green-400">Registrate</RouterLink>
         </p>
       </div>
     </div>
@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 
 const email = ref('')

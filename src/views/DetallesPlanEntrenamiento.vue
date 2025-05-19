@@ -20,7 +20,7 @@
           <router-link
           v-if="!tienePlanActivo"
           class="block bg-red-500 text-white text-center py-4 rounded-lg text-lg font-semibold hover:bg-red-600 transition cursor-pointer"
-          to="/conseguirPlan"
+          to="/conseguirPlan/2"
         >
         Adquirir Plan por 50 € →
       </router-link>

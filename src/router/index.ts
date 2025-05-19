@@ -52,7 +52,7 @@ const routes = [
     children: [
       { path: '', name: 'inicio', component: Inicio },
       { path: '/contacto', name: 'contacto', component: Contacto },
-      { path: '/longlife', name: 'longlife', component: QueEsLongLife },
+      { path: '/QueEsLongLife', name: 'QueEsLongLife', component: QueEsLongLife },
       { path: '/planes', name: 'planes', component: Planes },
       { path: '/tienda', name: 'tienda', component: Tienda },
       { path: '/carrito', name: 'carrito', component: Carrito, meta: { requiresAuth: true } },
@@ -70,7 +70,7 @@ const routes = [
       { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
       { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: { requiresAuth: true, requiresPremium: true } },
       { path: '/blog', name: 'blog', component: Blog },
-      { path: '/conseguirPlan', name: 'conseguirPlan', component: ConseguirPlan, meta: { requiresAuth: true }},
+      { path: '/conseguirPlan/:id', name: 'conseguirPlan', component: ConseguirPlan, meta: { requiresAuth: true }},
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
       { path: '/misCitas', name: 'misCitas', component: MisCitasEmpleado },
@@ -113,7 +113,7 @@ const routes = [
 ]
 
 
-const router = createRouter({ history: createWebHistory(), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
+const router = createRouter({ history: createWebHistory('/longLife/'), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
 
 // 🚀 Protección de rutas para admin
 router.beforeEach((to, from, next) => {

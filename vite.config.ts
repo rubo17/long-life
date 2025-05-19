@@ -5,6 +5,7 @@ import svgLoader from 'vite-svg-loader';
 import { defineConfig } from 'vite';
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/longLife/', 
   plugins: [vue(),
     tailwindcss(),
     svgLoader(),
