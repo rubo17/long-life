@@ -6,7 +6,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Mis Actividades -->
-      <RouterLink to ="/clientesEmpleado" v-if="esEmpleado" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block">
+      <RouterLink to ="/clientesEmpleado" v-if="esEmpleado" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-lg hover:ring-1 hover:ring-green-300 transition block">
         <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">🧘‍♀️ Mis clientes</h2>
         <p class="text-gray-500 text-sm">Gestiona tus clientes.</p>
       </RouterLink>
@@ -14,7 +14,7 @@
       <!-- Mis Pedidos -->
       <RouterLink
         to="/pedidos"
-        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block"
+        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-lg hover:ring-1 hover:ring-green-300 transition block"
       >
           <div>
             <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📦 Mis Pedidos</h2>
@@ -26,7 +26,7 @@
       <!-- Estudio Corporal -->
        
 <!-- Estudio Corporal (solo si es Premium) -->
-  <div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4">
+  <div v-if="esPremium" class="p-6 bg-white shadow-lg rounded-lg space-y-4">
     <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📊 Estudio Corporal</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
@@ -57,7 +57,7 @@
     <p class="text-gray-400 text-sm">Este módulo es exclusivo para usuarios Premium. Suscríbete para registrar y consultar tus mediciones corporales.</p>
   </div>
 
-      <RouterLink to ="/contenidosPremium" v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-xl hover:ring-1 hover:ring-green-300 transition block">
+      <RouterLink to ="/contenidosPremium" v-if="esPremium" class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-lg hover:ring-1 hover:ring-green-300 transition block">
         <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">📚 Tu Contenido</h2>
         <p class="text-gray-500 text-sm">Accede a tus rutinas personalizadas, planes nutricionales y recursos exclusivos.</p>
       </RouterLink>
@@ -96,6 +96,16 @@
           <p class="text-gray-500 text-sm mt-2">Consulta toda la información sobre tus planes activos</p>
         </div>
       </router-link>
+            <RouterLink
+        to="/misCupones"
+        class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:shadow-lg hover:ring-1 hover:ring-green-300 transition block"
+      >
+          <div>
+            <h2 class="text-xl font-semibold text-gray-700 border-b-2 border-green-500 pb-2">🤑 Tus Cupones</h2>
+            <p class="text-gray-500 text-sm mt-2">Cupones De descuento exclusivos para ususarios Premium</p>
+          </div>
+
+      </RouterLink>
 
     </div>
     

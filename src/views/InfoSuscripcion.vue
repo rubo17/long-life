@@ -1,41 +1,39 @@
 <template>
-  <div class="max-w-3xl mx-auto mt-35 p-8 rounded-2xl shadow-lg bg-gradient-to-br from-white to-gray-50 border">
-    <h2 class="text-3xl font-extrabold text-center text-[#1D1D1D] mb-8">
+  <div class="p-5 sm:p-8 max-w-xl mx-auto mt-40 rounded-2xl shadow-md bg-white ">
+    <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6">
       Estado de tu Suscripción Premium
     </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 text-lg">
-      <div>
-        <p class="font-bold">📦 Plan:</p>
-        <p class="text-blue-700">{{ suscripcion?.nombre }}</p>
+    <div class="space-y-5 text-gray-700 text-base sm:text-lg">
+      <div class="flex justify-between">
+        <span class="font-semibold">📦 Plan:</span>
+        <span class="text-blue-600">{{ suscripcion?.nombre }}</span>
       </div>
-      <div>
-        <p class="font-bold">📅 Inicio:</p>
-        <p>{{ formatFecha(suscripcion?.start_date) }}</p>
+      <div class="flex justify-between">
+        <span class="font-semibold">📅 Inicio:</span>
+        <span>{{ formatFecha(suscripcion?.start_date) }}</span>
       </div>
-      <div>
-        <p class="font-bold">⏳ Estado:</p>
-        <p :class="statusColor">{{ statusDisplay }}</p>
+      <div class="flex justify-between">
+        <span class="font-semibold">⏳ Estado:</span>
+        <span :class="statusColor">{{ statusDisplay }}</span>
       </div>
-<!-- Si está cancelada, muestra la fecha de desactivación -->
-    <div v-if="suscripcion?.cancel_at">
-      <p class="font-bold">🛑 Se desactiva el:</p>
-      <p>{{ formatFecha(suscripcion.cancel_at) }}</p>
+
+      <div class="flex justify-between">
+        <span class="font-semibold">
+          {{ suscripcion?.cancel_at ? '🛑 Se desactiva el:' : '🔁 Renovación el:' }}
+        </span>
+        <span>
+          {{ suscripcion?.cancel_at ? formatFecha(suscripcion.cancel_at) : calcularRenovacion() }}
+        </span>
+      </div>
     </div>
 
-    <!-- Si NO está cancelada, muestra la renovación estimada -->
-    <div v-else>
-      <p class="font-bold">🔁 Renovación el:</p>
-      <p>{{ calcularRenovacion() }}</p>
-    </div>
-    </div>
-
-    <div class="mt-10 text-center">
+    <div class="mt-8 text-center">
       <button
         v-if="suscripcion?.status === 'active'"
-        @click="showModal=true"
+        @click="showModal = true"
         :disabled="loading"
-        class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl text-lg transition cursor-pointer"
+        class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-xl text-base sm:text-lg transition"
       >
         {{ loading ? 'Cancelando...' : 'Cancelar Suscripción' }}
       </button>
@@ -43,20 +41,34 @@
       <p v-if="mensaje" class="mt-4 text-green-600 font-semibold">{{ mensaje }}</p>
       <p v-if="error" class="mt-4 text-red-500 font-semibold">{{ error }}</p>
     </div>
-    <Modal :open="showModal" @close="showModal=false">
-        <h1>Hola</h1>
-        <p>Si cancelas la suscripcion seguira activa hasta el {{ formatFecha(suscripcion.cancel_at) }} </p>
-        <button
-            v-if="suscripcion?.status === 'active'"
-                @click="cancelarSuscripcion()"
-                :disabled="loading"
-                class="mt-10 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl text-lg transition cursor-pointer"
-            >
+
+    <!-- Modal de confirmación -->
+    <Modal :open="showModal" @close="showModal = false">
+      <div class="p-6 sm:p-8 text-center">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">¿Seguro que deseas cancelar?</h3>
+        <p class="text-gray-600 mb-6">
+          Tu suscripción seguirá activa hasta el <strong>{{ fechaCancelacionCalculada(suscripcion) }}</strong>.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <button
+            @click="cancelarSuscripcion()"
+            :disabled="loading"
+            class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded-lg"
+          >
             Confirmar Cancelación
-      </button>
+          </button>
+          <button
+            @click="showModal = false"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-5 rounded-lg"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
     </Modal>
   </div>
 </template>
+
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
@@ -87,6 +99,22 @@ const statusDisplay = computed(() => {
 
   return suscripcion.value.status
 })
+function fechaCancelacionCalculada(suscripcion) {
+  if (!suscripcion || !suscripcion.start_date) return '';
+
+  const fechaInicio = new Date(suscripcion.start_date);
+  const esMensual = suscripcion.nombre === 'Premium mensual';
+
+  // Sumar 1 mes o 1 año
+  const nuevaFecha = new Date(fechaInicio);
+  if (esMensual) {
+    nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
+  } else {
+    nuevaFecha.setFullYear(nuevaFecha.getFullYear() + 1);
+  }
+
+  return formatFecha(nuevaFecha); // asumiendo que esta función ya formatea la fecha
+}
 
 const fetchSuscripcion = async () => {
   loading.value = true

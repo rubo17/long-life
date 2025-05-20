@@ -14,7 +14,6 @@ import Suscripciones from '../views/admin/Suscripciones.vue'
 import SuscripcionesUsuario from '../views/admin/SuscripcionesUsuario.vue'
 import Users from '../views/admin/Users.vue'
 import Ventas from '../views/admin/Ventas.vue'
-import Blog from '../views/Blog.vue'
 import Carrito from '../views/Carrito.vue'
 import ClientesEmpleado from '../views/clientesEmpleado.vue'
 import ConseguirPlan from '../views/ConseguirPlan.vue'
@@ -28,6 +27,7 @@ import InfoSuscripcion from '../views/InfoSuscripcion.vue'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import MisCitasEmpleado from '../views/misCitasEmpleado.vue'
+import MisCupones from '../views/MisCupones.vue'
 import Pago from '../views/Pago.vue'
 import Pedidos from '../views/Pedidos.vue'
 import Perfil from '../views/perfil.vue'
@@ -69,7 +69,6 @@ const routes = [
       { path: '/resetPassword/:token', name: 'resetPassword', component: ResetPassword },
       { path: '/suscripcion/success', name: 'succesSuscrtipcion', component: SuscripcionSucces },
       { path: '/misMediciones', name: 'misMediciones', component: ResultadosEstudio, meta: { requiresAuth: true, requiresPremium: true } },
-      { path: '/blog', name: 'blog', component: Blog },
       { path: '/conseguirPlan/:id', name: 'conseguirPlan', component: ConseguirPlan, meta: { requiresAuth: true }},
       { path: '/mis-planes', name: 'misPlanes', component: PlanesActivos },
       { path: '/clientesEmpleado', name: 'clientesEmpleado', component: ClientesEmpleado },
@@ -77,6 +76,7 @@ const routes = [
       { path: '/infoSuscripcion', name: 'infoSuscripcion', component: InfoSuscripcion, meta: { requiresAuth: true,requiresPremium: true }},
       { path: '/politicaPrivacidad', name: 'politicaPrivacidad', component: PoliticaPrivacidad},
       { path: '/terminosCondiciones', name: 'terminosCondiciones', component: TerminosCondiciones},
+      { path: '/misCupones', name: 'misCupones', component: MisCupones,  meta: { requiresPremium: true }},
 
     ]
   },
@@ -113,7 +113,7 @@ const routes = [
 ]
 
 
-const router = createRouter({ history: createWebHistory('/longLife/'), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
+const router = createRouter({ history: createWebHistory(''), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
 
 // 🚀 Protección de rutas para admin
 router.beforeEach((to, from, next) => {
@@ -150,7 +150,7 @@ router.beforeEach((to, from, next) => {
     to.path.startsWith('/finalizarCompra')
   ) {
     const carrito = JSON.parse(localStorage.getItem('productsInCart') || '[]')
-    if (!carrito.length) return next('/') 
+    if (!carrito.length) return next('/tienda') 
   }
   return next();
 });

@@ -96,7 +96,8 @@ const {
   empleados, empleado, createEmpleado, editEmpleado, deleteEmpleado,
   fetchEmpleados, loading, error, currentPage, pagination
 } = useEmpleados()
-const {fetchUsers,users}= useUsers();
+const {fetchUsers,users,perPage}= useUsers();
+perPage.value=100
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const previewUrl = ref<string | null>(null)

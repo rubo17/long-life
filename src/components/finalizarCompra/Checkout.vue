@@ -19,6 +19,7 @@
   </template>
   
   <script lang="ts" setup>
+
   import { loadStripe } from '@stripe/stripe-js'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -77,6 +78,8 @@ import { useCart } from '../../composables/api/carrito/UseCart'
 
         router.push('/finalizarCompra/succes') 
         localStorage.removeItem('clientSecret')
+        localStorage.removeItem('cuponCode')
+        localStorage.removeItem('cuponInfo')
         clearCart()
 
 

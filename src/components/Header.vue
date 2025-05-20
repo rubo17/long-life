@@ -144,7 +144,6 @@ const navigation = [
   { name: 'Planes', href: '/planes' },
   { name: 'Suscripciones', href: '/suscripciones' },
   { name: 'Tienda', href: '/tienda' },
-  { name: 'Blog', href: '/blog' },
   { name: 'Contacto', href: '/contacto' },
   ]
 
