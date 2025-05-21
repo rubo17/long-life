@@ -68,6 +68,7 @@ export function useAuthLogin() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('productsInCart');
+    localStorage.removeItem('cuponInfo')
     updateRole();
     router.push('/login');
   };

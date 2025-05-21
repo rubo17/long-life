@@ -45,9 +45,10 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
           <input v-model="nuevo.password" type="password" placeholder="Contraseña"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
-            required />
+             />
           <p class="text-sm text-red-600" v-if="validationErrors.password">{{ validationErrors.password }}</p>
         </div>
+        <p class="text-red-400">Si la dejas vacia se mantendra la anterior</p>
         <!-- Rol (select) -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
@@ -55,20 +56,9 @@
             class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
             required>
             <option disabled value="">Selecciona un rol</option>
-            <option value="1">Administrador</option>
-            <option value="2">Cliente</option>
-            <option value="3">Empleado</option>
-          </select>
-        </div>
-        <!-- Suscripción (select) -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Suscripción</label>
-          <select v-model="nuevo.id_suscripcion"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
-            required>
-            <option disabled value="">Selecciona una suscripción</option>
-            <option value="1">Básica</option>
-            <option value="2">Premium</option>
+              <option :value="1">Administrador</option>
+              <option :value="2">Cliente</option>
+              <option :value="3">Empleado</option>
           </select>
         </div>
         <!-- Botón -->
@@ -109,10 +99,8 @@ const handleSubmit = async () => {
   try {
     if (modoEdicion.value && usuarioEditandoId.value) {
       await editarUsuario(usuarioEditandoId.value);
-      notify({ type: 'success', title: 'Usuario editado correctamente' });
     } else {
       await crearUsuario();
-      notify({ type: 'success', title: 'Usuario creado correctamente' });
     }
 
     showModal.value = false;
@@ -131,7 +119,6 @@ const handleSubmit = async () => {
 const confirmarEliminacion = async (id: number) => {
   if (!confirm('¿Estás seguro de que quieres eliminar este usuario?')) return;
   await eliminarUsuario(id);
-  notify({ type: 'success', title: 'Usuario eliminado correctamente' });
 
 };
 
@@ -142,18 +129,23 @@ const comenzarEdicion = (usuario: any) => {
   modoEdicion.value = true;
   usuarioEditandoId.value = usuario.id_usuario;
 
-  // Cargar los datos del usuario al formulario
   nuevo.value = {
     nombre: usuario.nombre,
     email: usuario.email,
-    password: '', // ← por seguridad lo dejas vacío
-    rol: usuario.rol,
-    id_suscripcion: usuario.id_suscripcion
+    password: '', 
+    rol: usuario.id_rol,
   };
+  console.log(nuevo.value)
 
   showModal.value = true;
 };
 const comenzarCreacion = () => {
+    nuevo.value = {
+    nombre: '',
+    email: '',
+    password: '', 
+    rol: 0,
+  };
   modoEdicion.value = false;
   showModal.value = true;
 

@@ -58,6 +58,7 @@ const links = [
   { name: 'Usuarios Suscripciones', to: '/admin/usuariosSuscripciones', icon: UserGroupIcon },
   { name: 'Usuarios con Planes', to: '/admin/usuariosPlanes', icon: ClipboardDocumentListIcon },
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon: StarIcon },
+  { name: 'Cupones', to: '/admin/cupones', icon: StarIcon },
   { name: 'Volver', to: '/' }
 ]
 </script>

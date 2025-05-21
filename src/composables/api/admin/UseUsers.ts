@@ -1,4 +1,5 @@
 // src/composables/api/users/useUsers.ts
+import { notify } from '@kyvg/vue3-notification';
 import { ref } from 'vue';
 import api from '../../../api/axios';
 export function useUsers() {
@@ -11,7 +12,6 @@ export function useUsers() {
     email: '',
     password: '',
     rol: 0,
-    id_suscripcion: 0
   });
   const currentPage = ref(1)
   const perPage = ref(10)
@@ -49,9 +49,11 @@ export function useUsers() {
       nuevo.value.email=''
       nuevo.value.password=''
       nuevo.value.rol=1
-      nuevo.value.id_suscripcion=1
+      notify({ type: 'success', title: 'Usuario creado correctamente' });
     } catch (err) {
       console.error('Error al crear usuario:', err);
+      notify({ type: 'error', title: 'Error al crear el usuario' });
+
     }
   };
 
@@ -59,8 +61,10 @@ export function useUsers() {
     try {
       await api.delete(`/users/${id}`);
       await fetchUsers();
+      notify({ type: 'success', title: 'Usuario eliminado correctamente' });
     } catch (err) {
       console.error('Error al eliminar usuario:', err);
+      notify({ type: 'error', title: 'Error al eliminar el usuario' });
       error.value="Error al eliminar usuario"
     }
   };
@@ -90,9 +94,13 @@ export function useUsers() {
       validationErrors.value.email = 'Email inválido';
       valid = false;
     }
+
     if (!nuevo.value.password || nuevo.value.password.length < 6) {
       validationErrors.value.password = 'Mínimo 6 caracteres';
       valid = false;
+    }
+    if (nuevo.value.password==""){
+      valid=true;
     }
 
     return valid;
@@ -102,8 +110,11 @@ export function useUsers() {
     try {
         await api.put(`/users/${id}`, nuevo.value);
         await fetchUsers();
+        notify({ type: 'success', title: 'Usuario editado correctamente' });
       } catch (err) {
         console.error('Error al editar el usuario:', err);
+        notify({ type: 'error', title: 'Error al editar el usuario' });
+
       }
   }
   return {
