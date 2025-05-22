@@ -90,7 +90,7 @@ const suscripcionInfo = [
     descripcion: "Acceso a estudios corporales.",
   },
   {
-    descripcion: "Ofertas exclusivas en productos de la tienda.",
+    descripcion: "Cupones exclusivos aplicables a productos de la tienda.",
   }, {
     descripcion: "Comunidad privada para motivarte y no abandonar.",
   }

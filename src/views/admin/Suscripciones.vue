@@ -14,7 +14,7 @@
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
             Editar
           </button>
-          <button @click="confirmDelete(row.id_suscripcion)" class="text-red-600 hover:underline text-sm cursor-pointer">
+          <button @click="openConfirm(row.id_suscripcion, '¿Estás seguro de que quieres eliminar esta suscripcion?')" class="text-red-600 hover:underline text-sm cursor-pointer">
             Eliminar
           </button>
         </div>
@@ -51,6 +51,12 @@
       :totalPages="pagination.totalPages"
       @changePage="handlePageChange"
     />
+        <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
   </div>
 </template>
 
@@ -60,6 +66,7 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useSuscripciones } from '../../composables/api/admin/UseSuscriptions'
 
@@ -78,6 +85,10 @@ const {
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const suscripcionEditandoId = ref<number | null>(null)
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
 const suscripcion = ref({
   nombre: '',
@@ -114,9 +125,17 @@ async function handleSubmit() {
   }
 }
 
-async function confirmDelete(id: number) {
-  if (!confirm('¿Estás seguro de que quieres eliminar este plan?')) return
-  await deleteSuscripcion(id)
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deleteSuscripcion(idToDelete.value) // o deleteCategoria, etc.
+  fetchSuscripciones() // o fetchCategorias, etc.
+  showConfirm.value = false
 }
 
 function handlePageChange(page: number) {

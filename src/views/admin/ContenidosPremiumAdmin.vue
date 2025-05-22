@@ -22,7 +22,7 @@
             <button @click="activarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
             Editar
           </button>
-          <button @click="confirmarEliminacion(row.id)"
+          <button @click="openConfirm(row.id, '¿Estás seguro de que quieres eliminar este contenido Premium?')"
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
             Eliminar
           </button>
@@ -73,6 +73,12 @@
         :totalPages="pagination.totalPages"
         @changePage="handlePageChange"
       />
+      <ModalConfirmDelete
+        v-if="showConfirm"
+        :message="deleteMessage"
+        @confirm="handleDelete"
+        @cancel="showConfirm = false"
+    />
     </div>
   </div>
 </template>
@@ -84,6 +90,7 @@ import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
 import ViewDetails from '../../components/icons/ViewDetails.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useContenidosPremium } from '../../composables/api/admin/UseContenidosPremium'
 const {
@@ -103,6 +110,11 @@ const showModal = ref(false)
 const modoEdicion = ref(false)
 const contenidoEditandoId = ref<number | null>(null)
 const BASE_URL = 'http://localhost/longLifeBack/public/'
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
+
 
 onMounted(fetchContenidos)
 const handleSubmit = async () => {
@@ -156,10 +168,18 @@ function handlePageChange(page: number) {
   currentPage.value = page
   fetchContenidos()
 }
-const confirmarEliminacion = async (id: number) => {
-  if (!confirm('¿Estás seguro de que quieres eliminar este contenido?')) return;
-  await eliminarContenido(id);
-};
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await eliminarContenido(idToDelete.value) 
+  fetchContenidos() 
+  showConfirm.value = false
+}
 const columns = [
   { key: 'id', label: 'ID' },
   { key: 'titulo', label: 'Título' },

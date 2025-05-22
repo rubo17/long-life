@@ -15,7 +15,7 @@
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
             Editar
           </button>
-          <button @click="confirmdeleteProduct(row.id_producto)"
+          <button @click="openConfirm(row.id_producto, '¿Estás seguro de que quieres eliminar este producto?')"
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
             Eliminar
           </button>
@@ -30,7 +30,7 @@
       <form @submit.prevent="handleSubmit" class="space-y-5">
         <div class="flex gap-5">
           <div class="">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nombree</label>
             <input v-model="producto.nombre" type="text" placeholder="Nombre"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
               required />
@@ -116,6 +116,12 @@
          :totalPages="pagination.totalPages"
          @changePage="handlePageChange"
     />
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
   </div>
 </template>
 
@@ -125,17 +131,32 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin'
+
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const { producto, createProduct, deleteProduct, editProduct, fetchProducts, products, loading, error, currentPage,pagination} = useProductsAdmin()
 const previewUrl = ref<string | null>(null);
 
-const confirmdeleteProduct = async (id: number) => {
-  if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) return;
-  await deleteProduct(id); // del composable
-};
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
+
+
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deleteProduct(idToDelete.value) 
+  fetchProducts() 
+  showConfirm.value = false
+}
 const productoEditandoId = ref<number | null>(null)
 
 const comenzarCreacion = () => {

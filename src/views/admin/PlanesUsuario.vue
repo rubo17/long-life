@@ -12,7 +12,7 @@
       <template #actions="{ row }">
         <div class="flex gap-5">
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm">Editar</button>
-          <button @click="confirmDelete(row.id)" class="text-red-600 hover:underline text-sm">Eliminar</button>
+          <button @click="openConfirm(row.id, '¿Estás seguro de que quieres eliminar este registro de plan usuario?')" class="text-red-600 hover:underline text-sm">Eliminar</button>
         </div>
       </template>
     </BaseTable>
@@ -64,7 +64,12 @@
         </button>
       </form>
     </Modal>
-
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
     <Paginator :currentPage="currentPage" :totalPages="pagination.totalPages" @changePage="handlePageChange" />
   </div>
 </template>
@@ -74,6 +79,7 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useEmpleados } from '../../composables/api/admin/UseEmpleados'
 import { usePlanesUsuarios } from '../../composables/api/admin/usePlanesUsuarios'
@@ -96,6 +102,10 @@ const {empleados,fetchEmpleados}= useEmpleados();
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const editandoId = ref<number | null>(null)
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
 onMounted(()=>{
   fetchUsers()
@@ -158,10 +168,17 @@ async function handleSubmit() {
   showModal.value = false
 }
 
-async function confirmDelete(id: number) {
-  if (confirm('¿Estás seguro de que quieres eliminar esta asignación?')) {
-    await deletePlanUsuario(id)
-  }
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deletePlanUsuario(idToDelete.value) 
+  fetchPlanesUsuarios() 
+  showConfirm.value = false
 }
 
 function handlePageChange(page: number) {

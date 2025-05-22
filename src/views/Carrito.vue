@@ -9,7 +9,7 @@
 
     <div class="p-5 space-y-10">
         <!-- Mensaje de producto añadido -->
-      <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-green-50 px-4 py-4 rounded-md min-h-[100px]">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between  px-4 py-4 rounded-md min-h-[100px]">
         <!-- Mensaje -->
         <div class="flex items-center gap-3 text-green-700 text-center md:text-left">
           <Positivo v-if="cart.length > 0" class="w-6 h-6 text-green-500" />

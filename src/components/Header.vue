@@ -98,8 +98,19 @@
                   {{ item.name }}
                 </RouterLink>
                 <div class="space-y-3 ">
-                  <RouterLink @click="mobileMenuOpen=false" class="block" v-if="isLoggedIn" to="/perfil">
+                  <RouterLink
+                    @click="mobileMenuOpen = false"
+                    class="block relative w-fit"
+                    v-if="isLoggedIn"
+                    to="/perfil"
+                  >
                     <Profile class="w-6 h-6 transition hover:text-green-500" />
+                    <span
+                      v-if="esPremium"
+                      class="absolute -top-2 -right-2 bg-yellow-400 text-white text-[10px] font-bold px-1 py-0.5 rounded-full shadow-sm"
+                    >
+                      ⭐
+                    </span>
                   </RouterLink>
                   <RouterLink @click="mobileMenuOpen=false" class="block" to="/carrito">
                     <Cart class="w-6 h-6 transition hover:text-green-500" />

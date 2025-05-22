@@ -12,7 +12,7 @@
       <template #actions="{ row }">
         <div class="flex gap-3">
           <button @click="abrirEdicion(row)" class="text-blue-600 hover:underline text-sm">Editar</button>
-          <button @click="confirmarEliminar(row.id_plan)" class="text-red-600 hover:underline text-sm">Eliminar</button>
+          <button @click="openConfirm(row.id_plan, '¿Estás seguro de que quieres eliminar este plan?')" class="text-red-600 hover:underline text-sm">Eliminar</button>
         </div>
       </template>
     </BaseTable>
@@ -80,7 +80,12 @@
     </div>
   </form>
 </Modal>
-
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
 
     <Paginator :currentPage="currentPage" :totalPages="pagination.totalPages" @changePage="cambiarPagina" />
   </div>
@@ -90,6 +95,8 @@
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
+import Paginator from '../../components/Paginator.vue'
 import { usePlanes } from '../../composables/api/admin/UsePlanes'
 
 import { onMounted, ref } from 'vue'
@@ -109,6 +116,10 @@ const {
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const editandoId = ref<number | null>(null)
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
 const plan = ref({
   nombre: '',
@@ -153,12 +164,18 @@ async function guardarPlan() {
   showModal.value = false
 }
 
-async function confirmarEliminar(id: number) {
-  if (confirm('¿Seguro que deseas eliminar este plan?')) {
-    await deletePlan(id)
-  }
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
 }
 
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deletePlan(idToDelete.value) 
+  fetchPlanes() 
+  showConfirm.value = false
+}
 function cambiarPagina(pagina: number) {
   currentPage.value = pagina
   fetchPlanes()

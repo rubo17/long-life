@@ -13,7 +13,7 @@
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
             Editar
           </button>
-          <button @click="confirmdeleteCategoria(row.id_categoria)"
+          <button @click="openConfirm(row.id_categoria, '¿Estás seguro de que quieres eliminar esta categoria de producto?')"
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
             Eliminar
           </button>
@@ -62,6 +62,12 @@
       :totalPages="pagination.totalPages"
       @changePage="handlePageChange"
     />
+        <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
   </div>
 </template>
 
@@ -70,6 +76,7 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useCategoriasAdmin } from '../../composables/api/admin/UseCategoriasProductos'
 
@@ -88,6 +95,11 @@ const categoria = ref({ id_categoria: null, nombre: '', descripcion: '' })
 
 const showModal = ref(false)
 const modoEdicion = ref(false)
+
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
 onMounted(fetchCategorias)
 
@@ -123,11 +135,17 @@ const guardarCategoria = async () => {
   fetchCategorias()
 }
 
-const confirmdeleteCategoria = async (id: number) => {
-  if (confirm('¿Estás seguro de que quieres eliminar esta categoría?')) {
-    await eliminarCategoria(id)
-    fetchCategorias()
-  }
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await eliminarCategoria(idToDelete.value) 
+  fetchCategorias() 
+  showConfirm.value = false
 }
 
 const columns = [

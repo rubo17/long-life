@@ -12,7 +12,7 @@
       <template #actions="{ row }">
         <div class="flex gap-5">
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">Editar</button>
-          <button @click="confirmDeleteCupon(row.id)" class="text-red-600 hover:underline text-sm cursor-pointer">Eliminar</button>
+          <button @click="openConfirm(row.id, '¿Estás seguro de que quieres eliminar este cupón?')" class="text-red-600 hover:underline text-sm cursor-pointer">Eliminar</button>
         </div>
       </template>
     </BaseTable>
@@ -78,7 +78,12 @@
         </button>
       </form>
     </Modal>
-
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
     <Paginator :currentPage="currentPage" :totalPages="pagination.totalPages" @changePage="handlePageChange" />
   </div>
 </template>
@@ -88,6 +93,7 @@ import { onMounted, ref } from 'vue'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
+import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useCupones } from '../../composables/api/admin/UseCupones'
 
@@ -107,6 +113,10 @@ const {
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const cuponEditandoId = ref<number | null>(null)
+
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
 const comenzarCreacion = () => {
   modoEdicion.value = false
@@ -140,10 +150,17 @@ const handleSubmit = async () => {
   showModal.value = false
 }
 
-const confirmDeleteCupon = async (id: number) => {
-  if (confirm('¿Estás seguro de eliminar este cupón?')) {
-    await deleteCupon(id)
-  }
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deleteCupon(idToDelete.value) 
+  fetchCupones() 
+  showConfirm.value = false
 }
 
 const handlePageChange = (page: number) => {

@@ -79,12 +79,12 @@
             </span>
         </p>
           <div v-if="mostrarBotonCancelar(pedido)" class="text-right">
-              <button
-                @click="cancelarPedido(pedido.id)"
-                class="mt-2 px-4 py-2 bg-red-500 transition hover:bg-red-600 text-white text-sm rounded-md shadow cursor-pointer"
-              >
-                Cancelar pedido
-              </button>
+            <button
+              @click="cancelarPedido(pedido.id)"
+              class="mt-2 px-4 py-2 bg-red-500 transition hover:bg-red-600 text-white text-sm rounded-md shadow cursor-pointer"
+            >
+              Cancelar pedido
+            </button>
             </div>
       </div>
       <Paginator
@@ -92,6 +92,29 @@
          :totalPages="pagination.totalPages"
          @changePage="handlePageChange"
     />
+    <!-- Modal de confirmación de cancelación -->
+<Modal :open="showCancelModal" @close="showCancelModal = false">
+  <div class="space-y-4 text-center">
+    <h2 class="text-xl font-semibold text-gray-800">¿Cancelar pedido?</h2>
+    <p class="text-sm text-gray-600">Esta acción no se puede deshacer. ¿Estás seguro de que deseas cancelar este pedido?</p>
+
+    <div class="flex justify-center gap-4 mt-4">
+      <button
+        @click="showCancelModal = false"
+        class="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200 text-sm font-medium cursor-pointer"
+      >
+        No, volver
+      </button>
+      <button
+        @click="confirmarCancelacion"
+        class="px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white text-sm font-semibold shadow cursor-pointer"
+      >
+        Sí, cancelar
+      </button>
+    </div>
+  </div>
+</Modal>
+
   
   </div>
     
@@ -106,7 +129,8 @@ import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import Paginator from '../components/Paginator.vue'
-  
+import Modal from '../components/admin/ui/Modal.vue'
+
   const pedidos = ref<any[]>([])
   const loading = ref(false)
   const currentPage = ref(1)
@@ -173,17 +197,24 @@ const mostrarBotonCancelar = (pedido: any): boolean => {
   const horas = diferencia / (1000 * 60 * 60)
   return horas <= 24
 }
-const cancelarPedido = async (id: number) => {
+const showCancelModal = ref(false)
+const pedidoIdAEliminar = ref<number | null>(null)
+
+const cancelarPedido = (id: number) => {
+  pedidoIdAEliminar.value = id
+  showCancelModal.value = true
+}
+
+const confirmarCancelacion = async () => {
+  if (!pedidoIdAEliminar.value) return
   try {
-    const confirmacion = confirm('¿Estás seguro de que deseas cancelar este pedido?')
-    if (!confirmacion) return
-
-    const response = await api.put(`/cancelar-pedido/${id}`)
-
-    notify({ type: 'success', title: 'Pedido Cancelado correctamente' })
+    await api.put(`/cancelar-pedido/${pedidoIdAEliminar.value}`)
+    notify({ type: 'success', title: 'Pedido cancelado correctamente' })
+    showCancelModal.value = false
+    pedidoIdAEliminar.value = null
     fetchPedidos(currentPage.value)
-  } catch (error: any) {
-    notify({ type: 'error', title: 'No se ha podido cancelar el pedido ' })
+  } catch (error) {
+    notify({ type: 'error', title: 'No se pudo cancelar el pedido' })
   }
 }
 

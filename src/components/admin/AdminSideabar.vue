@@ -34,6 +34,7 @@
 
 <script setup>
 import {
+  ArrowUturnLeftIcon,
   BriefcaseIcon,
   ClipboardDocumentListIcon,
   CreditCardIcon,
@@ -42,23 +43,26 @@ import {
   ShoppingBagIcon,
   Squares2X2Icon,
   StarIcon,
+  TagIcon,
   UserGroupIcon,
   UsersIcon
 } from '@heroicons/vue/24/outline';
 
+
 const links = [
-  { name: 'Dashboard', to: '/admin', icon: HomeIcon },
-  { name: 'Usuarios', to: '/admin/users', icon: UsersIcon },
+  { name: 'Dashboard', to: '/admin', icon: HomeIcon }, 
+  { name: 'Usuarios', to: '/admin/users', icon: UsersIcon }, 
   { name: 'Empleados', to: '/admin/empleados', icon: BriefcaseIcon },
-  { name: 'Productos', to: '/admin/products', icon: ShoppingBagIcon },
-  { name: 'Categorías', to: '/admin/categoriaProductos', icon: Squares2X2Icon },
-  { name: 'Ventas', to: '/admin/ventas', icon: CurrencyDollarIcon },
-  { name: 'Suscripciones', to: '/admin/suscripciones', icon: CreditCardIcon },
-  { name: 'Planes', to: '/admin/planes', icon: CreditCardIcon },
-  { name: 'Usuarios Suscripciones', to: '/admin/usuariosSuscripciones', icon: UserGroupIcon },
-  { name: 'Usuarios con Planes', to: '/admin/usuariosPlanes', icon: ClipboardDocumentListIcon },
+  { name: 'Productos', to: '/admin/products', icon: ShoppingBagIcon }, 
+  { name: 'Categorías', to: '/admin/categoriaProductos', icon: Squares2X2Icon }, 
+  { name: 'Ventas', to: '/admin/ventas', icon: CurrencyDollarIcon }, 
+  { name: 'Suscripciones', to: '/admin/suscripciones', icon: CreditCardIcon }, 
+  { name: 'Planes', to: '/admin/planes', icon: ClipboardDocumentListIcon }, 
+  { name: 'Usuarios Suscripciones', to: '/admin/usuariosSuscripciones', icon: UserGroupIcon }, 
+  { name: 'Usuarios con Planes', to: '/admin/usuariosPlanes', icon: ClipboardDocumentListIcon }, 
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon: StarIcon },
-  { name: 'Cupones', to: '/admin/cupones', icon: StarIcon },
-  { name: 'Volver', to: '/' }
+  { name: 'Cupones', to: '/admin/cupones', icon: TagIcon },
+  { name: 'Volver', to: '/', icon: ArrowUturnLeftIcon } 
 ]
+
 </script>
