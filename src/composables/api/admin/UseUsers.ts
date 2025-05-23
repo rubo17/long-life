@@ -4,9 +4,9 @@ import { ref } from 'vue';
 import api from '../../../api/axios';
 export function useUsers() {
   const users = ref<any>([]);
+  const totalUsuariosActivos = ref(0)
   const loading = ref(false);
   const error = ref("");
-
   const nuevo = ref({
     nombre: '',
     email: '',
@@ -68,6 +68,21 @@ export function useUsers() {
       error.value="Error al eliminar usuario"
     }
   };
+
+const getTotalUsers = async () => {
+  try {
+    const { data } = await api.get('/usuarios/activos/total')
+    totalUsuariosActivos.value = data.totalActivos
+  } catch (err) {
+    console.error('Error al obtener el total de usuarios:', err)
+    notify({
+      type: 'error',
+      title: 'Error',
+      text: 'No se pudo traer el total de usuarios activos'
+    })
+  }
+}
+
   const validationErrors = ref({
     nombre: '',
     email: '',
@@ -130,6 +145,8 @@ export function useUsers() {
     editarUsuario,
     currentPage,
     perPage,
-    pagination
+    pagination,
+    getTotalUsers,
+    totalUsuariosActivos
   };
 }

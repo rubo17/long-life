@@ -12,9 +12,9 @@
           <button @click="comenzarEdicion(row)" class="text-blue-600 hover:underline text-sm cursor-pointer">
             Editar
           </button>
-          <button @click="openConfirm(row.id_usuario, '¿Estás seguro de que quieres eliminar este usuario?')"
+          <button @click="openConfirm(row.id_usuario, '¿Estás seguro de que quieres deactivar esta cuenta?')"
             class="text-red-600 hover:underline ml-3 text-sm cursor-pointer">
-            Eliminar
+            Desactivar Cuenta
           </button>
         </div>
 

@@ -10,7 +10,7 @@
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Usuarios</h2>
-          <p class="text-2xl font-bold text-green-600">{{ users.length }}</p>
+          <p class="text-2xl font-bold text-green-600">{{ totalUsuariosActivos }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Ventas</h2>
@@ -36,14 +36,13 @@ import { useEmpleados } from '../../composables/api/admin/UseEmpleados';
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin';
 import { useUsers } from '../../composables/api/admin/UseUsers';
 const { products,fetchProducts } = useProductsAdmin() 
-const {fetchUsers,users}= useUsers()
+const {getTotalUsers,totalUsuariosActivos}= useUsers()
 const {empleados,fetchEmpleados}= useEmpleados()
-
 onMounted(() => {
   fetchProducts()
-  fetchUsers(),
   fetchTotalVentas()
   fetchEmpleados()
+   getTotalUsers()
 })
 const totalVentas = ref()
 const fetchTotalVentas = async () => {

@@ -8,6 +8,7 @@ import ContenidosPremiumAdmin from '../views/admin/ContenidosPremiumAdmin.vue'
 import Cupones from '../views/admin/Cupones.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Empleados from '../views/admin/Empleados.vue'
+import InactiveUsers from '../views/admin/InactiveUsers.vue'
 import PlanesAdmin from '../views/admin/PlanesAdmin.vue'
 import PlanesUsuario from '../views/admin/PlanesUsuario.vue'
 import Products from '../views/admin/Products.vue'
@@ -110,6 +111,7 @@ const routes = [
       { path: 'empleados', name: 'admin-empleados', component: Empleados },
       { path: 'planes', name: 'admin-planes', component: PlanesAdmin },
       { path: 'cupones', name: 'admin-cupones', component: Cupones },
+      { path: 'users/inactivos', name: 'admin-inactivos', component: InactiveUsers },
     ]
   }
 ]

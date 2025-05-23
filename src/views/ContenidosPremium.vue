@@ -13,7 +13,7 @@
           <p class="text-xs text-gray-400 mb-4">📅 Publicado: {{ contenido.fecha_publicacion }}</p>
   
           <a
-            :href="BASE_URL + contenido.archivo_url"
+            :href="BASE_URL + '/' + contenido.archivo_url"
             target="_blank"
             class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition"
           >
@@ -32,7 +32,7 @@
   import { onMounted, ref } from 'vue';
 import api from '../api/axios';
   const contenidos = ref([]);
-  const BASE_URL = 'http://localhost/longLifeBack/public/'; 
+  const BASE_URL = import.meta.env.VITE_API_URL; 
   
 onMounted(async () => {
   const token = localStorage.getItem('token')
