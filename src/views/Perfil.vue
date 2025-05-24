@@ -78,6 +78,7 @@
           </div>
       </div>
       <router-link
+        v-if="esPremium"
         to="/infoSuscripcion"
         class="p-6 bg-white shadow-lg rounded-xl space-y-4 hover:ring-1 hover:ring-green-300 transition cursor-pointer"
       >

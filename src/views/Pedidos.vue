@@ -9,7 +9,12 @@
       </RouterLink>
     </div>
     <div v-else class="max-w-5xl mx-auto py-6 px-4 space-y-6">
-      <h1 class="text-xl md:text-2xl font-bold text-gray-800">Mis Pedidos</h1>
+      <div class="flex justify-center items-center gap-4">
+        <RouterLink to="/perfil">
+            <FlechaAtras class="w-8 h-8 text-blue-500"/>
+        </RouterLink>
+        <h1 class="text-xl md:text-2xl font-bold text-gray-800">Mis Pedidos</h1>
+      </div>
   
       <div
         v-for="pedido in pedidos"
@@ -130,6 +135,7 @@ import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import Paginator from '../components/Paginator.vue'
 import Modal from '../components/admin/ui/Modal.vue'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 
   const pedidos = ref<any[]>([])
   const loading = ref(false)

@@ -4,8 +4,9 @@
 
     <div v-if="loading">Cargando usuarios...</div>
     <div v-else-if="error">Error al cargar los usuarios.</div>
+    <div v-else-if="usuarios.length === 0">No hay usuarios desactivados.</div>
 
-    <BaseTable :columns="columns" :data="usuarios" showActions>
+    <BaseTable v-if="usuarios.length" :columns="columns" :data="usuarios" showActions>
       <template #actions="{ row }">
         <button
           @click="activarUsuario(row.id_usuario)"
@@ -16,7 +17,7 @@
       </template>
     </BaseTable>
 
-    <Paginator
+    <Paginator v-if="usuarios.length"
       :currentPage="currentPage"
       :totalPages="pagination.totalPages"
       @changePage="handlePageChange"

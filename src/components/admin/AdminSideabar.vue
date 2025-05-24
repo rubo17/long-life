@@ -40,6 +40,7 @@ import {
   CreditCardIcon,
   CurrencyDollarIcon,
   HomeIcon,
+  PauseCircleIcon,
   ShoppingBagIcon,
   Squares2X2Icon,
   StarIcon,
@@ -62,7 +63,7 @@ const links = [
   { name: 'Usuarios con Planes', to: '/admin/usuariosPlanes', icon: ClipboardDocumentListIcon }, 
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon: StarIcon },
   { name: 'Cupones', to: '/admin/cupones', icon: TagIcon },
-  { name: 'Usuarios inactivos', to: '/admin/users/inactivos', icon: TagIcon },
+  { name: 'Usuarios inactivos', to: '/admin/users/inactivos', icon: PauseCircleIcon },
   { name: 'Volver', to: '/', icon: ArrowUturnLeftIcon } 
 ]
 

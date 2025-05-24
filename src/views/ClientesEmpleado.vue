@@ -1,9 +1,12 @@
 <template>
   <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
   <div class="flex flex-col items-center justify-between gap-4 mb-8">
-    <h1 class="text-3xl font-bold text-green-500 text-center">
-      Mis Clientes Asignados
-    </h1>
+    <div class="flex md:flex-row justify-center items-center gap-4">
+      <RouterLink class="hover:underline text-blue-500" to="/perfil">
+          <FlechaAtras class="h-8 w-8"/>
+      </RouterLink>
+      <h1 class="text-xl md:text-3xl font-bold text-green-600 text-center"> Mis Clientes Asignados</h1>
+    </div>
     <RouterLink
       to="/misCitas"
       class="text-white bg-blue-500 hover:bg-blue-600 transition px-6 py-2 rounded-lg text-sm font-medium shadow-md"
@@ -78,7 +81,9 @@ import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import Modal from '../components/admin/ui/Modal.vue'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 import Loading from '../components/loading.vue'
+
 const clientes = ref<any[]>([])
 const idEmpleado = ref<number | null>(null)
 const loading = ref (true)

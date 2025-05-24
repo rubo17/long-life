@@ -36,7 +36,7 @@
               <td class="p-2">{{ estudio.cadera ?? '-' }}</td>
               <td class="p-2">{{ estudio.whr ?? '-' }}</td>
               <td class="p-2 space-x-2">
-                <button class="text-red-600 hover:underline cursor-pointer" @click="confirmEliminar(estudio.id)">Eliminar</button>
+                <button class="text-red-600 hover:underline cursor-pointer" @click="openConfirm(estudio.id, '¿Estás seguro de que quieres eliminar este producto?')">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -59,14 +59,25 @@
       <img src="/images/IMC.png" alt="Índice de Masa Corporal" class="max-w-full h-auto" />
       <ResultadosMetabolicos :estudios="estudios" />
     </div>
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
   </div>
+
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import Paginator from '../components/Paginator.vue'
-import ResultadosMetabolicos from '../components/ResultadosMetabolicos.vue'
-import { useMediciones } from '../composables/UseMediciones'
+import { computed, onMounted, ref } from 'vue';
+import ModalConfirmDelete from "../components/ModalConfirmDelete.vue";
+import Paginator from '../components/Paginator.vue';
+import ResultadosMetabolicos from '../components/ResultadosMetabolicos.vue';
+import { useMediciones } from '../composables/UseMediciones';
+
+
+
 const {
   estudios,
   loading,
@@ -77,9 +88,28 @@ const {
   deleteMedicion
 } = useMediciones()
 
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
+
+
+
 onMounted(() => {
   fetchMediciones()
 })
+
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleDelete = async () => {
+  if (idToDelete.value === null) return
+  await deleteMedicion(idToDelete.value) 
+  fetchMediciones() 
+  showConfirm.value = false
+}
 
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 const nombreUsuario = user?.nombre || 'Usuario'
@@ -102,36 +132,11 @@ const formatFecha = (fecha: string) => {
     day: 'numeric'
   })
 }
-const showModal = ref(false)
-const estudioEditandoId = ref<number | null>(null)
-const form = ref({
-  peso: 0,
-  altura: 0,
-  cintura: null,
-  cadera: null
-})
+
 
 onMounted(() => {
   fetchMediciones()
 })
 
 
-const comenzarEdicion = (estudio: any) => {
-  estudioEditandoId.value = estudio.id
-  form.value = {
-    peso: estudio.peso,
-    altura: estudio.altura,
-    cintura: estudio.cintura ?? null,
-    cadera: estudio.cadera ?? null
-  }
-  showModal.value = true
-}
-
-
-const confirmEliminar = async (id: number) => {
-  if (confirm('¿Estás seguro de eliminar esta medición?')) {
-    await deleteMedicion(id)
-    await fetchMediciones()
-  }
-}
 </script>

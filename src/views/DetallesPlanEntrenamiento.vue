@@ -1,8 +1,11 @@
 <template>
-    <div class="mt-35 w-full max-w-5xl mx-auto px-5 space-y-12 text-black">
+    <div class="mt-35 w-full max-w-5xl mx-auto px-5 space-y-12 text-black mb-10">
       <!-- Encabezado -->
+      <RouterLink to="/planes">
+        <FlechaAtras class="w-8 h-8 text-blue-500"/>
+     </RouterLink>
       <div class="text-center space-y-5">
-        <h1 class="text-2xl md:text-3xl font-extrabold leading-relaxed">
+        <h1 class="text-xl md:text-3xl font-extrabold leading-relaxed">
           Comienza hoy tu <span class="text-red-500">Plan de entrenamiento personalizado</span>
           y transforma tu físico con un enfoque profesional y progresivo.
         </h1>
@@ -90,6 +93,7 @@
   import EmpleadoList from '../components/EmpleadosList.vue';
 
   import { onMounted } from 'vue';
+import FlechaAtras from '../components/icons/FlechaAtras.vue';
 import { usePlanes } from '../composables/api/UsePlanes';
   
   const storedUser = localStorage.getItem('user')

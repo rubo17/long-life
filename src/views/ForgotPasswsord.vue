@@ -23,7 +23,9 @@
           </div>
   
           <div>
-            <button type="submit" class="flex cursor-pointer w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">RESET PASSWORD</button>
+            <button type="submit" class="flex cursor-pointer w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+              {{loading ? 'Enviando...' : 'Enviar Link de Recuperación'}}
+            </button>
           </div>
         </form>
   
@@ -42,8 +44,10 @@ import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 
 const email = ref('')
+const loading = ref(false)
 
 const submit = async () => {
+  loading.value = true
   try {
     const response = await api.post('/forgotPassword', {
       email: email.value
@@ -60,5 +64,7 @@ const submit = async () => {
       text: error.response?.data?.message || 'Error al enviar el correo'
     })
   }
+  loading.value = false
+  email.value = ''
 }
 </script>

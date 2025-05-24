@@ -106,7 +106,10 @@ const updateCantidad = async (id_producto: string, cantidad: number) => {
   error.value = '';
   const token = localStorage.getItem('token');
   if (!token) return;
-
+  if (cantidad <= 0) {
+    error.value = 'La cantidad debe ser mayor a 0';
+    return
+  }
   try {
     const res = await api.put(`/carrito/${id_producto}`, { cantidad }, {
       headers: {

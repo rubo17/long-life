@@ -1,6 +1,9 @@
 <template>
   <div class="container mx-auto py-6 px-4">
-    <h1 class="text-2xl text-center font-bold mb-6">Mis cupones</h1>
+    <RouterLink class="flex justify-center items-center gap-3 " to="/perfil">
+      <FlechaAtras class="w-8 h-8 text-blue-500"/>
+      <h1 class="text-2xl font-bold">Mis cupones</h1>
+    </RouterLink>
 
     <div v-if="cupones.length === 0" class="text-center text-lg text-gray-500">
       No hay cupones disponibles actualmente.
@@ -31,8 +34,10 @@
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import CopiarButton from '../components/icons/CopiarButton.vue'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 
 const cupones = ref<any[]>([])
 

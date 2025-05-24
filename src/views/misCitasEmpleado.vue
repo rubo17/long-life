@@ -1,6 +1,11 @@
 <template>
   <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
-    <h1 class="text-3xl font-bold text-green-600 text-center">📅 Mis Citas Agendadas</h1>
+    <div class="flex md:flex-row justify-center items-center gap-4">
+      <RouterLink class="hover:underline text-blue-500" to="/clientesEmpleado">
+          <FlechaAtras class="h-8 w-8"/>
+      </RouterLink>
+      <h1 class="text-xl md:3xl font-bold text-green-600 text-center">📅 Mis Citas Agendadas</h1>
+    </div>
 
     <div v-if="loading" class="flex justify-center items-center w-full">
       <Loading />
@@ -14,7 +19,11 @@
           class="relative w-full group border-gray-400 rounded-lg border p-6 shadow-md hover:shadow-lg transition space-y-5"
         >
           <button
-            class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 text-xs rounded shadow cursor-pointer"
+            class="absolute top-3 right-3 
+                  opacity-100 md:opacity-0 
+                  md:group-hover:opacity-100 
+                  transition bg-gray-100 hover:bg-gray-200 
+                  text-gray-600 px-2 py-1 text-xs rounded shadow cursor-pointer"
             @click="archivarCita(cita)"
           >
             🗃 Archivar
@@ -66,7 +75,9 @@
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import api from '../api/axios'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 import Loading from '../components/loading.vue'
 
 const citas = ref<any[]>([])

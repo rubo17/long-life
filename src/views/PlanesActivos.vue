@@ -1,15 +1,19 @@
 <template>
   <div v-if="!loading" class="max-w-5xl mx-auto px-4 py-10 space-y-10">
     <div class="flex justify-end">
-      <button
+      <button v-if="planes.length"
         class="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition cursor-pointer"
         @click="abrirModalCitas"
       >
          <span>Ver mis citas</span>
       </button>
     </div>
-
-    <h1 class="text-4xl font-extrabold text-green-600 text-center">Tus planes activos</h1>
+    <div class="flex justify-center items-center gap-4">
+      <RouterLink to="/perfil">
+          <FlechaAtras class="w-8 h-8 text-blue-500"/>
+      </RouterLink>
+      <h1 class="text-xl md:text-4xl font-extrabold text-green-600 text-center">Tus planes activos</h1>
+    </div>
 
     <div v-if="planes.length" class="grid gap-6">
       <div v-for="plan in planes" :key="plan.id_plan">
@@ -63,9 +67,11 @@
   import { notify } from '@kyvg/vue3-notification'
 import { format } from 'date-fns'
 import { onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import PlanActivo from '../components/PlanActivo.vue'
 import Modal from '../components/admin/ui/Modal.vue'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 import Loading from '../components/loading.vue'
 
   const planes = ref<any>([])
