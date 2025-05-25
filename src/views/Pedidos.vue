@@ -64,8 +64,11 @@
         <!-- Totales -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <span v-if="pedido.direccion && pedido.direccion.trim() !== ''"  class="text-sm text-gray-700">Plazo aproximado de entrega: 1 semana</span>
-          <div class="font-bold text-gray-900 text-sm sm:text-base">
-            Total: €{{ pedido.total }}
+          <span v-else class="text-sm text-gray-700"> Recogida en tienda</span>
+          <div class="font-bold text-gray-900 text-sm sm:text-base space-y-2">
+            <div v-if="pedido.descuento > 0"  class="text-gray-700">Subtotal: €{{ pedido.subtotal.toFixed(2) }}</div>
+            <div class="text-green-500 text-sm font-normal" v-if="pedido.descuento > 0">Descuento: -€{{ pedido.descuento.toFixed(2) }}</div>
+            <div>Total: €{{ pedido.total_final.toFixed(2) }}</div>
           </div>
         </div>
   
@@ -114,7 +117,7 @@
         @click="confirmarCancelacion"
         class="px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white text-sm font-semibold shadow cursor-pointer"
       >
-        Sí, cancelar
+        {{ loading ? 'Cancelando...' : 'Sí, cancelar pedido' }}
       </button>
     </div>
   </div>
@@ -212,6 +215,7 @@ const cancelarPedido = (id: number) => {
 }
 
 const confirmarCancelacion = async () => {
+  loading.value = true
   if (!pedidoIdAEliminar.value) return
   try {
     await api.put(`/cancelar-pedido/${pedidoIdAEliminar.value}`)
@@ -222,6 +226,7 @@ const confirmarCancelacion = async () => {
   } catch (error) {
     notify({ type: 'error', title: 'No se pudo cancelar el pedido' })
   }
+  loading.value = false
 }
 
   onMounted(() => fetchPedidos())

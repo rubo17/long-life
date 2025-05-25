@@ -4,7 +4,7 @@
       <h2 class="text-xl font-bold text-green-600">{{ title }}</h2>
       <p class="text-gray-700 whitespace-pre-line">{{ message }}</p>
       <div class="text-right">
-        <button @click="$emit('close')" class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        <button @click="$emit('close')" class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer">
           Cerrar
         </button>
       </div>

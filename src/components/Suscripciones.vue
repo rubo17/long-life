@@ -91,8 +91,6 @@ const suscripcionInfo = [
   },
   {
     descripcion: "Cupones exclusivos aplicables a productos de la tienda.",
-  }, {
-    descripcion: "Comunidad privada para motivarte y no abandonar.",
   }
 ]
 const router = useRouter()

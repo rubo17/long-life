@@ -50,7 +50,7 @@
       <!-- Botón -->
       <div class="pt-2 text-center">
         <button type="submit" class="w-full cursor-pointer transition bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow">
-          Ir a pagar
+          {{ loading ? 'Procesando...' : 'Continuar' }}
         </button>
       </div>
     </form>
@@ -83,7 +83,7 @@ const errorTelefono = ref('')
 const errorDni = ref('')
 const carrito = ref<any[]>([])
 const router = useRouter()
-
+const loading = ref(false)
 // Obtener carrito
 const carritoGuardado = localStorage.getItem('productsInCart')
 if (carritoGuardado) {
@@ -108,6 +108,7 @@ if (token) {
 
 // Envío del formulario
 const enviarFormulario = async () => {
+  loading.value = true
   errorTelefono.value = ''
   errorDni.value = ''
 
@@ -140,5 +141,6 @@ const enviarFormulario = async () => {
   } catch (error) {
     console.error('Error al crear el PaymentIntent:', error)
   }
+  loading.value = false
 }
 </script>

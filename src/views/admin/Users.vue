@@ -77,6 +77,7 @@
     <ModalConfirmDelete
       v-if="showConfirm"
       :message="deleteMessage"
+      :confirmMessage="'Desactivar Cuenta'"
       @confirm="handleDelete"
       @cancel="showConfirm = false"
     />

@@ -14,18 +14,29 @@
 
       <div class="overflow-x-auto rounded-md shadow bg-white">
         <table class="w-full mt-4 table-auto border-collapse text-sm sm:text-base">
-          <thead>
-            <tr class="bg-green-500 text-white">
-              <th class="p-2 border">Fecha</th>
-              <th class="p-2 border">Peso (kg)</th>
-              <th class="p-2 border">Altura (cm)</th>
-              <th class="p-2 border">IMC</th>
-              <th class="p-2 border">Cintura (cm)</th>
-              <th class="p-2 border">Cadera (cm)</th>
-              <th class="p-2 border">WHR</th>
-              <th class="p-2 border">Acciones</th> <!-- nueva columna -->
-            </tr>
-          </thead>
+        <thead>
+          <tr class="bg-green-500 text-white">
+            <th class="p-2 border">Fecha</th>
+            <th class="p-2 border">Peso (kg)</th>
+            <th class="p-2 border">Altura (cm)</th>
+            <th class="p-2 border">
+              <div class="flex items-center gap-1 justify-center">
+                IMC
+                <Info class="w-5 h-5 cursor-pointer align-middle" @click="mostrarInfoIMC" />
+              </div>
+            </th>
+            <th class="p-2 border">Cintura (cm)</th>
+            <th class="p-2 border">Cadera (cm)</th>
+            <th class="p-2 border">
+              <div class="flex items-center gap-1 justify-center">
+                WHR
+                <Info class="w-5 h-5 cursor-pointer align-middle" @click="mostrarInfoWHR" />
+              </div>
+            </th>
+            <th class="p-2 border">Acciones</th>
+          </tr>
+        </thead>
+
           <tbody>
             <tr v-for="estudio in estudios" :key="estudio.id" class="text-center border-t hover:bg-gray-50 transition">
               <td class="p-2">{{ formatFecha(estudio.created_at) }}</td>
@@ -66,12 +77,20 @@
       @cancel="showConfirm = false"
     />
   </div>
+      <ModalInfo
+      v-if="showModal"
+      :title="modalTitle"
+      :message="modalMessage"
+      @close="showModal = false"
+    />
 
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import Info from '../components/icons/Info.vue';
 import ModalConfirmDelete from "../components/ModalConfirmDelete.vue";
+import ModalInfo from '../components/ModalInfo.vue';
 import Paginator from '../components/Paginator.vue';
 import ResultadosMetabolicos from '../components/ResultadosMetabolicos.vue';
 import { useMediciones } from '../composables/UseMediciones';
@@ -92,7 +111,25 @@ const showConfirm = ref(false)
 const idToDelete = ref<number | null>(null)
 const deleteMessage = ref('')
 
+const showModal = ref(false)
+const modalTitle = ref('')
+const modalMessage = ref('')
 
+const mostrarInfoIMC = () => {
+  modalTitle.value = '¿Qué es el IMC?'
+  modalMessage.value = `El Índice de Masa Corporal (IMC) es una medida que relaciona el peso y la altura de una persona. 
+Se calcula como: IMC = peso (kg) / (altura (m))². 
+Un IMC saludable suele estar entre 18.5 y 24.9.`
+  showModal.value = true
+}
+
+const mostrarInfoWHR = () => {
+  modalTitle.value = '¿Qué es el WHR?'
+  modalMessage.value = `La Relación Cintura-Cadera (WHR, por sus siglas en inglés) evalúa la distribución de grasa corporal. 
+Se calcula dividiendo el perímetro de la cintura entre el de la cadera. 
+Valores altos pueden indicar mayor riesgo cardiovascular.`
+  showModal.value = true
+}
 
 onMounted(() => {
   fetchMediciones()

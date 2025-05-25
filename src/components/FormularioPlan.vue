@@ -1,10 +1,11 @@
 <template>
     <div class="max-w-3xl mx-auto px-4 py-10 space-y-8">
-      <h2 class="text-2xl font-bold text-center text-green-600">Completa tu ficha para tu plan personalizado</h2>
   
       <!-- Formulario usuario -->
       <form v-if="!clientSecret" @submit.prevent="enviarFormulario" class="space-y-6">
         <!-- Selección de plan -->
+      <h2 class="text-2xl font-bold text-center text-green-600">Completa tu ficha para tu plan personalizado</h2>
+
       <p class="text-blue-500 font-semibold text-center">{{ Number(planId) === 1 ? 'Plan de nutricion seleccionado' : 'Plan de entrenamiento seleccionado' }}</p>
   
         <!-- Datos -->

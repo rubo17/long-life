@@ -46,7 +46,9 @@
     <!-- Lista de productos -->
     <div>
       <h3 class="text-lg font-semibold mb-4">Productos:</h3>
-      <div class="space-y-4">
+
+      <!-- Lista de productos -->
+      <div class="space-y-4 mb-6">
         <div
           v-for="detalle in ventaSeleccionada.detalles"
           :key="detalle.id"
@@ -61,11 +63,32 @@
             <h4 class="font-medium text-gray-800">{{ detalle.nombre }}</h4>
             <p class="text-sm text-gray-600">Cantidad: {{ detalle.cantidad }}</p>
             <p class="text-sm text-gray-600">Precio unitario: €{{ detalle.precio_unitario }}</p>
-            <p class="text-sm font-semibold text-gray-800 mt-1">Subtotal: €{{ (detalle.cantidad * detalle.precio_unitario).toFixed(2) }}</p>
+            <p class="text-sm font-semibold text-gray-800 mt-1">
+              Subtotal: €{{ (detalle.cantidad * detalle.precio_unitario).toFixed(2) }}
+            </p>
           </div>
         </div>
       </div>
+
+      <!-- Resumen de totales -->
+      <div class="bg-gray-50 p-4 rounded-lg shadow-sm  space-y-1">
+        <p class="text-sm text-gray-700">
+          Subtotal del pedido:
+          <span class="font-semibold">€{{ ventaSeleccionada.subtotal.toFixed(2) }}</span>
+        </p>
+
+        <p v-if="ventaSeleccionada.descuento > 0" class="text-sm text-gray-700">
+          Descuento
+          <span v-if="ventaSeleccionada.cupon"> ({{ ventaSeleccionada.cupon }})</span>:
+          <span class="font-semibold text-red-600">-€{{ ventaSeleccionada.descuento.toFixed(2) }}</span>
+        </p>
+
+        <p class="text-sm font-bold text-gray-900">
+          Total pagado: €{{ ventaSeleccionada.total }}
+        </p>
+      </div>
     </div>
+
   </div>
 </Modal>
 
@@ -99,6 +122,7 @@ import { useVentas } from '../../composables/api/admin/UseVentas'
 }
 const verDetalles = async (venta: any) => {
   const detalles = await getDetallesVenta(venta.id)
+  console.log(venta)
 
   ventaSeleccionada.value = {
     ...venta,

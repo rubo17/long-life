@@ -2,7 +2,7 @@
 
 <template>
   <div class="container mx-auto px-4 py-12 mt-24 space-y-10">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Mi Perfil</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Tu Perfil,  <span class="text-blue-500">{{ nameUser }}</span></h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Mis Actividades -->
@@ -248,11 +248,13 @@ const form = ref({
   email: '',
   password: ''
 })
+const nameUser = ref('')
 const esEmpleado = ref (false)
 // Simulación de datos cargados del usuario
 onMounted(async () => {
   const usuario = JSON.parse(localStorage.getItem('user') || '{}')
   const userId = usuario?.id_usuario
+   nameUser.value = usuario?.nombre 
 
   try {
     const res = await api.get(`/usuarios/${userId}/es-empleado`)
@@ -305,19 +307,21 @@ const guardarCambios = async () => {
   try {
     const token = localStorage.getItem('token')
 
-    await api.put(`/editPerfil`, form.value, {
+    const response = await api.put(`/editPerfil`, form.value, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
 
-    notify({ type: 'success', title: 'perfil actualizado correctamente' })
+    notify({ type: 'success', title: 'Perfil actualizado correctamente' })
+    nameUser.value = response.data.data.nombre
     showModal.value = false
   } catch (err) {
-      notify({ type: 'error', title: 'perfil actualizado correctamente' })
+    notify({ type: 'error', title: 'Error al actualizar el perfil' })
     console.error(err)
   }
 }
+
 const guardarMedicion = async () => {
   try {
     const token = localStorage.getItem('token')

@@ -34,7 +34,7 @@
       class="px-4 py-2 bg-gray-100 text-blue-600 hover:underline rounded-lg font-semibold transition text-center cursor-pointer"
       @click="mostrarModalPlanes = true"
     >
-      📁 Ver todos los planes
+      📁 Ver todos los archivos de plan
     </button>
       <!-- Botón si no hay planes -->
       <button
@@ -79,6 +79,7 @@
           :enable-time-picker="true"
           :min-date="new Date()"
           :auto-apply="true"
+          :teleport="true"
         />
       </label>
 
@@ -120,7 +121,7 @@
             target="_blank"
             class="text-blue-600 hover:underline"
           >
-            📄 Plan {{ idx + 1 }}
+            📄 Archivo {{ idx + 1 }}
           </a>
         </li>
       </ul>

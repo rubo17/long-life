@@ -9,18 +9,8 @@
             <h1 class="text-lg font-semibold">Detalles de envío</h1>
             <div class="flex gap-4 justify-center text-center">
               <div
-            :class="[
-              'flex-1 border rounded-lg flex flex-col items-center justify-center p-4 cursor-pointer transition',
-              metodoEntrega === 'tienda' ? 'border-green-500' : 'border-gray-300'
-            ]"
-            @click="metodoEntrega = 'tienda'"
-          >               
-           <svg class="w-8 h-8 mb-1" viewBox="0 0 24 24"><path fill="currentColor" d="M20.001 11.452 20 18.99h2v2H2v-2h2v-7.534A4 4 0 0 1 2.005 8.19L2 7.99v-3a2 2 0 0 1 1.85-1.994L4 2.989h16a2 2 0 0 1 1.995 1.85v3a4 4 0 0 1-1.999 3.463Z" /></svg>
-                <p class="text-sm">Recogida en tienda</p>
-              </div>
-              <div
                 :class="[
-                  'flex-1 border rounded-lg flex flex-col items-center justify-center p-4 cursor-pointer transition',
+                  'flex-1 border rounded-lg flex flex-col items-center justify-center p-4  transition',
                   metodoEntrega === 'domicilio' ? 'border-green-500' : 'border-gray-300'
                 ]"
                 @click="metodoEntrega = 'domicilio'"

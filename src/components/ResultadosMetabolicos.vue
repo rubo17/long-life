@@ -8,7 +8,7 @@
       <span class="font-semibold text-yellow-300">{{ edadMetabolica }}</span> años.
       <button
         @click="openInfoModal('Edad Metabólica', edadMetabolicaInfo)"
-        class="absolute top-0 right-0 text-white hover:text-yellow-200 text-sm"
+        class="absolute top-0 right-0 text-white hover:text-yellow-200 text-sm cursor-pointer"
         title="Ver información"
       >
         <Info class="w-6 h-6 z-100 "/>
@@ -23,7 +23,7 @@
       <span class="font-semibold text-yellow-300">{{ metabolismoBasal }}</span> kcal.
       <button
         @click="openInfoModal('Metabolismo Basal', metabolismoBasalInfo)"
-        class="absolute top-0 right-0 text-white hover:text-yellow-200 text-sm"
+        class="absolute top-0 right-0 text-white hover:text-yellow-200 text-sm cursor-pointer"
         title="Ver información"
       >
         <Info class="w-6 h-6 z-100 "/>
@@ -32,7 +32,7 @@
 
     <!-- Factor Proteico -->
     <div
-      class="relative p-4 sm:p-5 bg-blue-500 rounded-2xl shadow-md text-white text-sm sm:text-base"
+      class="relative p-4 sm:p-5 bg-blue-500 rounded-2xl shadow-md text-white text-sm sm:text-base cursor-pointer"
     >
       Tu factor proteico es de
       <span class="font-semibold text-yellow-300">{{ factorProteico }}</span> gramos.

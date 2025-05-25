@@ -18,16 +18,16 @@
           :key="cita.id"
           class="relative w-full group border-gray-400 rounded-lg border p-6 shadow-md hover:shadow-lg transition space-y-5"
         >
-          <button
-            class="absolute top-3 right-3 
-                  opacity-100 md:opacity-0 
-                  md:group-hover:opacity-100 
-                  transition bg-gray-100 hover:bg-gray-200 
-                  text-gray-600 px-2 py-1 text-xs rounded shadow cursor-pointer"
-            @click="archivarCita(cita)"
-          >
-            🗃 Archivar
-          </button>
+        <button
+          class="absolute top-3 right-3 
+                opacity-100 md:opacity-0 
+                md:group-hover:opacity-100 
+                transition bg-gray-100 hover:bg-gray-200 
+                text-gray-600 px-2 py-1 text-xs rounded shadow cursor-pointer"
+          @click="openConfirm(cita.id, '¿Estás seguro que deseas archivar esta cita?(Archívala en caso de que ya no sea necesaria)')"
+        >
+          🗃 Archivar
+        </button>
 
           <div class="text-sm space-y-2">
             <h2 class="text-xl text-blue-500 font-semibold">{{ cita.nombre_cliente }}</h2>
@@ -70,6 +70,13 @@
       </div>
     </div>
   </div>
+    <ModalConfirmDelete
+      v-if="showConfirm"
+      :message="deleteMessage"
+      :confirmMessage="'Archivar Cita'"
+      @confirm="handleArchivar"
+      @cancel="showConfirm = false"
+    />
 </template>
 
 <script setup lang="ts">
@@ -79,6 +86,7 @@ import { RouterLink } from 'vue-router'
 import api from '../api/axios'
 import FlechaAtras from '../components/icons/FlechaAtras.vue'
 import Loading from '../components/loading.vue'
+import ModalConfirmDelete from '../components/ModalConfirmDelete.vue'
 
 const citas = ref<any[]>([])
 const storedUser = localStorage.getItem('user')
@@ -87,49 +95,64 @@ const idUsuario = user?.id_usuario ?? null
 const loading = ref(true)
 const idEmpleado = ref<number | null>(null)
 
-onMounted(async () => {
-  if (!idUsuario) return
+const showConfirm = ref(false)
+const idToDelete = ref<number | null>(null)
+const deleteMessage = ref('')
 
- fecthCitas();
+onMounted(() => {
+  if (!idUsuario) return
+  fecthCitas()
 })
+
 const fecthCitas = async () => {
-      try {
-    // Obtener id_empleado real
+  try {
     const resEmpleado = await api.get(`/getEmpleadoByUserId/${idUsuario}`)
     idEmpleado.value = resEmpleado.data.id_empleado
 
     const resCitas = await api.get(`/citas/todas/${idEmpleado.value}`)
     citas.value = resCitas.data.filter(cita => cita.estado !== 'archivada')
-    loading.value=false
+    loading.value = false
   } catch (err) {
     console.error('Error al cargar citas:', err)
   }
 }
+
 const actualizarEstadoCita = async (cita) => {
   try {
     await api.post('/citas/cambiarEstado', {
       id: cita.id,
       estado: cita.estado
     })
-      notify({type: 'success',text: 'Estado Actualizado'});            
+    notify({ type: 'success', text: 'Estado actualizado' })
   } catch (err) {
     console.error('❌ Error al actualizar estado de cita', err)
-      notify({type: 'error',text: 'Cita no actualizada'});            
-  }
-}
-const archivarCita = async (cita) => {
-  try {
-    cita.estado = 'archivada'
-    await api.post('/citas/cambiarEstado', {
-      id: cita.id,
-      estado: 'archivada'
-    })
-    notify({ type: 'success', text: 'Cita archivada' })
-    fecthCitas();
-  } catch (err) {
-    console.error('Error al archivar cita:', err)
-    notify({ type: 'error', text: 'No se pudo archivar la cita' })
+    notify({ type: 'error', text: 'Cita no actualizada' })
   }
 }
 
+const openConfirm = (id: number, message: string) => {
+  idToDelete.value = id
+  deleteMessage.value = message
+  showConfirm.value = true
+}
+
+const handleArchivar = async () => {
+  if (idToDelete.value === null) return
+
+  try {
+    await api.post('/citas/cambiarEstado', {
+      id: idToDelete.value,
+      estado: 'archivada'
+    })
+    notify({ type: 'success', text: 'Cita archivada correctamente' })
+    await fecthCitas()
+  } catch (err) {
+    console.error('Error al archivar cita:', err)
+    notify({ type: 'error', text: 'No se pudo archivar la cita' })
+  } finally {
+    showConfirm.value = false
+    idToDelete.value = null
+  }
+}
 </script>
+

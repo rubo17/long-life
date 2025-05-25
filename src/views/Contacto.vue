@@ -18,7 +18,9 @@
             <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Tu mensaje</label>
             <textarea v-model="form.mensaje" id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Escribe tu mensaje aquí..." required></textarea>
           </div>
-          <button type="submit" class="mx-auto block bg-green-500 rounded-2xl py-2 px-6 transition hover:bg-green-600 cursor-pointer">Enviar</button>
+          <button type="submit" class="mx-auto block bg-green-500 rounded-2xl py-2 px-6 transition hover:bg-green-600 cursor-pointer">
+            {{ loading ? 'Enviando...' : 'Enviar' }}
+          </button>
         </form>
       </div>
     </section>
@@ -26,15 +28,16 @@
   
   <script setup>
   import { notify } from '@kyvg/vue3-notification'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import api from '../api/axios'
   const form = reactive({
     email: '',
     asunto: '',
     mensaje: ''
   })
-  
+  const loading = ref(false)
   const enviarFormulario = async () => {
+    loading.value = true
     try {
       await api.post('/contacto', {
         email: form.email,
@@ -52,6 +55,7 @@ import api from '../api/axios'
       alert('Ocurrió un error al enviar el mensaje')
       console.error(error)
     }
+    loading.value = false
   }
   </script>
   
