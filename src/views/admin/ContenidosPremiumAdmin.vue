@@ -12,7 +12,7 @@
         <template #actions="{ row }">
           <div class="flex gap-5">
             <a
-              :href="BASE_URL + row.archivo_url"
+              :href="BASE_URL + '/' + row.archivo_url"
               target="_blank"
               class="p-2 rounded-full hover:bg-gray-200 transition"
               title="Ver PDF"
@@ -109,7 +109,7 @@ const {
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const contenidoEditandoId = ref<number | null>(null)
-const BASE_URL = 'http://localhost/longLifeBack/public/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const showConfirm = ref(false)
 const idToDelete = ref<number | null>(null)
