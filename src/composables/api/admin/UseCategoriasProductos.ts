@@ -88,7 +88,8 @@ const crearCategoria = async (nuevaCategoria: { nombre: string; descripcion: str
       notify({ type: 'success', title: 'Categoría eliminada correctamente' })
       fetchCategorias()
     } catch (err) {
-      notify({ type: 'error', title: 'Error al eliminar categoría' })
+      const message = err.response?.data?.messages.message || 'Error al eliminar categoría'
+      notify({ type: 'error', title: message })
     }
   }
 

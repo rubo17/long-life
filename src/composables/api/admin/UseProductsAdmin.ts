@@ -7,7 +7,7 @@ export function useProductsAdmin() {
   const products = ref([]);
   const loading = ref(false);
   const error = ref(null);
-
+  const totalProductosActivos = ref(0);
   const producto = ref({
     nombre: '',
     meta_descripcion: '',
@@ -21,7 +21,7 @@ export function useProductsAdmin() {
   });
   
   const currentPage = ref(1)
-  const perPage = ref(10)
+  const perPage = ref(5)
 
   const pagination = ref({
     currentPage: 1,
@@ -48,6 +48,19 @@ export function useProductsAdmin() {
       loading.value = false;
     }
   };
+  const getTotalProductos = async () => {
+  try {
+    const { data } = await api.get('/productos/total')
+    totalProductosActivos.value = data.total
+  } catch (err) {
+    console.error('Error al obtener el total de usuarios:', err)
+    notify({
+      type: 'error',
+      title: 'Error',
+      text: 'No se pudo traer el total de productos'
+    })
+  }
+}
   const createFormData = () => {
     const formData = new FormData();
     formData.append('nombre', producto.value.nombre);
@@ -123,6 +136,8 @@ export function useProductsAdmin() {
     editProduct,
     currentPage,
     perPage,
-    pagination
+    pagination,
+    getTotalProductos,
+    totalProductosActivos
   };
 }

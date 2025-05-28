@@ -64,6 +64,7 @@ const links = [
   { name: 'Contenidos Premium', to: '/admin/contenidosPremium', icon: StarIcon },
   { name: 'Cupones', to: '/admin/cupones', icon: TagIcon },
   { name: 'Usuarios inactivos', to: '/admin/users/inactivos', icon: PauseCircleIcon },
+  { name: 'Roles', to: '/admin/roles', icon: PauseCircleIcon },
   { name: 'Volver', to: '/', icon: ArrowUturnLeftIcon } 
 ]
 

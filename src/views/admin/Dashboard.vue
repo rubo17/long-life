@@ -6,7 +6,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Productos</h2>
-          <p class="text-2xl font-bold text-indigo-600">{{ products.length }}</p>
+          <p class="text-2xl font-bold text-indigo-600">{{ totalProductosActivos }}</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Usuarios</h2>
@@ -15,10 +15,6 @@
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Ventas</h2>
           <p class="text-2xl font-bold text-amber-500">€{{ totalVentas }}</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4">
-          <h2 class="text-sm font-semibold text-gray-500">Pedidos pendientes</h2>
-          <p class="text-2xl font-bold text-red-500">7</p>
         </div>
         <div class="bg-white shadow-md rounded-lg p-4">
           <h2 class="text-sm font-semibold text-gray-500">Empleados</h2>
@@ -35,14 +31,14 @@ import api from '../../api/axios';
 import { useEmpleados } from '../../composables/api/admin/UseEmpleados';
 import { useProductsAdmin } from '../../composables/api/admin/UseProductsAdmin';
 import { useUsers } from '../../composables/api/admin/UseUsers';
-const { products,fetchProducts } = useProductsAdmin() 
+const { getTotalProductos,totalProductosActivos } = useProductsAdmin() 
 const {getTotalUsers,totalUsuariosActivos}= useUsers()
 const {empleados,fetchEmpleados}= useEmpleados()
 onMounted(() => {
-  fetchProducts()
   fetchTotalVentas()
   fetchEmpleados()
-   getTotalUsers()
+  getTotalUsers()
+  getTotalProductos()
 })
 const totalVentas = ref()
 const fetchTotalVentas = async () => {

@@ -21,7 +21,7 @@
                 {{ product.nombre }}
             </h3>
             <p class="text-gray-600 mt-1">{{ product.meta_descripcion }}</p>
-            <div class="mt-3 text-lg font-semibold text-green-600">{{ product.precio }} €</div>
+            <div class="mt-3 text-lg font-semibold text-green-600">{{ (parseFloat(product.precio) || 0).toFixed(2) }} €</div>
         </div>
         
         <!-- Botón (aparece en hover) -->

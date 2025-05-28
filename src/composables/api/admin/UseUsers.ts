@@ -121,16 +121,16 @@ const getTotalUsers = async () => {
     return valid;
   };
   // puedes añadir `editarUsuario`, `resetNuevo`, etc.
-  const editarUsuario = async (id:number)=> {
+  const editarUsuario = async (id: number) => {
     try {
-        await api.put(`/users/${id}`, nuevo.value);
-        await fetchUsers();
-        notify({ type: 'success', title: 'Usuario editado correctamente' });
-      } catch (err) {
-        console.error('Error al editar el usuario:', err);
-        notify({ type: 'error', title: 'Error al editar el usuario' });
-
-      }
+      await api.put(`/users/${id}`, nuevo.value)
+      await fetchUsers()
+      notify({ type: 'success', title: 'Usuario editado correctamente' })
+    } catch (err: any) {
+      const mensaje = err.response?.data?.messages?.error || 'Error al editar el usuario'
+      console.error('Error al editar el usuario:', mensaje)
+      notify({ type: 'error', title: 'Error', text: mensaje })
+    }
   }
   return {
     users,

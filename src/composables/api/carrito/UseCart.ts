@@ -95,8 +95,10 @@ const clearCart = async () => {
 };
 
 const getTotal = () => {
-  return cart.value.reduce((total, item) => total + item.precio * item.cantidad, 0);
+  const total = cart.value.reduce((total, item) => total + item.precio * item.cantidad, 0);
+  return total.toFixed(2); 
 };
+
 
 const getItemCount = () => {
   return cart.value.reduce((count, item) => count + item.cantidad, 0);

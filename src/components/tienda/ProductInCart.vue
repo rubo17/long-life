@@ -13,9 +13,9 @@
           />
           <div>
             <h2 class="text-lg font-semibold text-gray-800">{{ product.nombre }}</h2>
-            <p class="text-gray-500 text-sm">Precio: {{ product.precio }} €</p>
+            <p class="text-gray-500 text-sm">Precio: {{ (parseFloat(product.precio) || 0).toFixed(2) }} €</p>
             <p class="text-gray-500 text-sm">
-              Subtotal: {{ product.precio * product.cantidad }} €
+            Subtotal: {{ (parseFloat(product.precio) * parseInt(product.cantidad)).toFixed(2) }} €
             </p>
           </div>
         </div>

@@ -31,7 +31,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
           <select v-model="suscripcion.id_usuario" class="w-full px-4 py-2 border rounded-lg" required>
             <option disabled value="">Selecciona un usuario</option>
-            <option v-for="usuario in usuarios" :key="usuario.id_usuario" :value="usuario.id_usuario">
+            <option v-for="usuario in users" :key="usuario.id_usuario" :value="usuario.id_usuario">
               {{ usuario.nombre }}
             </option>
           </select>
@@ -87,14 +87,13 @@
 <script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted, ref } from 'vue'
-import api from '../../api/axios'
 import CreateButton from '../../components/admin/buttons/CreateButton.vue'
 import BaseTable from '../../components/admin/ui/BaseTable.vue'
 import Modal from '../../components/admin/ui/Modal.vue'
 import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useSuscripcionesUsers } from '../../composables/api/admin/UseSubscriptionsUsers'
-import { User } from '../../types/User'
+import { useUsers } from '../../composables/api/admin/UseUsers'
 
 const {
   suscripciones,
@@ -105,22 +104,16 @@ const {
   deleteSuscripcion,
   editSuscripcion,
   currentPage,
-  pagination,
+  pagination
 } = useSuscripcionesUsers()
-const usuarios = ref<User[]>([])
+
+const {fetchUsers,users,perPage}= useUsers();
+
+perPage.value = 100 
 onMounted(()=>{
-  fetchUsuarios()
+  fetchUsers()
 })
 
-async function fetchUsuarios() {
-  try {
-    const response = await api.get('/users') // <- crea esta ruta en tu backend
-    usuarios.value = response.data.data
-  } catch (err) {
-    console.error('Error al cargar usuarios:', err)
-    notify({ type: 'error', title: 'Error al cargar usuarios' })
-  }
-}
 const showModal = ref(false)
 const modoEdicion = ref(false)
 const suscripcionEditandoId = ref<number | null>(null)

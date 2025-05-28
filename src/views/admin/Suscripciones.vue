@@ -40,7 +40,7 @@
         <div>
           <button type="submit"
                   class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg">
-            {{ modoEdicion ? 'Actualizar Plan' : 'Crear Plan' }}
+            {{ modoEdicion ? 'Actualizar Suscripción' : 'Crear Suscripción' }}
           </button>
         </div>
       </form>

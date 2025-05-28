@@ -5,7 +5,7 @@
       <h1 class="text-2xl font-bold">Mis cupones</h1>
     </RouterLink>
 
-    <div v-if="cupones.length === 0" class="text-center text-lg text-gray-500">
+    <div v-if="cupones.length === 0" class="text-center text-lg mt-4 text-gray-500">
       No hay cupones disponibles actualmente.
     </div>
 

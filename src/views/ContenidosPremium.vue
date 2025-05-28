@@ -1,6 +1,11 @@
 <template>
     <div class="container mx-auto py-8">
-      <h1 class="text-3xl font-bold mb-6 text-center">📚 Contenidos Premium</h1>
+      <div class="flex gap-4 justify-center items-center">
+        <RouterLink to="/perfil" class="flex items-center gap-2 text-blue-600 hover:underline mb-4">
+          <FlechaAtras class="w-6 h-6" />
+        </RouterLink>
+        <h1 class="text-xl sm:text-3xl font-bold mb-6 text-center">📚 Contenidos Premium</h1>
+      </div>
   
       <div v-if="contenidos.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
@@ -31,6 +36,7 @@
   <script setup>
   import { onMounted, ref } from 'vue';
 import api from '../api/axios';
+import FlechaAtras from '../components/icons/FlechaAtras.vue';
   const contenidos = ref([]);
   const BASE_URL = import.meta.env.VITE_API_URL; 
   

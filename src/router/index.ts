@@ -12,6 +12,7 @@ import InactiveUsers from '../views/admin/InactiveUsers.vue'
 import PlanesAdmin from '../views/admin/PlanesAdmin.vue'
 import PlanesUsuario from '../views/admin/PlanesUsuario.vue'
 import Products from '../views/admin/Products.vue'
+import Roles from '../views/admin/Roles.vue'
 import Suscripciones from '../views/admin/Suscripciones.vue'
 import SuscripcionesUsuario from '../views/admin/SuscripcionesUsuario.vue'
 import Users from '../views/admin/Users.vue'
@@ -112,12 +113,13 @@ const routes = [
       { path: 'planes', name: 'admin-planes', component: PlanesAdmin },
       { path: 'cupones', name: 'admin-cupones', component: Cupones },
       { path: 'users/inactivos', name: 'admin-inactivos', component: InactiveUsers },
+      { path: 'roles', name: 'admin-roles', component: Roles },
     ]
   }
 ]
 
 
-const router = createRouter({ history: createWebHistory(''), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
+const router = createRouter({ history: createWebHistory('/longLife/'), routes, scrollBehavior(to, from, savedPosition) { return { top: 0 }; }, });
 
 // 🚀 Protección de rutas para admin
 router.beforeEach((to, from, next) => {

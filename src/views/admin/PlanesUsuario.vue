@@ -32,10 +32,15 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">ID Plan</label>
-          <input v-model="plan.id_plan" type="number" class="w-full px-4 py-2 border rounded-lg" required />
+          <select v-model="plan.id_plan" class="w-full px-4 py-2 border rounded-lg" required>
+            <option disabled value="">Selecciona un usuario</option>
+            <option v-for="plan in planes" :key="plan.id_plan" :value="plan.id_plan">
+              {{ plan.nombre }}
+            </option>
+          </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Empleado</label>
           <select v-model="plan.id_empleado" class="w-full px-4 py-2 border rounded-lg" required>
             <option disabled value="">Selecciona un usuario</option>
             <option v-for="empleado in empleados" :key="empleado.id" :value="empleado.id">
@@ -47,9 +52,10 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
           <select v-model="plan.status" class="w-full px-4 py-2 border rounded-lg" required>
             <option value="pendiente">Pendiente</option>
-            <option value="activo">Activo</option>
+            <option value="activado">Activado</option>
             <option value="cancelado">Cancelado</option>
           </select>
+
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de inicio</label>
@@ -82,6 +88,7 @@ import Modal from '../../components/admin/ui/Modal.vue'
 import ModalConfirmDelete from '../../components/ModalConfirmDelete.vue'
 import Paginator from '../../components/Paginator.vue'
 import { useEmpleados } from '../../composables/api/admin/UseEmpleados'
+import { usePlanes } from '../../composables/api/admin/UsePlanes'
 import { usePlanesUsuarios } from '../../composables/api/admin/usePlanesUsuarios'
 import { useUsers } from '../../composables/api/admin/UseUsers'
 const {
@@ -96,8 +103,10 @@ const {
   pagination
 } = usePlanesUsuarios()
 
-const {users,fetchUsers} = useUsers();
+const {users,fetchUsers,perPage} = useUsers();
+perPage.value = 50; // Puedes ajustar el número de registros por página según tus necesidades
 const {empleados,fetchEmpleados}= useEmpleados();
+const {planes,fetchPlanes}= usePlanes();
 
 const showModal = ref(false)
 const modoEdicion = ref(false)
@@ -110,6 +119,7 @@ const deleteMessage = ref('')
 onMounted(()=>{
   fetchUsers()
   fetchEmpleados()
+  fetchPlanes()
 })
 
 const plan = ref({

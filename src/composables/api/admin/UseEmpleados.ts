@@ -48,7 +48,7 @@ const empleado = ref({
     formData.append('id_usuario', empleado.value.id_usuario);
     formData.append('nombre', empleado.value.nombre);
     formData.append('email', empleado.value.email);
-    formData.append('telefono', empleado.value.descripcion);
+    formData.append('descripcion', empleado.value.descripcion);
     formData.append('tipo', empleado.value.tipo);
 
     if (empleado.value.imagenFile) {
@@ -86,16 +86,33 @@ const empleado = ref({
     }
   };
 
-  const deleteEmpleado = async (id: number) => {
-    try {
-      await api.delete(`/empleados/${id}`);
-      notify({ type: 'success', title: 'Empleado eliminado correctamente' });
-      await fetchEmpleados();
-    } catch (err) {
-      console.error('Error al eliminar empleado:', err);
-      notify({ type: 'error', title: 'Error al eliminar empleado' });
+const deleteEmpleado = async (id: number) => {
+  try {
+    const res = await api.delete(`/empleados/${id}`);
+
+    // Mostrar mensaje de éxito
+    const mensaje = res.data.message || 'Empleado eliminado correctamente';
+    notify({ type: 'success', title: 'Éxito', text: mensaje });
+
+    // Mostrar detalle de reasignaciones (si hay)
+    if (res.data.reasignaciones?.length) {
+      res.data.reasignaciones.forEach((r: any) => {
+        notify({
+          type: 'info',
+          title: 'Reasignación',
+          text: `${r.usuario_nombre} fue reasignado a ${r.nuevo_empleado_nombre} para el plan ${r.plan}`
+        });
+      });
     }
-  };
+
+    await fetchEmpleados();
+  } catch (err: any) {
+    const mensaje =
+      err.response?.data?.messages?.message ||
+      'No se pudo eliminar el empleado.';
+    notify({ type: 'error', title: 'Error', text: mensaje });
+  }
+};
 
   return {
     empleados,

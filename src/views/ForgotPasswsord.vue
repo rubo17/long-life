@@ -61,7 +61,7 @@ const submit = async () => {
     notify({
       type: 'error',
       title: 'Error',
-      text: error.response?.data?.message || 'Error al enviar el correo'
+      text: error.response?.data?.messages.error || 'Error al enviar el correo'
     })
   }
   loading.value = false

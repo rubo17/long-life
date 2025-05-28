@@ -22,8 +22,8 @@
       <p><strong>Cliente:</strong> {{ ventaSeleccionada.nombre }}</p>
       <p><strong>Total:</strong> €{{ ventaSeleccionada.total }}</p>
       <p><strong>Fecha:</strong> {{ ventaSeleccionada.fecha }}</p>
+      <p><strong>Direccion: </strong>{{ ventaSeleccionada.direccion }}</p>
     </div>
-
     <!-- Select de estado -->
     <div class="mb-6">
       <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">Estado del pedido</label>
@@ -136,7 +136,9 @@ const verDetalles = async (venta: any) => {
     { key: 'nombre', label: 'Cliente' },
     { key: 'total', label: 'Total (€)' },
     { key: 'estado', label: 'Estado' },
-    { key: 'fecha', label: 'Fecha' }
+    { key: 'direccion', label: 'Direccion' },
+    { key: 'fecha', label: 'Fecha' },
+    { key: 'cupon', label: 'Cupon' }
   ]
   </script>
   

@@ -54,7 +54,8 @@ export function useVentas() {
       notify({ type: 'success', title: 'Estado actualizado correctamente' })
       fetchVentas()
     } catch (err) {
-      notify({ type: 'error', title: 'Error al actualizar estado' })
+      const mensaje = err.response?.data?.messages.error || 'Error al actualizar estado de la venta'
+      notify({ type: 'error', title: mensaje })
     }
   }
 

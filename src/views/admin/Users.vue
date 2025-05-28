@@ -43,7 +43,7 @@
         <!-- Contraseña -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-          <input v-model="nuevo.password" type="password" placeholder="Deja vacío si no deseas cambiarla"
+          <input v-model="nuevo.password" type="password" :placeholder=" modoEdicion ? 'Deja vacío si no deseas cambiarla' : 'Contraseña'"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-green-200 focus:outline-none"
              />
           <p class="text-sm text-red-600" v-if="validationErrors.password">{{ validationErrors.password }}</p>

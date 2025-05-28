@@ -1,8 +1,13 @@
 <template>
   <div class="p-5 sm:p-8 max-w-xl mx-auto mt-40 rounded-2xl shadow-md bg-white ">
-    <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6">
-      Estado de tu Suscripción Premium
-    </h2>
+    <div class="flex gap-4 justify-center items-center">
+      <RouterLink to="/perfil" class="flex items-center gap-2 text-blue-600 hover:underline mb-4">
+        <FlechaAtras class="w-6 h-6" />
+      </RouterLink>
+        <h2 class="text-xl sm:text-3xl text-center font-bold text-gray-900 mb-6">
+          Estado de tu Suscripción Premium
+       </h2>
+    </div>
 
     <div class="space-y-5 text-gray-700 text-base sm:text-lg">
       <div class="flex justify-between">
@@ -74,6 +79,7 @@
 import { computed, onMounted, ref } from 'vue'
 import api from '../api/axios'
 import Modal from '../components/admin/ui/Modal.vue'
+import FlechaAtras from '../components/icons/FlechaAtras.vue'
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 const suscripcion = ref(null)
 const loading = ref(true)
